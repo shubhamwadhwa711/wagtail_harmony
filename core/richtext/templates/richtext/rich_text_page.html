@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+
+{% block extra_head %}
+{% include "includes/social.html" %}
+{% endblock %}
+
+
+{% block extra_css %}
+<link href="{% static 'richtext.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'richtext.js' %}"></script>
+{% endblock %}
+
+
+{% block main %}
+<div class="container">
+  {% include 'includes/body.html' %}
+</div>
+{% endblock %}

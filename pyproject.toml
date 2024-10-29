@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "harmony"
+version = "0.1.0"
+description = ""
+authors = ["Shubham Wadhwa <shubhamwadhwa711@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+wagtail = "6.2.2"  # Wagtail dependency
+django = "5.1.2"   # Django dependency
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
