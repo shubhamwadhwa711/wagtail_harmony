@@ -1,10 +1,6 @@
 from django.db import models
 
-# Create your models here.
-# core/models.py
-
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
-
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
 from wagtail.models import Orderable, Site
@@ -17,45 +13,41 @@ from wagtail.models import Orderable
 
 ##################################################################################################
 
-class HistoryPage(RichTextPageAbstract):
+class HistoriesPage(RichTextPageAbstract):
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
         blank=True,
     )
-    heading = models.TextField(blank=True, null=True)
+    search = models.TextField(blank=True, null=True)
+    heading = models.TextField(blank=True, null=True,default="History of Harmony")
+    short_heading = models.TextField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
-    full_description = models.TextField(blank=True, null=True)
     content_panels = RichTextPageAbstract.content_panels + [
-        
+
         FieldPanel("heading"),
+        FieldPanel("short_heading"),
         FieldPanel("short_description"),
-        FieldPanel("full_description"),
-        InlinePanel('history_page_content', label='Event Pages Images'),
-   
 
     ]
 
     parent_page_types = ['home.HomePage']
-    subpage_types = []
+    subpage_types = ["history.HistoryPage"]
 
 
     class Meta:
-        verbose_name = 'History Page'
-        verbose_name_plural = 'History Pages'
+        verbose_name = 'Histories Page'
+        verbose_name_plural = 'Histories Pages'
 
 
 
-
-
-
-class  HistoryPageContent(Orderable):
-    date = models.DateField(blank=True, null=True)
-    page = ParentalKey(
-        HistoryPage,
-        on_delete=models.CASCADE,
-        related_name='history_page_content',
+class  HistoryPage(RichTextPageAbstract):
+    body = StreamField(
+        richtext_blocks,
+        use_json_field=True,
+        blank=True,
     )
+    date = models.DateField(blank=True, null=True)
     content_short_description = models.TextField(blank=True, null=True)
     content_full_description = models.TextField(blank=True, null=True)
     image = models.ForeignKey(
@@ -65,12 +57,17 @@ class  HistoryPageContent(Orderable):
         blank=True,
         null=True,
     )
-    panels = [
+
+    content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel('date'),
         FieldPanel('image'),
         FieldPanel('content_short_description'),
         FieldPanel('content_full_description'),
     ]
+
+    parent_page_types = ['history.HistoriesPage']
+    subpage_types = []
+
     class Meta:
         verbose_name = 'History Page Content'
         verbose_name_plural = 'History Page Contents'
