@@ -17,23 +17,23 @@ from wagtail.models import Orderable
 
 ##################################################################################################
 
-class ElectionPage(RichTextPageAbstract):
+
+
+
+
+class ElectionsPage(RichTextPageAbstract):
     notice_text = models.TextField(blank=True, null=True)
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
         blank=True,
     )
-    # title = models.TextField(blank=True, null=True)
+ 
     heading = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     heading_one = models.TextField(blank=True, null=True)
     sub_heading_one = models.TextField(blank=True, null=True)
-
-
-    # event_date = models.DateField(blank=True, null=True)
-
-    button_text_one = models.TextField(blank=True, null=True)
+    button_text_one = models.TextField(blank=True, null=True,default="Run for Position")
     link_page_one = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -42,9 +42,7 @@ class ElectionPage(RichTextPageAbstract):
         null=True,
     )
     heading_two =  models.TextField(blank=True, null=True)
-
-
-    button_text_two = models.TextField(blank=True, null=True)
+    button_text_two = models.TextField(blank=True, null=True,default="Get on Ballot")
     link_page_two = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -52,23 +50,7 @@ class ElectionPage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
-
-
-    # event_short_heading = models.TextField(blank=True, null=True)
-    # event_short_description = models.TextField(blank=True, null=True)
-    # event_full_description = models.TextField(blank=True, null=True)
-
-    # button_text_two = models.TextField(blank=True, null=True)
-    # link_page_two= models.ForeignKey(
-    #     'wagtailcore.Page',
-    #     on_delete=models.SET_NULL,
-    #     related_name='+',
-    #     blank=True,
-    #     null=True,
-    # )
-
     content_panels = RichTextPageAbstract.content_panels + [
-        
         FieldPanel("notice_text"),
         
         FieldPanel("heading"),
@@ -80,11 +62,7 @@ class ElectionPage(RichTextPageAbstract):
             FieldPanel('button_text_one'),
             FieldPanel('link_page_one'),
         ], heading='Add Position  Button Page'),
-
-       
-        InlinePanel('election_page_person', label='Election Page Person'),
         FieldPanel("heading_two"),
-
         MultiFieldPanel([
             FieldPanel('button_text_two'),
             FieldPanel('link_page_two'),
@@ -93,18 +71,49 @@ class ElectionPage(RichTextPageAbstract):
     ]
 
     parent_page_types = ['home.HomePage']
+    subpage_types = ["elections.SingleElectionPage"]
+
+    class Meta:
+        verbose_name = 'Election Pages'
+        verbose_name_plural = 'Election Pages'
+
+
+
+class SingleElectionPage(RichTextPageAbstract):
+    body = StreamField(
+        richtext_blocks,
+        use_json_field=True,
+        blank=True,
+    )
+    heading = models.TextField(blank=True, null=True)
+    party_name =  models.TextField(blank=True, null=True)
+    position_title = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    result_declare_heading = models.TextField(blank=True, null=True)
+
+    parent_page_types = ['elections.ElectionsPage']
+    subpage_types = []
+    content_panels = RichTextPageAbstract.content_panels + [
+        FieldPanel("heading"),
+        FieldPanel("party_name"),
+        FieldPanel("position_title"),
+        FieldPanel("description"),
+        FieldPanel("result_declare_heading"),
+        InlinePanel('election_page_person', label='Election Page Person'),
+    ]
+
+
+    parent_page_types = ['home.HomePage']
     subpage_types = []
 
     class Meta:
-        verbose_name = 'Election Page'
-        verbose_name_plural = 'Elections Page'
-
-
+        verbose_name = 'SingleElectionPage'
+        verbose_name_plural = 'Single Election Page'
+    
 
 class  ElectionPagePerson(Orderable):
-   
     page = ParentalKey(
-        ElectionPage,
+        SingleElectionPage,
         on_delete=models.CASCADE,
         related_name='election_page_person',
     )

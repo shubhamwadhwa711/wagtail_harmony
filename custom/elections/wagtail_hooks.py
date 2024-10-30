@@ -1,13 +1,13 @@
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail_modeladmin.mixins import ThumbnailMixin
 
-from .models import PermitPage
+from .models import SingleElectionPage
 
 
-class PermitPageModelAdmin(ThumbnailMixin, ModelAdmin):
-    model = PermitPage
-    menu_label = 'Add Permits'
-    # menu_icon = ""
+class SingleElectionPageModelAdmin(ThumbnailMixin, ModelAdmin):
+    model = SingleElectionPage
+    menu_label = 'Add Single Election'
+    # menu_icon = 'news'
     menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
@@ -17,7 +17,6 @@ class PermitPageModelAdmin(ThumbnailMixin, ModelAdmin):
     # thumb_image_field_name = ''
     # list_export = (
    
-   
     # )
 
-modeladmin_register(PermitPageModelAdmin)
+modeladmin_register(SingleElectionPageModelAdmin)

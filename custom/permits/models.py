@@ -14,6 +14,7 @@ from wagtail.images.models import Image
 from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
 
+
 ##################################################################################################
 
 
