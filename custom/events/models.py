@@ -19,11 +19,35 @@ from wagtail.models import Orderable
 
 
 
-
-
-
-
 class EventsPage(RichTextPageAbstract):
+    body = StreamField(
+        richtext_blocks,
+        use_json_field=True,
+        blank=True,
+    )
+    #show the latest event as an html
+
+    heading = models.TextField(blank=True, null=True,default="EVENTS")
+    content_panels = RichTextPageAbstract.content_panels + [       
+
+    ]
+
+    parent_page_types = ['home.HomePage']
+    subpage_types = [
+        "events.EventPage",
+    ]
+
+    class Meta:
+        verbose_name = 'Events Page'
+        verbose_name_plural = 'Events Pages'
+
+
+
+
+
+
+
+class EventPage(RichTextPageAbstract):
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
@@ -55,7 +79,7 @@ class EventsPage(RichTextPageAbstract):
     )
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("heading"),
         FieldPanel("description"),
         FieldPanel("event_date"),
@@ -74,7 +98,7 @@ class EventsPage(RichTextPageAbstract):
 
     ]
 
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['events.EventsPage']
     subpage_types = []
 
 
@@ -86,7 +110,7 @@ class EventsPage(RichTextPageAbstract):
 
 class  EventPageImages(Orderable):
     page = ParentalKey(
-        EventsPage,
+        EventPage,
         on_delete=models.CASCADE,
         related_name='event_pages_images',
     )

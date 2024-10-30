@@ -64,7 +64,7 @@ class PointsOfInterest(RichTextPageAbstract):
     )
     
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("text"),
         FieldPanel("small_land_image"),
         FieldPanel("category"),
@@ -119,7 +119,7 @@ class SinglePointsOfInterest(RichTextPageAbstract):
     )
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("text"),
         FieldPanel("small_land_image"),
         FieldPanel("category"),
@@ -209,7 +209,7 @@ class SinglePageFeaturedDetail(RichTextPageAbstract):
 
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("land_location_text"),
         FieldPanel("small_land_image"),
         FieldPanel("plan_text"),

@@ -39,7 +39,6 @@ class OurteamPage(RichTextPageAbstract):
         null=True,
     )
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
         FieldPanel("name"),
         FieldPanel("heading"),
         FieldPanel("description"),

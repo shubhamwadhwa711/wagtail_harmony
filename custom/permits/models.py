@@ -16,7 +16,37 @@ from wagtail.models import Orderable
 
 ##################################################################################################
 
+
+
+
+
 class PermitsPage(RichTextPageAbstract):
+    body = StreamField(
+        richtext_blocks,
+        use_json_field=True,
+        blank=True,
+    )
+    #show the latest event as an html
+
+    heading = models.TextField(blank=True, null=True,default="Permits")
+    content_panels = RichTextPageAbstract.content_panels + [   
+        FieldPanel("heading"),
+            
+    ]
+
+    parent_page_types = ['home.HomePage']
+    subpage_types = [
+        "permits.PermitPage",
+    ]
+
+    class Meta:
+        verbose_name = 'Permits Page'
+        verbose_name_plural = 'Permits Pages'
+
+
+
+
+class PermitPage(RichTextPageAbstract):
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
@@ -25,19 +55,17 @@ class PermitsPage(RichTextPageAbstract):
     heading = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
-
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
         FieldPanel("heading"),
         FieldPanel("description"),
     ]
 
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['permits.PermitsPage']
     subpage_types = []
 
 
     class Meta:
         verbose_name = 'Permit Page'
-        verbose_name_plural = 'Permits Page'
+        verbose_name_plural = 'Permit Pages'
 
 

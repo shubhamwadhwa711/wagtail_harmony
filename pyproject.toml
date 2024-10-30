@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 wagtail = "6.2.2"  # Wagtail dependency
 django = "5.1.2"   # Django dependency
+wagtail-modeladmin = "2.1.0"
 
 [build-system]
 requires = ["poetry-core"]

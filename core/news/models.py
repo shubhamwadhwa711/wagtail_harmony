@@ -28,9 +28,6 @@ class NewsPage(RichTextPageAbstract):
     )
     name = models.TextField(blank=True, null=True)
     heading = models.TextField(blank=True, null=True)
-    # description = models.TextField(blank=True, null=True)
-    # event_date = models.DateField(blank=True, null=True)
-
     button_text = models.TextField(blank=True, null=True,default ="Read more")
     link_page = models.ForeignKey(
         'wagtailcore.Page',
@@ -42,7 +39,7 @@ class NewsPage(RichTextPageAbstract):
     
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("name"),
         FieldPanel("heading"),
         MultiFieldPanel([
@@ -54,7 +51,7 @@ class NewsPage(RichTextPageAbstract):
     ]
 
     parent_page_types = ['home.HomePage']
-    subpage_types = []
+    subpage_types = ["news.NewsDetailPage",]
 
     class Meta:
         verbose_name = 'News Page'
@@ -100,7 +97,7 @@ class NewsDetailPage(RichTextPageAbstract):
  
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("name"),
         FieldPanel("heading"),
         FieldPanel("any_headline_heading"),
@@ -121,8 +118,8 @@ class NewsDetailPage(RichTextPageAbstract):
     subpage_types = []
 
     class Meta:
-        verbose_name = 'Event Page'
-        verbose_name_plural = 'Event Pages'
+        verbose_name = 'News Page'
+        verbose_name_plural = 'News Pages'
 
 
 
@@ -131,7 +128,7 @@ class NewsDetailPage(RichTextPageAbstract):
 
 
 class  NewsPageImages(Orderable):
-    image_title = models.TextField(blank=True, null=True,default ="Read more")
+    image_title = models.TextField(blank=True, null=True)
     page = ParentalKey(
         NewsDetailPage,
         on_delete=models.CASCADE,

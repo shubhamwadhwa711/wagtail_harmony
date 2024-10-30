@@ -27,7 +27,7 @@ class HistoryPage(RichTextPageAbstract):
     short_description = models.TextField(blank=True, null=True)
     full_description = models.TextField(blank=True, null=True)
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("heading"),
         FieldPanel("short_description"),
         FieldPanel("full_description"),

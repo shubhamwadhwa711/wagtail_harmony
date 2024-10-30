@@ -45,7 +45,7 @@ class BusinessPage(RichTextPageAbstract):
 
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("business_heading"),
         InlinePanel('buginess_page_slide', label='Buginess Page Slide'),
         InlinePanel('buginess_page_criteria', label='Buginess Page Criteria'),

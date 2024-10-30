@@ -68,7 +68,7 @@ class ElectionPage(RichTextPageAbstract):
     # )
 
     content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("body"),
+        
         FieldPanel("notice_text"),
         
         FieldPanel("heading"),
