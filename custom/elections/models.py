@@ -1,14 +1,15 @@
+
 from django.db import models
 
 # Create your models here.
 # core/models.py
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel,FieldRowPanel
+
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
 from wagtail.models import Orderable, Site
-from modelcluster.fields import ParentalKey
+
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.models import Image
@@ -23,10 +24,10 @@ from wagtail.contrib.forms.models import (
 from wagtail.contrib.forms.forms import FormBuilder
 from django.forms import FileField
 from django.utils.html import format_html
-
 from wagtail.contrib.forms.panels import FormSubmissionsPanel
 from wagtail.contrib.forms.views import SubmissionsListView
-
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel,FieldRowPanel
+from modelcluster.fields import ParentalKey
 ##################################################################################################
 
 
@@ -131,6 +132,16 @@ class CustomSubmissionsListView(SubmissionsListView):
         return context
     
 
+
+class Party(models.Model):
+    party_name = models.CharField(max_length=20)
+
+class PartyPosition(models.Model):
+    party_position = models.CharField(max_length=20)
+
+
+
+
 class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
     body = StreamField(
         richtext_blocks,
@@ -176,10 +187,120 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
     submissions_list_view_class = CustomSubmissionsListView
 
     class Meta:
-        verbose_name = 'SingleElectionPage'
+        verbose_name = 'Single Election Page'
         verbose_name_plural = 'Single Election Page'
-    
 
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        party_names = Party.objects.values_list('party_name', flat=True)
+        position_titles = PartyPosition.objects.values_list('party_position', flat=True)
+        
+        # Join choices into comma-separated strings
+        party_choices = ",".join(party_names)
+        position_choices = ",".join(position_titles)
+
+        # Automatically create default form fields if they don't already exist
+        if not  self.form_fields.exists():
+            FormField.objects.create(
+                page=self,
+                label="First Name",
+                field_type="singleline",
+                required=True,
+            )
+
+            FormField.objects.create(
+                page=self,
+                label="Last Name",
+                field_type="singleline",
+                required=True,
+            )
+
+            FormField.objects.create(
+                page=self,
+                label="Email",
+                field_type="email",
+                required=True,
+            )
+            FormField.objects.create(
+                page=self,
+                label="Phone number",
+                field_type="singleline",
+                required=True,
+            )
+
+            FormField.objects.create(
+                page=self,
+                label="Choose party",
+                field_type="dropdown",
+                required=True,
+                choices=party_choices)
+            
+
+            FormField.objects.create(
+                page=self,
+                label="Choose position",
+                field_type="dropdown",
+                required=True,
+                choices=position_choices)
+            
+
+            FormField.objects.create(
+                page=self,
+                label="Your Intro",
+                field_type="multiline",
+                required=True,
+                )
+
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Date",
+            #     field_type="date",
+            #     required=True,
+            #     )
+            
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Time",
+            #     field_type="time",
+            #     required=True,
+            #     )
+
+
+
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Description",
+            #     field_type="multiline",
+            #     required=True,
+            #     )
+            
+
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Upload Event Featured Image",
+            #     help_text = "",
+            #     field_type="file",
+            #     required=True,
+            # )
+
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Upload Event Featured Image",
+            #     help_text = "Add Event Images(Upto 5 Images)",
+            #     field_type="file",
+            #     required=True,
+                
+            # )
+
+
+            
+
+
+
+
+    
 class  ElectionPagePerson(Orderable):
     page = ParentalKey(
         SingleElectionPage,
