@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 # core/models.py
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel,FieldRowPanel
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
@@ -15,7 +15,20 @@ from wagtail.images.models import Image
 from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
 
+from wagtail.contrib.forms.models import (
+    FORM_FIELD_CHOICES,
+    AbstractEmailForm,
+    AbstractFormField,
+)
+from wagtail.contrib.forms.forms import FormBuilder
+from django.forms import FileField
+from django.utils.html import format_html
+
+from wagtail.contrib.forms.panels import FormSubmissionsPanel
+from wagtail.contrib.forms.views import SubmissionsListView
+
 ##################################################################################################
+
 
 
 
@@ -79,7 +92,46 @@ class ElectionsPage(RichTextPageAbstract):
 
 
 
-class SingleElectionPage(RichTextPageAbstract):
+class FormField(AbstractFormField):
+    field_type = models.CharField(
+        verbose_name='field type',
+        max_length=16,
+        choices=list(FORM_FIELD_CHOICES) + [('file', 'Upload File')]
+    )
+    page = ParentalKey("SingleElectionPage", related_name="form_fields", on_delete=models.CASCADE)
+
+
+
+class CustomFormBuilder(FormBuilder):
+    def create_file_field(self, field, options):
+        return FileField(**options)
+
+
+
+class CustomSubmissionsListView(SubmissionsListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if not self.is_export:
+            field_types = ['submission_date'] + [field.field_type for field in self.form_page.get_form_fields()]
+            data_rows = context['data_rows']
+
+            for data_row in data_rows:
+                fields = data_row['fields']
+
+                for idx, (value, field_type) in enumerate(zip(fields, field_types)):
+                    if field_type == 'file' and value:
+                        filename = value.split('/')[-1]
+                        fields[idx] = format_html(
+                            "<a href='{}'>{}</a>",
+                            value,
+                            filename
+                        )
+
+        return context
+    
+
+class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
@@ -93,18 +145,35 @@ class SingleElectionPage(RichTextPageAbstract):
 
     parent_page_types = ['elections.ElectionsPage']
     subpage_types = []
-    content_panels = RichTextPageAbstract.content_panels + [
+    content_panels = AbstractEmailForm.content_panels + [
         FieldPanel("heading"),
         FieldPanel("party_name"),
         FieldPanel("position_title"),
         FieldPanel("description"),
         FieldPanel("result_declare_heading"),
         InlinePanel('election_page_person', label='Election Page Person'),
+        InlinePanel("form_fields", heading="Form fields", label="Field"),
+        FormSubmissionsPanel(),
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("from_address"),
+                        FieldPanel("to_address"),
+                    ]
+                ),
+                FieldPanel("subject"),
+            ],
+            "Email",
+        ),
     ]
+    
 
 
-    parent_page_types = ['home.HomePage']
+    parent_page_types = ['home.HomePage']   #need to discuss
     subpage_types = []
+    form_builder = CustomFormBuilder
+    submissions_list_view_class = CustomSubmissionsListView
 
     class Meta:
         verbose_name = 'SingleElectionPage'
