@@ -1,0 +1,260 @@
+
+
+{% load static wagtailuserbar wagtailcore_tags wagtailimages_tags %}
+
+<footer id="footer" class="footer">
+
+    <div class="container-fluid footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-3 col-md-3 footer-about">
+          <a href="index.php" class="logo d-flex align-items-center">
+            <img src="{% static 'img/footer-img.svg' %}" alt="">
+          </a>
+            <div class="social-links mobile-social">
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-youtube"></i></a>
+          </div>
+      <p class="desktop-copyright">© 2024 all rights reserved. <br>
+The Town of Harmony</p>
+          
+        </div>
+        
+        
+        <div class="col-lg-3 col-md-3 footer-contact mobile-contact text-center text-md-end">
+            <div class="address">
+                 <h4>Office Address</h4>
+      <p>3389 Harmony Hwy <br>Harmony, NC 28634</p>
+            </div>
+     
+           <div class="phone">
+                 <h4>Phone Number</h4>
+      <p><a href="tel:7045462339">704-546-2339</a></p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-3 footer-links">
+          <ul>
+            <li><a href="#">Pay Sewer Bill</a></li>
+            <li><a href="#">Agenda & Minutes</a></li>
+            <li><a href="#">Business & Development</a></li>
+            <li><a href="#">Points of Interest</a></li>
+            <li><a href="#">Emergency Services</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-3 footer-links">
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Contact us</a></li>
+          </ul>
+          
+          <p class="mobile-copyright">© 2024 all rights reserved. <br>
+The Town of Harmony</p>
+        </div>
+
+        <div class="col-lg-3 col-md-3 footer-contact desktop-contact text-center text-md-end">
+            <div class="address">
+                 <h4>Office Address</h4>
+      <p>3389 Harmony Hwy <br>Harmony, NC 28634</p>
+            </div>
+     
+           <div class="phone">
+                 <h4>Phone Number</h4>
+      <p><a href="tel:7045462339">704-546-2339</a></p>
+            </div>
+            
+            <div class="social-links d-flex">
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid d-flex copyright">
+        
+      <div class="bottom-footer-links">
+          <ul>
+              <li><a href="">Accessibility</a></li>
+              <li><a href="">Equal Housing Opportunity</a></li>
+              <li><a href="">Website Login</a></li>
+              <li><a href="">Website Policy</a></li>
+          </ul>
+      </div>
+      <div class="credits">
+       
+        Website + Branding by <a href="#"> Gryphos Creative Agency</a>
+      </div>
+    </div>
+
+  </footer>
+  
+  <script>
+     class SearchModal {
+  constructor(btn) {
+    this.btn = btn;
+    this.modal = document.getElementById(btn.dataset.target);
+    this.dismiss = this.modal.querySelector("[data-dismiss='modal']");
+    this.search = this.modal.querySelector('.search-input');
+    this.tags = this.modal.querySelectorAll('.tag');
+    this.content = this.modal.querySelector('.content');
+    this.backBtn = this.modal.querySelector('.back');
+    this.selectedTag =  this.modal.querySelector('.selected-tag');
+  }
+  
+  init() {
+    this.bindEvents();
+  }
+  
+  bindEvents() {
+    this.btn.addEventListener('click', () => {
+      this.toggle();
+    });
+    
+    this.dismiss.addEventListener('click', () => {
+      this.close();
+    });
+
+    document.body.addEventListener('keyup', (event) => {
+      //If keyboard shortcut is ctrl + s
+      if(event.ctrlKey && event.which === 83) {
+        this.toggle();
+      }
+      if(event.which === 27) {
+        this.close();
+      }
+    });
+        
+    this.tags.forEach((tag) => {
+      tag.addEventListener('click', (event) => {
+        var tagText = tag.textContent;
+        this.content.classList.contains('show-tag-results') ? this.hideTagResults() : this.showTagResults(tagText);
+      });
+      
+      tag.addEventListener('keyup', (event) => {
+        var tagText = tag.textContent;
+        if(event.which === 13) {
+        this.content.classList.contains('show-tag-results ') ? this.hideTagResults() : this.showTagResults(tagText);
+          }
+      });
+    });
+    
+    this.backBtn.addEventListener('click', (event) => {
+      this.content.classList.toggle('show-tag-results');
+    });
+  }
+  
+  showTagResults(text) {
+    this.selectedTag.textContent = text;
+    this.content.classList.add('show-tag-results ');
+  }
+  
+  hideTagResults() {
+    this.content.classList.remove('show-tag-results');
+  }
+  
+  toggle() {
+    this.modal.classList.contains('active') ? this.close() : this.open();
+  }
+  
+  close() {
+    this.modal.classList.remove('active');
+    this.search.blur()
+    this.btn.focus();
+    this.hideTagResults();
+    this.modal.addEventListener('transitionend', (e) => {
+      if(e.target === this.modal && e.propertyName === 'visibility'){
+        this.search.value = "";
+      }
+    });
+  }
+  
+  open() {
+    this.modal.classList.add('active');
+    this.modal.addEventListener('transitionend', (e) => {
+      if(e.target === this.modal && e.propertyName === 'visibility') {
+        setTimeout(() => {
+          this.search.focus();
+        }, 100);
+      }
+    });
+  }
+}
+
+const searchModalBtns = Array.from(document.querySelectorAll("[data-toggle='modal']"));
+
+for(let btn of searchModalBtns) {
+  const search = new SearchModal(btn); 
+  search.init();
+}
+</script>
+
+<script>
+    jQuery("#carousel").owlCarousel({
+  autoplay: true,
+  rewind: false, /* use rewind if you don't want loop */
+  margin: 20,
+  loop: true,
+   /*
+  animateOut: 'fadeOut',
+  animateIn: 'fadeIn',
+  */
+  responsiveClass: true,
+  autoHeight: true,
+  autoplayTimeout: 7000,
+  smartSpeed: 800,
+  
+  nav: true,
+  navText: [
+    '<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>',
+    '<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>'],
+  responsive: {
+    0: {
+      items: 1
+    },
+
+    600: {
+      items: 3
+    },
+
+    1024: {
+      items: 4
+    },
+
+    1366: {
+      items: 4
+    }
+  }
+});
+</script>
+
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

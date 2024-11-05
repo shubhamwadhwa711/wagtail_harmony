@@ -1,2 +1,616 @@
 {% extends 'base.html' %}
-{% comment %} {% load static wagtailcore_tags wagtailimages_tags humanize %} {% endcomment %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="home-content">
+
+ 
+  
+<main class="main">
+      
+<div class="hero-section" style="background-image:url(assets/img/hero-bg.jpg);">
+	<div class="notice" data-aos="zoom-in" data-aos-delay="100">
+		<div class="alert">
+			<span class="closebtn" onclick="this.parentElement.style.display='none';">Hide</span> 
+			Notice - Office block sewerage repair will be scheduled as 26th June, 2024 for 4 Days
+		</div>
+	</div>
+	<div class="container-fluid">
+	    		<div class="img-gallery mobile-show" style="background-image:url(assets/img/top-wave.png);" >
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+                <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
+                <a href="assets/img/hero-imgs/4.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/4.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              </div>
+	    <div class="hero-content">
+			<p class="subheading" data-aos="fade-up" data-aos-delay="100">Iredell County, North Carolina</p>
+			<h1 data-aos="fade-up" data-aos-delay="200">Where harmony <span class="font">LIVES</span> and <span class="font">SINGS</span> !</h1>
+			</div>
+			
+			<div class="img-gallery img-gallery-2 mobile-show" style="background-image:url(assets/img/bottom-wave.png);" >
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+                <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
+                <a href="assets/img/hero-imgs/1.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/3.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+             </div>
+			<div class="img-gallery mobile-hide" style="background-image:url(assets/img/wave-bg.png);" >
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+                <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
+                <a href="assets/img/hero-imgs/1.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/1.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="300">
+                <a href="assets/img/hero-imgs/3.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/3.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="400">
+                <a href="assets/img/hero-imgs/4.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/4.jpg" class="img-fluid" alt="">
+                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+                <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="500">
+                <a href="assets/img/hero-imgs/5.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                    <img src="assets/img/hero-imgs/5.jpg" class="img-fluid" alt="">
+                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
+                </a>
+              </div>
+			</div>
+	</div>          
+</div>
+      
+    <div class="quick-links">
+          <div class="container-fluid" style="background-image:url(assets/img/quick-bg.png);">
+              <img src="assets/img/cup.svg" data-aos="fade-in" data-aos-delay="200">
+              <div class="row">
+                  <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                      <h2 class="font-57">Quick <br>Links</h2>
+                  </div>
+                  <div class="col-md-9">
+                      <div class="links-grid">
+                          <div class="row">
+                    <div class="swiper init-swiper">
+                    <script type="application/json" class="swiper-config">
+                        {
+                            "loop": true,
+                            "speed": 600,
+                            "autoplay": {
+                            "delay": 5000
+                            },
+                            "slidesPerView": "auto",
+                            "pagination": {
+                            "el": ".swiper-pagination",
+                            "type": "bullets",
+                            "clickable": true
+                            },
+                           "navigation": {
+                                "nextEl": ".swiper-button-next",
+                                "prevEl": ".swiper-button-prev",
+                                "clickable": true
+                              },
+                            "breakpoints": {
+                            "320": {
+                            "slidesPerView": 3,
+                            "spaceBetween": 17
+                            },
+                            "1200": {
+                            "slidesPerView": 5,
+                            "spaceBetween": 10
+                            }
+                            }
+                        }
+                    </script>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="200">
+                              <img src="assets/img/quick-links/1.svg">
+                              <p>Pay <br>Sewer Bill</p>
+                          </div>
+                          </div>
+                          <div class="swiper-slide">
+                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="300">
+                              <img src="assets/img/quick-links/2.svg">
+                              <p>Business & Development</p>
+                          </div>
+                          </div>
+                          <div class="swiper-slide">
+                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="400">
+                              <img src="assets/img/quick-links/3.svg">
+                              <p>Points of  Interest</p>
+                          </div>
+                          </div>
+                          <div class="swiper-slide">
+                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="500">
+                              <img src="assets/img/quick-links/4.svg">
+                              <p>Agenda & Minutes</p>
+                          </div>
+                          </div>
+                          <div class="swiper-slide">
+                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="600">
+                              <img src="assets/img/quick-links/5.svg">
+                              <p>Emergency Services</p>
+                          </div>
+                          </div>
+                          </div>
+                          <div class="swiper-button-next"><img src="assets/img/next.svg"></div>
+                          <div class="swiper-button-prev"><img src="assets/img/prev.svg"></div>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="parks">
+          <div class="container-fluid" style="background-image:url(assets/img/school-min.jpg);">
+              <div class="row">
+                  <div class="col-md-12">
+                      <ul>
+                          <li data-aos="fade-up" data-aos-delay="200">
+                          <a href="#">Parks <img src="assets/img/arrow.svg"></a>
+                          </li>
+                          <li data-aos="fade-up" data-aos-delay="300">
+                          <a href="#">Schools <img src="assets/img/arrow.svg"></a>
+                          </li>
+                           <li data-aos="fade-up" data-aos-delay="400">
+                          <a href="#">Community <img src="assets/img/arrow.svg"></a>
+                          </li>
+                           <li data-aos="fade-up" data-aos-delay="500">
+                          <a href="#">Businesses <img src="assets/img/arrow.svg"></a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <img class="polygon-icon" src="assets/img/Polygon.svg">
+          </div>
+      </div>
+      
+      <div class="latest-news recent-posts">
+          <div class="container-fluid">
+              <div class="row top-row">
+                  <div class="col-md-6">
+                      <h2 class="font-57">Latest News</h2>
+                  </div>
+                  <div class="col-md-6">
+                      <a class="read-more mobile-hide" href=""><span>Read more <img src="assets/img/arrow.svg"></span></a>
+                  </div>
+              </div>
+              <div class="row bottom-row">
+                  <div class="col-md-4">
+                    <article>
+                    
+                    	<div class="post-img">
+                    	  <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid">
+                    	</div>
+                    
+                    	<h2 class="title font-27">
+                    	 <a href="">News heading will come here In two lines</a>
+                    	</h2>
+                    
+                    	<div class="d-flex align-items-center">
+                    		<div class="post-meta">
+                    			<p class="post-date">
+                    			<time datetime="2022-01-01">JUN 8, 2024</time>
+                    			</p>
+                    		</div>
+                    	</div>
+                    
+                    </article>
+                  </div>
+                  <div class="col-md-8">
+                      <div class="row">
+                          <div class="col-md-6">
+                    <article>
+ 
+                    	<h2 class="title font-27">
+                    	 <a href="">News heading will come here In two lines</a>
+                    	</h2>
+                    
+                    	<div class="d-flex align-items-center">
+                    		<div class="post-meta">
+                    			<p class="post-date">
+                    			<time datetime="2022-01-01">JUN 8, 2024</time>
+                    			</p>
+                    		</div>
+                    	</div>
+                    
+                    </article>
+                  </div>
+                  <div class="col-md-6">
+                    <article>
+                    
+                    	<h2 class="title font-27">
+                    	 <a href="">News heading will come here In two lines</a>
+                    	</h2>
+                    
+                    	<div class="d-flex align-items-center">
+                    		<div class="post-meta">
+                    			<p class="post-date">
+                    			<time datetime="2022-01-01">JUN 8, 2024</time>
+                    			</p>
+                    		</div>
+                    	</div>
+                    
+                    </article>
+                  </div>
+                  <div class="col-md-6">
+                    <article>
+                    	<h2 class="title font-27">
+                    	 <a href="">News heading will come here In two lines</a>
+                    	</h2>
+                    
+                    	<div class="d-flex align-items-center">
+                    		<div class="post-meta">
+                    			<p class="post-date">
+                    			<time datetime="2022-01-01">JUN 8, 2024</time>
+                    			</p>
+                    		</div>
+                    	</div>
+                    
+                    </article>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <article>
+                    	<h2 class="title font-27">
+                    	 <a href="">News heading will come here In two lines</a>
+                    	</h2>
+                    
+                    	<div class="d-flex align-items-center">
+                    		<div class="post-meta">
+                    			<p class="post-date">
+                    			<time datetime="2022-01-01">JUN 8, 2024</time>
+                    			</p>
+                    		</div>
+                    	</div>
+                    </article>
+                    
+                  </div>
+                      </div>
+                      <a class="read-more mobile-show" href="">Read more <img src="assets/img/arrow.svg"></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="latest-news events">
+          <div class="container-fluid">
+              <div class="row top-row">
+                  <div class="col-md-6">
+                      <h2 class="font-57">Upcoming Events</h2>
+                  </div>
+                  <div class="col-md-6">
+                      <a class="read-more mobile-hide" href="">More Events <img src="assets/img/arrow.svg"></a>
+                  </div>
+              </div>
+              <div class="row bottom-row">
+                  <div class="col-md-8">
+                      <div class="upcoming-events">
+                              <p class="event-date">JUN 8, 2024</p>
+                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
+                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
+                      </div>
+                       <div class="upcoming-events">
+                              <p class="event-date">JUN 8, 2024</p>
+                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
+                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
+                      </div>
+                       <div class="upcoming-events">
+                              <p class="event-date">JUN 8, 2024</p>
+                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
+                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
+                      </div>
+                       <a class="read-more mobile-show" href="">More Events <img src="assets/img/arrow.svg"></a>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="feature-img">
+                          <img src="assets/img/events/event-img.jpg">
+                          <div class="date"> 24 JUN <span class="year">2024</span></div>
+                          <div class="feature-title">
+                              <h2>2024 Christmas Parade</h2>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="history">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-7">
+                      <img src="assets/img/school.png">
+                  </div>
+                  <div class="col-md-5">
+                      <div class="history-content">
+                      <img class="path mobile-show" src="assets/img/path.png">
+                      <h2>Since 1927</h2>
+                      
+                      <h3 class="font-57">History of <span class="font">The town of Harmony</span></h3>
+                      <p>Established at the camp meeting grounds back the town of Harmony was built on a community of people set on carrying traditions into the future.</p>
+                      <a class="read-more" href="">Get the History <img src="assets/img/arrow.svg"></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="public-servants">
+          <img class="big-wave mobile-hide" src="assets/img/big-wave.png">
+          <img class="big-wave mobile-show" src="assets/img/mobile-wave.png">
+          <img class="path mobile-hide" src="assets/img/path.png">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-6">
+                      <h2 class="font-57">Your Public Servants Working to make Harmony, NC it’s best.</h2>
+                      <p class="mobile-hide">We value the input of our community and the officials elected are in place to serve the people of Harmony to their best abilities. </p>
+                      <a class="read-more" href="">See Officials <img src="assets/img/arrow.svg"></a>
+                  </div>
+                  <div class="col-md-6">
+                      <div id="slider">
+    <div class="slider-wrap">
+      <div id="intro-slider">
+        <div class="intro-slide" data-class="1" data-position="1">
+          <div class="poster-box">
+              <img src="assets/img/name.jpg" class="img-fluid" alt="">
+              <div class="name-position">
+                  <h2>Name One</h2>
+                  <p>DESIGNATION</p>
+              </div>
+          </div>
+        </div>
+        <div class="intro-slide" data-class="2" data-position="2">
+          <div class="poster-box">
+              <img src="assets/img/name.jpg" class="img-fluid" alt="">
+              <div class="name-position">
+                  <h2>Name Two</h2>
+                  <p>DESIGNATION</p>
+              </div>
+          </div>
+        </div>
+        <div class="intro-slide" data-class="3" data-position="3">
+          <div class="poster-box">
+              <img src="assets/img/name.jpg" class="img-fluid" alt="">
+              <div class="name-position">
+                  <h2>Name Three</h2>
+                  <p>DESIGNATION</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <span id="slider-next">
+        <img src="assets/img/arrow-servant.png" alt="arrow-image">
+      </span>
+    </div>
+  </div>
+  <p class="mobile-show">We value the input of our community and the officials elected are in place to serve the people of Harmony to their best abilities. </p>
+  
+                  </div>
+              </div>
+          </div>
+      </div>
+    
+  </main>
+  
+ <style>
+     @media(max-width:767px){
+     .header {
+background-color: transparent;
+position: absolute;
+width: 100%;
+padding-top:30px;
+}
+.header .branding .col-right {
+        gap: 10px;
+        justify-content: center;
+        width: auto;
+        height: auto;
+        background-color: transparent;
+        position:unset;
+    }
+    .header .branding .col-right::before{
+        display:none;
+    }
+     }
+ </style>
+
+
+<script>
+    (function ($) {
+  $.fn.stack_slider = function (options) {
+    // Sldier core functions
+    $("#slider-next").click(function () {
+      var total = $(".intro-slide").length;
+      $("#intro-slider .intro-slide:first-child")
+        .hide()
+        .appendTo("#intro-slider")
+        .fadeIn();
+      $.each($(".intro-slide"), function (index, dp_item) {
+        $(dp_item).attr("data-position", index + 1);
+      });
+    });
+    $("body").on(
+      "click",
+      "#intro-slider .intro-slide:not(:first-child)",
+      function () {
+        var get_slide = $(this).attr("data-class");
+        console.log(get_slide);
+        $("#intro-slider .intro-slide[data-class=" + get_slide + "]")
+          .hide()
+          .prependTo("#intro-slider")
+          .fadeIn();
+        $.each($(".intro-slide"), function (index, dp_item) {
+          $(dp_item).attr("data-position", index + 1);
+        });
+      }
+    );
+    // Drag
+    $.fn.swipe = function (callback) {
+      var touchDown = false,
+        originalPosition = null,
+        $el = jQuery(this);
+
+      function swipeInfo(event) {
+        var x = event.originalEvent.pageX,
+          y = event.originalEvent.pageY,
+          dx;
+
+        dx = x > originalPosition.x ? "right" : "left";
+
+        return {
+          direction: {
+            x: dx
+          },
+          offset: {
+            x: x - originalPosition.x
+          }
+        };
+      }
+
+      $el.on("touchstart mousedown", function (event) {
+        touchDown = true;
+        originalPosition = {
+          x: event.originalEvent.pageX,
+          y: event.originalEvent.pageY
+        };
+      });
+
+      $el.on("touchend mouseup", function () {
+        touchDown = false;
+        originalPosition = null;
+        flag = true;
+      });
+
+      $el.on("touchmove mousemove", function (event) {
+        if (!touchDown) {
+          return;
+        }
+        var info = swipeInfo(event);
+        callback(info.direction, info.offset);
+      });
+
+      return true;
+    };
+    // disabel image drag
+    $("#slider img").on("dragstart", function (event) {
+      event.preventDefault();
+    });
+    // Slider Methods
+    // This is the easiest way to have default options.
+    var settings = $.extend(
+      {
+        // These are the defaults.
+        color: "transparent",
+        background: "transparent",
+        autoPlay: true,
+        autoPlaySpeed: 3000,
+        dots: true,
+        arrows: true,
+        drag: true,
+        direction: "horizontal"
+      },
+      options
+    );
+
+    // dots
+    if (settings.dots !== true) {
+      $("#dp-dots").hide();
+    }
+    // drag
+    if (settings.drag == true) {
+      // trigger next prev on drag
+      var flag = true;
+      jQuery(".intro-slide").swipe(function (direction, offset) {
+        if (offset.x > 30 && flag) {
+          flag = false;
+          $("#slider-next").click();
+        }
+        if (offset.x < -30 && flag) {
+          flag = false;
+          $("#slider-prev").click();
+        }
+      });
+    }
+    // arrows
+    if (settings.arrows !== true) {
+      $("#slider-next, #slider-prev").hide();
+    }
+    // slider autoplay
+    if (settings.autoPlay == true) {
+      setInterval(function () {
+        $("#slider-next").click();
+      }, settings.autoPlaySpeed);
+    }
+
+    //slider direction
+    if (settings.direction == "vertical") {
+      $(".slider-wrap").addClass("vertical");
+    }
+
+    // stack_slider the collection based on the settings variable.
+    return this.css({
+      color: settings.color,
+      background: settings.background
+    });
+  };
+})(jQuery);
+
+$("#slider").stack_slider({
+  autoPlaySpeed: 6000,
+  autoPlay: false,
+  dots: true,
+  arrows: true,
+  drag: true,
+  direction: "vertical"
+});
+
+</script>
+
+
+
+    
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'home.js' %}"></script>
+
+<div class="container">
+    {% include 'includes/body.html' %}
+  </div>
+
+
+{% endblock %}
