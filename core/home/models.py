@@ -14,6 +14,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images.models import Image
 from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
+from django.template.response import TemplateResponse
 
 ##################################################################################################
 
@@ -26,13 +27,24 @@ class HomePage(RichTextPageAbstract):
     notice = models.TextField(blank=True, null=True)
     county_text = models.TextField(blank=True, null=True)
     heading_text = models.TextField(blank=True, null=True)
-    home_image = models.ForeignKey(
+    hero_section_image = models.ForeignKey(
         'wagtailimages.Image',
         on_delete=models.SET_NULL,
         related_name='+',
         blank=True,
         null=True,
     )
+
+    img_gallery = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
+
+
     quick_links_text = models.TextField(blank=True, null=True)
     page_links_bgimage = models.ForeignKey(
         'wagtailimages.Image',
@@ -90,7 +102,10 @@ class HomePage(RichTextPageAbstract):
         FieldPanel('notice'),
         FieldPanel('county_text'),
         FieldPanel('heading_text'),
-        FieldPanel('home_image'),
+        FieldPanel('hero_section_image'),
+        FieldPanel('img_gallery'),
+        InlinePanel('home_hero_images', label='Home hero images'),
+    
         FieldPanel('page_links_bgimage'),
         
         MultiFieldPanel([
@@ -125,7 +140,53 @@ class HomePage(RichTextPageAbstract):
     ]
 
 
+
+    parent_page_types = ['wagtailcore.Page',]
+
+    class Meta:
+        verbose_name = 'Home Page'
+        verbose_name_plural = 'Home Pages'
+   
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+       
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+
     
+
+
+
+
+
+
+
+class  HeroImages(Orderable):
+    page = ParentalKey(
+        HomePage,
+        on_delete=models.CASCADE,
+        related_name='home_hero_images',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    
+    panels = [
+        FieldPanel('image'),
+    ]
+    class Meta:
+        verbose_name = 'Hero Image'
+        verbose_name_plural = 'Hero Images'
+
 
 
 class HomePageLinks(Orderable):

@@ -14,78 +14,72 @@
   
 <main class="main">
       
-<div class="hero-section" style="background-image:url(assets/img/hero-bg.jpg);">
+
+{% comment %} {% image page.hero_section_image width-1024 as hero_image %}
+<div class="hero-section" style="background-image:url('{{hero_image.url}}');"> {% endcomment %}
+
+<div class="hero-section" style="{% image page.hero_section_image width-1024 as img %}background-image:url('{{ img.url }}');">
+
+
+
 	<div class="notice" data-aos="zoom-in" data-aos-delay="100">
 		<div class="alert">
 			<span class="closebtn" onclick="this.parentElement.style.display='none';">Hide</span> 
-			Notice - Office block sewerage repair will be scheduled as 26th June, 2024 for 4 Days
+			{% comment %} Notice - Office block sewerage repair will be scheduled as 26th June, 2024 for 4 Days {% endcomment %}
+            {{ page.notice|linebreaksbr }}
+        
 		</div>
 	</div>
 	<div class="container-fluid">
-	    		<div class="img-gallery mobile-show" style="background-image:url(assets/img/top-wave.png);" >
+	    <div class="img-gallery mobile-show" style="background-image:url('{% static 'img/top-wave.png' %}');" >
               <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
                 <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
                     <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                 </a>
               </div>
-              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
+               <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
                 <a href="assets/img/hero-imgs/4.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/4.jpg" class="img-fluid" alt="">
+                    <img src="{% static 'img/hero-imgs/4.jpg' %}" class="img-fluid" alt="">
                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                 </a>
-              </div>
+              </div> 
               </div>
 	    <div class="hero-content">
-			<p class="subheading" data-aos="fade-up" data-aos-delay="100">Iredell County, North Carolina</p>
+
+        
+			<p class="subheading" data-aos="fade-up" data-aos-delay="100">{{ page.county_text|linebreaksbr }}</p>
 			<h1 data-aos="fade-up" data-aos-delay="200">Where harmony <span class="font">LIVES</span> and <span class="font">SINGS</span> !</h1>
 			</div>
 			
+           
 			<div class="img-gallery img-gallery-2 mobile-show" style="background-image:url(assets/img/bottom-wave.png);" >
               <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
                 <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <img src="{% static 'img/hero-imgs/2.jpg' %}" class="img-fluid" alt="">
                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                 </a>
               </div>
               <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
                 <a href="assets/img/hero-imgs/1.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/3.jpg" class="img-fluid" alt="">
+                    <img src="{% static 'img/hero-imgs/3.jpg' %}" class="img-fluid" alt="">
                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                 </a>
               </div>
              </div>
 			<div class="img-gallery mobile-hide" style="background-image:url(assets/img/wave-bg.png);" >
+
+            {% for mg in page.home_hero_images.all %}
+             {% image mg.image width-1024 as hero_img %}
               <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
                 <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <img src="{{hero_img.url}}" class="img-fluid" alt="">
                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                 </a>
               </div>
-              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
-                <a href="assets/img/hero-imgs/1.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/1.jpg" class="img-fluid" alt="">
-                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div>
-              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="300">
-                <a href="assets/img/hero-imgs/3.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/3.jpg" class="img-fluid" alt="">
-                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div>
-              <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="400">
-                <a href="assets/img/hero-imgs/4.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/4.jpg" class="img-fluid" alt="">
-                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div>
-                <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="500">
-                <a href="assets/img/hero-imgs/5.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="assets/img/hero-imgs/5.jpg" class="img-fluid" alt="">
-                     <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div>
+
+              {%endfor %}
+
 			</div>
 	</div>          
 </div>
