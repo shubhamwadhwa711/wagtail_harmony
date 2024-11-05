@@ -53,6 +53,17 @@ class HomePage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
+    
+    #parks
+    park_bgimage = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
+    
 
     # News
     read_page_text = models.TextField(blank=True, null=True)
@@ -105,13 +116,16 @@ class HomePage(RichTextPageAbstract):
         FieldPanel('hero_section_image'),
         FieldPanel('img_gallery'),
         InlinePanel('home_hero_images', label='Home hero images'),
-    
         FieldPanel('page_links_bgimage'),
         
         MultiFieldPanel([
             FieldPanel('quick_links_text'),
             InlinePanel('home_page_links', label='Home Page Quick Links'),
         ], heading='Attach Quick Links'),
+        MultiFieldPanel([
+            FieldPanel('park_bgimage'),
+            InlinePanel('home_parks', label='Home Parks Links'),
+        ], heading='Add parks '),
 
         MultiFieldPanel([
             FieldPanel('read_page_text'),
@@ -161,6 +175,23 @@ class HomePage(RichTextPageAbstract):
     
 
 
+
+
+class  ParksList(Orderable):
+    page = ParentalKey(
+        HomePage,
+        on_delete=models.CASCADE,
+        related_name='home_parks',
+    )
+    text = models.CharField(max_length=200,null=True,blank=True)
+  
+    
+    panels = [
+        FieldPanel('text'),
+    ]
+    class Meta:
+        verbose_name = 'Park List'
+        verbose_name_plural = 'Parks List'
 
 
 
