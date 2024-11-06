@@ -16,6 +16,7 @@ from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
 from django.template.response import TemplateResponse
 
+from core.news.models import NewsDetailPage
 ##################################################################################################
 
 class HomePage(RichTextPageAbstract):
@@ -66,7 +67,9 @@ class HomePage(RichTextPageAbstract):
     
 
     # News
-    read_page_text = models.TextField(blank=True, null=True)
+    
+    news_heading = models.CharField(max_length=200,blank=True, null=True,default="Latest News")
+    news_button_text = models.CharField(max_length=200,blank=True, null=True,default="Read more")
     read_more_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -128,7 +131,8 @@ class HomePage(RichTextPageAbstract):
         ], heading='Add parks '),
 
         MultiFieldPanel([
-            FieldPanel('read_page_text'),
+            FieldPanel('news_heading'),
+            FieldPanel('news_button_text'),
             FieldPanel('read_more_link_page'),
         ], heading='Attach Latest News'),
         
@@ -160,11 +164,17 @@ class HomePage(RichTextPageAbstract):
     class Meta:
         verbose_name = 'Home Page'
         verbose_name_plural = 'Home Pages'
-   
+
+
+
+    
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         context = self.get_context(request, *args, **kwargs)
+           # Retrieve all NewsDetailPage objects
+        news_details = NewsDetailPage.objects.all()[:5]
+        context['news_details'] = news_details
        
         return TemplateResponse(
             request,

@@ -15,6 +15,7 @@ from wagtail.images.models import Image
 from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
 
+
 ##################################################################################################
 
 
@@ -68,6 +69,7 @@ class NewsDetailPage(RichTextPageAbstract):
         blank=True,
     )
     name = models.TextField(blank=True, null=True,default="LATEST NEWS")
+    date = models.DateField(null=True,blank=True)
     heading = models.TextField(blank=True, null=True)
     any_headline_heading = models.TextField(blank=True, null=True)
     any_headline_sort_description = models.TextField(blank=True, null=True)
@@ -81,6 +83,7 @@ class NewsDetailPage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
+    # event_date = models.DateField(blank=True, null=True)
 
     button_text = models.TextField(blank=True, null=True,default ="Read more")
     link_page = models.ForeignKey(
@@ -96,10 +99,10 @@ class NewsDetailPage(RichTextPageAbstract):
         
         FieldPanel("name"),
         FieldPanel("heading"),
+        FieldPanel("date"),
         FieldPanel("any_headline_heading"),
         FieldPanel("any_headline_sort_description"),
         InlinePanel('news_page_images', label='News Page Images'),
-        
      
         MultiFieldPanel([
             FieldPanel('main_headline_text'),

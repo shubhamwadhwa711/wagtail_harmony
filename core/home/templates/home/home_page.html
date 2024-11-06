@@ -13,7 +13,11 @@
  
   
 <main class="main">
-      
+
+ 
+
+
+
 
 {% comment %} {% image page.hero_section_image width-1024 as hero_image %}
 <div class="hero-section" style="background-image:url('{{hero_image.url}}');"> {% endcomment %}
@@ -145,35 +149,6 @@
                                
                             </div>
                             {% endfor %}
-                          
-                          {% comment %} <div class="swiper-slide">
-                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="300">
-                              <img src="assets/img/quick-links/2.svg">
-                              <p>Business & Development</p>
-                          </div>
-                          </div>
-                          <div class="swiper-slide">
-                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="400">
-                              <img src="assets/img/quick-links/3.svg">
-                              <p>Points of  Interest</p>
-                          </div>
-                          </div>
-                          <div class="swiper-slide">
-                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="500">
-                              <img src="assets/img/quick-links/4.svg">
-                              <p>Agenda & Minutes</p>
-                          </div>
-                          </div>
-                          <div class="swiper-slide">
-                          <div class="icon-box col" data-aos="fade-up" data-aos-delay="600">
-                              <img src="assets/img/quick-links/5.svg">
-                              <p>Emergency Services</p>
-                          </div>
-                          </div>
-                          </div>
-                          <div class="swiper-button-next"><img src="assets/img/next.svg"></div>
-                          <div class="swiper-button-prev"><img src="assets/img/prev.svg"></div>
-                          </div> {% endcomment %}
                       </div>
                       </div>
                   </div>
@@ -184,8 +159,6 @@
       <div class="parks">
           <div class="container-fluid"
             style="background-image: url('{% if page.park_bgimage %}{% image page.park_bgimage width-1024 as img %}{{ img.url }}{% else %}{% static 'img/school-min.jpg' %}{% endif %}');">
-
-
               <div class="row">
                   <div class="col-md-12">
                       <ul>
@@ -197,113 +170,75 @@
                       </ul>
                   </div>
               </div>
-              <img class="polygon-icon" src="assets/img/Polygon.svg">
+              
           </div>
+          <img class="polygon-icon" src="{% static 'img/Polygon.svg' %}">
       </div>
       
       <div class="latest-news recent-posts">
           <div class="container-fluid">
               <div class="row top-row">
                   <div class="col-md-6">
-                      <h2 class="font-57">Latest News</h2>
+                      <h2 class="font-57">{{page.news_heading}}</h2>
                   </div>
                   <div class="col-md-6">
-                      <a class="read-more mobile-hide" href=""><span>Read more <img src="assets/img/arrow.svg"></span></a>
+                      <a class="read-more mobile-hide" href="{{page.read_more_link_page}}"><span>{{page.news_button_text}} <img src="{% static 'img/arrow.svg' %}"></span></a>
                   </div>
               </div>
               <div class="row bottom-row">
-                  <div class="col-md-4">
-                    <article>
-                    
-                    	<div class="post-img">
-                    	  <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid">
-                    	</div>
-                    
-                    	<h2 class="title font-27">
-                    	 <a href="">News heading will come here In two lines</a>
-                    	</h2>
-                    
-                    	<div class="d-flex align-items-center">
-                    		<div class="post-meta">
-                    			<p class="post-date">
-                    			<time datetime="2022-01-01">JUN 8, 2024</time>
-                    			</p>
-                    		</div>
-                    	</div>
-                    
-                    </article>
-                  </div>
+                {% for news in news_details %}
+                  {% if forloop.first %}
+                          <div class="col-md-4">
+                            <article>
+                              {% image news.main_headline_image width-1024 as latestnews %}
+                            
+                              <div class="post-img">
+                                <img src="{{ latestnews.url }}" alt="" class="img-fluid">
+                              </div>
+                              <h2 class="title font-27">
+                              <a href="">{{ news.any_headline_heading }}</a>
+                              </h2>
+                            
+                              <div class="d-flex align-items-center">
+                                <div class="post-meta">
+                                  <p class="post-date">
+
+                                  <time datetime="{{ news.date|date:'Y-m-d' }}">{{ news.date }}</time>
+                                  </p>
+                                </div>
+                              </div>
+                            
+                            </article>
+                          </div>
+
+                 
+
+              
                   <div class="col-md-8">
-                      <div class="row">
-                          <div class="col-md-6">
-                    <article>
- 
-                    	<h2 class="title font-27">
-                    	 <a href="">News heading will come here In two lines</a>
-                    	</h2>
-                    
-                    	<div class="d-flex align-items-center">
-                    		<div class="post-meta">
-                    			<p class="post-date">
-                    			<time datetime="2022-01-01">JUN 8, 2024</time>
-                    			</p>
-                    		</div>
-                    	</div>
-                    
-                    </article>
-                  </div>
-                  <div class="col-md-6">
-                    <article>
-                    
-                    	<h2 class="title font-27">
-                    	 <a href="">News heading will come here In two lines</a>
-                    	</h2>
-                    
-                    	<div class="d-flex align-items-center">
-                    		<div class="post-meta">
-                    			<p class="post-date">
-                    			<time datetime="2022-01-01">JUN 8, 2024</time>
-                    			</p>
-                    		</div>
-                    	</div>
-                    
-                    </article>
-                  </div>
-                  <div class="col-md-6">
-                    <article>
-                    	<h2 class="title font-27">
-                    	 <a href="">News heading will come here In two lines</a>
-                    	</h2>
-                    
-                    	<div class="d-flex align-items-center">
-                    		<div class="post-meta">
-                    			<p class="post-date">
-                    			<time datetime="2022-01-01">JUN 8, 2024</time>
-                    			</p>
-                    		</div>
-                    	</div>
-                    
-                    </article>
-                  </div>
-                  
-                  <div class="col-md-6">
-                    <article>
-                    	<h2 class="title font-27">
-                    	 <a href="">News heading will come here In two lines</a>
-                    	</h2>
-                    
-                    	<div class="d-flex align-items-center">
-                    		<div class="post-meta">
-                    			<p class="post-date">
-                    			<time datetime="2022-01-01">JUN 8, 2024</time>
-                    			</p>
-                    		</div>
-                    	</div>
-                    </article>
-                    
-                  </div>
-                      </div>
-                      <a class="read-more mobile-show" href="">Read more <img src="assets/img/arrow.svg"></a>
+                        <div class="row">
+                          {% else %}
+                            <div class="col-md-6">
+                              <article>
+                                <h2 class="title font-27">
+                                <a href="">{{ news.any_headline_heading }}</a>
+                                </h2>
+                              
+                                <div class="d-flex align-items-center">
+                                  <div class="post-meta">
+                                    <p class="post-date">
+                                      <time datetime="{{ news.date|date:'Y-m-d' }}">{{ news.date }}</time>
+                                    </p>
+                                  </div>
+                                </div>
+                              </article>
+        
+                              
+                        </div>
+                        {% endif%}
+                        {% endfor%}
+                        
+  
+                      <a class="read-more mobile-show" href="">Read more <img src="{%static 'img/arrow.svg'%}"></a>
                   </div>
               </div>
           </div>
@@ -601,9 +536,6 @@ $("#slider").stack_slider({
 });
 
 </script>
-
-
-
 {% endblock %}
 
 {% block extra_js %}
@@ -613,5 +545,8 @@ $("#slider").stack_slider({
     {% include 'includes/body.html' %}
   </div>
 
+
+
+  
 
 {% endblock %}
