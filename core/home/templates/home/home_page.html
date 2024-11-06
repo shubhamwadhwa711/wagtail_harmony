@@ -30,8 +30,8 @@
                 {% image mg.image width-1024 as hero_img %}
 
                 <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
-                    <a href="assets/img/hero-imgs/2.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                        <img src="assets/img/hero-imgs/2.jpg" class="img-fluid" alt="">
+                    <a href="{% static 'img/hero-imgs/2.jpg' %}" data-gallery="portfolio-gallery-app" class="glightbox">
+                        <img src="{% static 'img/hero-imgs/2.jpg' %}" class="img-fluid" alt="">
                         <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
                     </a>
                 </div>
@@ -74,7 +74,7 @@
           <div class="container-fluid" 
           style="background-image: url('{% if page.page_links_bgimage %}{% image page.page_links_bgimage width-1024 as img %}{{ img.url }}{% else %}{% static 'assets/img/quick-bg.png' %}{% endif %}');">
             
-              <img src="assets/img/cup.svg" data-aos="fade-in" data-aos-delay="200">
+              <img src="{% static 'img/cup.svg' %}" data-aos="fade-in" data-aos-delay="200">
               <div class="row">
                   <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
                       <h2 class="font-57">Quick <br>Links</h2>
