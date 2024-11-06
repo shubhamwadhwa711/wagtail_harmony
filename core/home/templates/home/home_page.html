@@ -3,24 +3,16 @@
 
 {% block title %}Home Page{% endblock %}
 
-{% block extra_css %}
+{% comment %} {% block extra_css %}
 <link href="{% static 'home.css' %}" rel="stylesheet">
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block main %}
 <div class="home-content">
 
- 
   
 <main class="main">
 
- 
-
-
-
-
-{% comment %} {% image page.hero_section_image width-1024 as hero_image %}
-<div class="hero-section" style="background-image:url('{{hero_image.url}}');"> {% endcomment %}
 
 <div class="hero-section" style="{% image page.hero_section_image width-1024 as img %}background-image:url('{{ img.url }}');">
 
@@ -44,20 +36,11 @@
                     </a>
                 </div>
               {% endfor %}
-               {% comment %} <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
-                <a href="assets/img/hero-imgs/4.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="{% static 'img/hero-imgs/4.jpg' %}" class="img-fluid" alt="">
-
-                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div>  {% endcomment %}
               </div>
 	    <div class="hero-content">
 			<p class="subheading" data-aos="fade-up" data-aos-delay="100">{{ page.county_text|linebreaksbr }}</p>
 			<h1 data-aos="fade-up" data-aos-delay="200">Where harmony <span class="font">LIVES</span> and <span class="font">SINGS</span> !</h1>
 			</div>
-			
-            {% comment %} '{% static "img/top-wave.png" %}' {% endcomment %}
             
 			<div class="img-gallery img-gallery-2 mobile-show" style="background-image:url('{% static "img/bottom-wave.png" %}');" >
             {% for mg in page.home_hero_images.all %}
@@ -69,12 +52,6 @@
                     </a>
                 </div>
             {%endfor %}
-              {% comment %} <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="200">
-                <a href="assets/img/hero-imgs/1.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
-                    <img src="{% static 'img/hero-imgs/3.jpg' %}" class="img-fluid" alt="">
-                    <button data-toggle="modal" data-target="searchModal"><i class="material-icons">search</i></button>
-                </a>
-              </div> {% endcomment %}
              </div>
 			<div class="img-gallery mobile-hide" style="background-image:url('{% static "img/bottom-wave.png" %}');" >
 
@@ -143,8 +120,7 @@
                                
                                         <div class="icon-box col" data-aos="fade-up" data-aos-delay="200">
                                             <img src="{{linkimg.url}}">
-                                            {% comment %} <p>Pay <br>Sewer Bill</p> {% endcomment %}
-                                             <p>Pay <br>{{mg.link_text}}</p>
+                                            <p>Pay <br>{{mg.link_text}}</p>
                                         </div>
                                
                             </div>
@@ -231,6 +207,8 @@
                                   </div>
                                 </div>
                               </article>
+        
+                              
                         </div>
                         {% endif%}
                         {% endfor%}
@@ -264,24 +242,17 @@
                             <a class="event-btn" href=""><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></a>
                       </div>
                     {% endfor %}
-                      
-
                        <a class="read-more mobile-show" href="">More Events <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
                   <div class="col-md-4">
                       <div class="feature-img">
-                        {% if events_details %}
-                           {% with latest_event=events_details.0 %}
+                        {% if latest_event %}
                                   {% image latest_event.event_bg_image width-1024 as event_bg_image %}
                                 <img src="{{event_bg_image.url}}">
-                                {% comment %} <div class="date"> 24 JUN <span class="year">2024</span></div> {% endcomment %}
                                 {{ latest_event.date|date:"j M" }} <span class="year">{{ latest_event.date|date:"Y" }}</span>
                                 <div class="feature-title">
                                     <h2>{{latest_event.event_short_heading}}</h2>
                                 </div>
-
-                            {% endwith %}
-
                         {% endif %}
                       </div>
                   </div>
@@ -293,67 +264,59 @@
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-7">
-                      <img src="assets/img/school.png">
+                    {% image page.history_bg_image  width-1024 as history_bg_img %}
+                      <img src="{{history_bg_img.url}}">
                   </div>
                   <div class="col-md-5">
                       <div class="history-content">
-                      <img class="path mobile-show" src="assets/img/path.png">
+                        
+                      <img class="path mobile-show" src="{% static 'img/path.png' %}">
                       <h2>Since 1927</h2>
                       
-                      <h3 class="font-57">History of <span class="font">The town of Harmony</span></h3>
-                      <p>Established at the camp meeting grounds back the town of Harmony was built on a community of people set on carrying traditions into the future.</p>
-                      <a class="read-more" href="">Get the History <img src="assets/img/arrow.svg"></a>
+                      <h3 class="font-57"><span class="font">{{page.history_heading}}</span></h3>
+                      <p>{{page.history_text}}</p>
+                      <a class="read-more" href="{{page.history_link_page}}">{{page.history_page_button_text}}<img src="{% static 'img/arrow.svg'%}"></a>
                       </div>
                   </div>
               </div>
           </div>
       </div>
-      
+
       <div class="public-servants">
-          <img class="big-wave mobile-hide" src="assets/img/big-wave.png">
-          <img class="big-wave mobile-show" src="assets/img/mobile-wave.png">
-          <img class="path mobile-hide" src="assets/img/path.png">
+          <img class="big-wave mobile-hide" src="{% static 'img/big-wave.png' %}">
+          <img class="big-wave mobile-show" src="{% static 'img/mobile-wave.png ' %}">
+          <img class="path mobile-hide" src="{% static 'img/path.png' %} ">
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-6">
-                      <h2 class="font-57">Your Public Servants Working to make Harmony, NC it’s best.</h2>
-                      <p class="mobile-hide">We value the input of our community and the officials elected are in place to serve the people of Harmony to their best abilities. </p>
-                      <a class="read-more" href="">See Officials <img src="assets/img/arrow.svg"></a>
+                      <h2 class="font-57">{{page.team_heading}}</h2>
+                      <p class="mobile-hide">{{page.team_text}} </p>
+                      <a class="read-more" href="{{page.team_link_page}}">{{page.team_page_button_text}}
+                        <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
                   <div class="col-md-6">
                       <div id="slider">
     <div class="slider-wrap">
       <div id="intro-slider">
+        
+        {%  for team in teams%}
+
+        {% image team.image width-1024 as memberimage %}
+
         <div class="intro-slide" data-class="1" data-position="1">
           <div class="poster-box">
-              <img src="assets/img/name.jpg" class="img-fluid" alt="">
+              <img src="{{memberimage.url}}" class="img-fluid" alt="">
               <div class="name-position">
-                  <h2>Name One</h2>
-                  <p>DESIGNATION</p>
+                  <h2>{{team.name}}</h2>
+                  <p>{{team.designation}}</p>
               </div>
           </div>
         </div>
-        <div class="intro-slide" data-class="2" data-position="2">
-          <div class="poster-box">
-              <img src="assets/img/name.jpg" class="img-fluid" alt="">
-              <div class="name-position">
-                  <h2>Name Two</h2>
-                  <p>DESIGNATION</p>
-              </div>
-          </div>
-        </div>
-        <div class="intro-slide" data-class="3" data-position="3">
-          <div class="poster-box">
-              <img src="assets/img/name.jpg" class="img-fluid" alt="">
-              <div class="name-position">
-                  <h2>Name Three</h2>
-                  <p>DESIGNATION</p>
-              </div>
-          </div>
-        </div>
+      {% endfor %}
+  
       </div>
       <span id="slider-next">
-        <img src="assets/img/arrow-servant.png" alt="arrow-image">
+        <img src="{% static 'img/arrow-servant.png' %}" alt="arrow-image">
       </span>
     </div>
   </div>
@@ -542,11 +505,11 @@ $("#slider").stack_slider({
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'home.js' %}"></script>
+{% comment %} <script src="{% static 'home.js' %}"></script> {% endcomment %}
 
 <div class="container">
     {% include 'includes/body.html' %}
-  </div>
+ </div>
 
 
 

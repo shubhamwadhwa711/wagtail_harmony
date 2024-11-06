@@ -18,6 +18,7 @@ from django.template.response import TemplateResponse
 
 from core.news.models import NewsDetailPage
 from custom.events.models import EventPage
+from core.ourteam.models import OurteamPagePerson
 
 ##################################################################################################
 
@@ -92,9 +93,16 @@ class HomePage(RichTextPageAbstract):
     )
 
     # History
+    history_bg_image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
     history_heading = models.TextField(blank=True, null=True)
     history_text = models.TextField(blank=True, null=True)
-    history_page_text = models.TextField(blank=True, null=True)
+    history_page_button_text = models.CharField(max_length=200,blank=True, null=True,default="Get the History")
     history_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -106,7 +114,7 @@ class HomePage(RichTextPageAbstract):
     # Team
     team_heading = models.TextField(blank=True, null=True)
     team_text = models.TextField(blank=True, null=True)
-    team_page_text = models.TextField(blank=True, null=True)
+    team_page_button_text = models.CharField(max_length=200,blank=True, null=True,default="See Officials")
     team_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -146,16 +154,17 @@ class HomePage(RichTextPageAbstract):
         ], heading='Attach More Event Page'),
 
         MultiFieldPanel([
+            FieldPanel('history_bg_image'),
             FieldPanel('history_heading'),
             FieldPanel('history_text'),
-            FieldPanel('history_page_text'),
+            FieldPanel('history_page_button_text'),
             FieldPanel('history_link_page'),
         ], heading='Home Page History'),
 
         MultiFieldPanel([
             FieldPanel('team_heading'),
             FieldPanel('team_text'),
-            FieldPanel('team_page_text'),
+            FieldPanel('team_page_button_text'),
             FieldPanel('team_link_page'),
             InlinePanel('team_member', label='Team Member'),
         ], heading='Home Page Team'),
@@ -179,8 +188,14 @@ class HomePage(RichTextPageAbstract):
            # Retrieve all NewsDetailPage objects
         news_details = NewsDetailPage.objects.all()[:5]
         events_details = EventPage.objects.all()[:3]
+        latest_event = EventPage.objects.last()
+        teams = OurteamPagePerson.objects.all()
+       
+    
         context['news_details'] = news_details
         context['events_details'] = events_details
+        context['latest_event'] = latest_event
+        context['teams'] = teams
 
        
         return TemplateResponse(
