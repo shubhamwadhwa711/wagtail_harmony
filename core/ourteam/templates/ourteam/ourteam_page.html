@@ -1,0 +1,227 @@
+        
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+
+{% block title %}Our Team{% endblock %}
+
+
+{% comment %} {% block extra_css %}
+<link href="{% static 'home.css' %}" rel="stylesheet">
+{% endblock %} {% endcomment %}
+
+
+{% block main %}
+
+<!--Out Team -->
+
+  <main class="main">
+      
+    <div class="election team">
+          <div class="container-fluid">
+              <p class="sub-title">{{page.name}}</p>
+              <div class="row">
+                  <div class="col-md-6">
+                      <h2>{{page.heading}} </h2>
+                      {% comment %} <br> Harmony</h2> {% endcomment %}
+                  </div>
+                  <div class="col-md-6">
+                      <p>{{page.description}} </p>
+                  </div>
+              </div>
+          </div>
+    </div>
+    
+    <div class="development-officer our-team">
+        <img class="big-wave mobile-show" src="{% static 'img/mobile-wave-2.png' %}">
+        <img class="big-wave mobile-hide" src="{% static 'img/big-wave.png' %}">
+          <div class="container-fluid">
+              <img class="yellow-u" src="{% static 'img/elections/yellow-u.svg' %}">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="elected-officials">
+                          <h2>{{page.sub_heading_one}}</h2>
+                          <div class="img-box">
+                            {% for team in page.ourteam_page_person.all %}
+                              {%if team.role == "elected_official" %}
+
+                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{team.id}}">
+
+                                {% image team.image width-1024 as userimg %}
+                                  <img src="{{userimg.url}}">
+                        
+                                  <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
+                                  <div class="elected-details">
+                                      <h4 class="name">{{team.name}}</h4>
+                                      <p class="designation">{{team.designation}}</p>
+                                  </div>
+                                <!-- The Modal -->
+                                <div class="modal" id="{{team.id}}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-body">
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                </button>
+                                          <div class="row">
+                                              <div class="img-side">
+                                                {% image team.image width-1024 as userimg %}
+
+                                                  <img src="{{userimg.url}}">
+                                              </div>
+                                              <div class="detail-side">
+                                                <div class="elected-details">
+                                                  <h4 class="name">{{team.name}}</h4>
+                                                  <p class="designation">{{team.designation}}</p>
+                                                  <p class="description">{{team.description|linebreaks }}</p>
+                                              </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              {% endif%}
+
+                              {% endfor %}
+
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+       <div class="development-officer our-team">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="elected-officials">
+                          <h2>{{page.sub_heading_two}}</h2>
+                          <div class="img-box">
+
+                            {% for team in page.ourteam_page_person.all %}
+                              {%if team.role == "volunteer_support" %}
+
+
+                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{team.id}}">
+                                  {% image team.image width-1024 as userimg %}
+
+                                  <img src="{{userimg.url}}">
+
+                                  <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
+                                  <div class="elected-details">
+                                      <h4 class="name">{{team.name}}</h4>
+                                      <p class="designation">{{team.designation}}</p>
+                                  </div>
+                                <!-- The Modal -->
+                                <div class="modal" id="{{team.id}}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-body">
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                </button>
+                                          <div class="row">
+                                              <div class="img-side">
+                                                {% image team.image width-1024 as userimg %}
+
+                                                <img src="{{userimg.url}}">
+                                              </div>
+                                              <div class="detail-side">
+                                                <div class="elected-details">
+                                                  <h4 class="name">{{team.name}}</h4>
+                                                  <p class="designation">{{team.designation}}</p>
+                                                  <p class="description">{{team.description|linebreaks }}</p>
+                                              </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              {%endif%}
+                              {%endfor%}
+                              {% comment %} <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#staffnamehere-2">
+                                  <img src="assets/img/elections/nominess.jpg">
+                                  <img class="large-pop" src="assets/img/large-pop.svg">
+                                  <div class="elected-details">
+                                      <h4 class="name">Name here</h4>
+                                      <p class="designation">Designation</p>
+                                  </div>
+                                   <!-- The Modal -->
+                                <div class="modal" id="staffnamehere-2">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                        <div class="modal-body">
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                </button>
+                                          <div class="row">
+                                              <div class="img-side">
+                                                  <img src="assets/img/elections/nominess.jpg">
+                                              </div>
+                                              <div class="detail-side">
+                                                <div class="elected-details">
+                                                  <h4 class="name">Staff Name here - 2</h4>
+                                                  <p class="designation">Designation</p>
+                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
+                                        <br><br>
+                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
+                                         <br><br>
+                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
+                                               </div>
+                                             </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                 </div>
+                              </div> {% endcomment %}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="become-elected">
+          <div class="conatiner-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <img class="mobile-show" src="{% static 'img/interest-img/submit-img-2.png' %}">
+                      <h2>{{page.apply_heading}}</h2>
+                      <a class="read-more" href="{{page.button_text}}">{{page.button_text}} <img src="{% static 'img/arrow-up.svg' %}"></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
+  
+ <style>
+    body {
+        background-color: #054651;
+    }
+ </style>
+ 
+
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'home.js' %}"></script>
+
+
+<div class="container">
+   {% include 'includes/body.html' %}
+ </div> 
+
+
+{% endblock %}

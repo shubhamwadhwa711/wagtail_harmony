@@ -9,11 +9,9 @@ from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
 from wagtail.models import Orderable, Site
 from modelcluster.fields import ParentalKey
-from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
+from django.template.response import TemplateResponse
 
 ##################################################################################################
 
@@ -23,14 +21,14 @@ class OurteamPage(RichTextPageAbstract):
         use_json_field=True,
         blank=True,
     )
-    name  =  models.TextField(blank=True, null=True)
+    name  =  models.TextField(blank=True, null=True,default="TOWN OFFICIALS")
 
     heading =  models.TextField(blank=True, null=True)
     description =  models.TextField(blank=True, null=True)
-    sub_heading_one =  models.TextField(blank=True, null=True)
-    sub_heading_two =  models.TextField(blank=True, null=True)
-    apply_heading =  models.TextField(blank=True, null=True)
-    button_text = models.TextField(blank=True, null=True)
+    sub_heading_one =  models.TextField(blank=True, null=True,default="Elected Officials")
+    sub_heading_two =  models.TextField(blank=True, null=True,default="Volunteers / Support Staff")
+    apply_heading =  models.TextField(blank=True, null=True,default="Become an elected Harmony official")
+    button_text = models.TextField(blank=True, null=True,default="Apply Now")
     link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -39,6 +37,7 @@ class OurteamPage(RichTextPageAbstract):
         null=True,
     )
     content_panels = RichTextPageAbstract.content_panels + [
+        
         FieldPanel("name"),
         FieldPanel("heading"),
         FieldPanel("description"),
@@ -53,7 +52,6 @@ class OurteamPage(RichTextPageAbstract):
         
 
     ]
-
     parent_page_types = ['home.HomePage']
     subpage_types = []
 
@@ -61,6 +59,16 @@ class OurteamPage(RichTextPageAbstract):
     class Meta:
         verbose_name = 'Ourteam Page'
         verbose_name_plural = 'Ourteam Pages'
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
 
 
 
@@ -96,11 +104,17 @@ class  OurteamPagePerson(Orderable):
     panels = [
         FieldPanel('image'),
         FieldPanel('name'),
+        FieldPanel('role'),
         FieldPanel('designation'),
         FieldPanel('description'),
     ]
     class Meta:
         verbose_name = 'Ourteam Page Person'
         verbose_name_plural = 'Ourteam Page Persons'
+
+
+
+
+    
 
 
