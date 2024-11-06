@@ -1,19 +1,13 @@
-
 from django.db import models
 
 # Create your models here.
 # core/models.py
 
-
-
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
 from wagtail.models import Orderable, Site
-
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
 
 from wagtail.contrib.forms.models import (
@@ -26,8 +20,9 @@ from django.forms import FileField
 from django.utils.html import format_html
 from wagtail.contrib.forms.panels import FormSubmissionsPanel
 from wagtail.contrib.forms.views import SubmissionsListView
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel,FieldRowPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel,FieldRowPanel
 from modelcluster.fields import ParentalKey
+from django.template.response import TemplateResponse
 ##################################################################################################
 
 
@@ -42,7 +37,7 @@ class ElectionsPage(RichTextPageAbstract):
         use_json_field=True,
         blank=True,
     )
- 
+    page_name =  models.TextField(blank=True, null=True,default="ELECTIONS")
     heading = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     heading_one = models.TextField(blank=True, null=True)
@@ -56,6 +51,7 @@ class ElectionsPage(RichTextPageAbstract):
         null=True,
     )
     heading_two =  models.TextField(blank=True, null=True)
+    sub_heading_two =  models.TextField(blank=True, null=True)
     button_text_two = models.TextField(blank=True, null=True,default="Get on Ballot")
     link_page_two = models.ForeignKey(
         'wagtailcore.Page',
@@ -66,7 +62,8 @@ class ElectionsPage(RichTextPageAbstract):
     )
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("notice_text"),
-        
+        FieldPanel("page_name"),
+    
         FieldPanel("heading"),
         FieldPanel("description"),
         FieldPanel("heading_one"),
@@ -77,6 +74,8 @@ class ElectionsPage(RichTextPageAbstract):
             FieldPanel('link_page_one'),
         ], heading='Add Position  Button Page'),
         FieldPanel("heading_two"),
+        FieldPanel("sub_heading_two"),
+      
         MultiFieldPanel([
             FieldPanel('button_text_two'),
             FieldPanel('link_page_two'),
@@ -90,6 +89,34 @@ class ElectionsPage(RichTextPageAbstract):
     class Meta:
         verbose_name = 'Election Pages'
         verbose_name_plural = 'Election Pages'
+   
+
+    def update_context(self,context):
+        election_persons= SingleElectionPage.objects.all()
+        context.update({
+            'election_persons': election_persons,
+        })
+        return context
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        default_context = self.get_context(request, *args, **kwargs)
+        context = self.update_context(default_context)
+        
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+
+    
+
+
+
+
+
+
 
 
 
@@ -253,54 +280,13 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
                 required=True,
                 )
 
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Date",
-            #     field_type="date",
-            #     required=True,
-            #     )
-            
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Time",
-            #     field_type="time",
-            #     required=True,
-            #     )
-
-
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Description",
-            #     field_type="multiline",
-            #     required=True,
-            #     )
-            
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Upload Event Featured Image",
-            #     help_text = "",
-            #     field_type="file",
-            #     required=True,
-            # )
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Upload Event Featured Image",
-            #     help_text = "Add Event Images(Upto 5 Images)",
-            #     field_type="file",
-            #     required=True,
-                
-            # )
-
-
+           
             
 
 
 
 
-    
+
 class  ElectionPagePerson(Orderable):
     page = ParentalKey(
         SingleElectionPage,
@@ -316,12 +302,14 @@ class  ElectionPagePerson(Orderable):
     )
     name =  models.TextField(blank=True, null=True)
     designation =  models.TextField(blank=True, null=True)
+    re_election_designation =  models.TextField(blank=True, null=True)
     description =  models.TextField(blank=True, null=True)
 
     panels = [
         FieldPanel('image'),
         FieldPanel('name'),
         FieldPanel('designation'),
+        FieldPanel('re_election_designation'),
         FieldPanel('description'),
     ]
     class Meta:
