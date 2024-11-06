@@ -181,21 +181,29 @@ class HomePage(RichTextPageAbstract):
 
 
     
-    def serve(self,request,*args, **kwargs):
-        request.is_preview = False
-        template = self.get_template(request, *args, **kwargs)
-        context = self.get_context(request, *args, **kwargs)
-           # Retrieve all NewsDetailPage objects
+
+
+    def update_context(self,context):
         news_details = NewsDetailPage.objects.all()[:5]
         events_details = EventPage.objects.all()[:3]
         latest_event = EventPage.objects.last()
         teams = OurteamPagePerson.objects.all()
-       
     
-        context['news_details'] = news_details
-        context['events_details'] = events_details
-        context['latest_event'] = latest_event
-        context['teams'] = teams
+        # context = self.get_context(request, *args, **kwargs)
+        context.update({
+            'news_details': news_details,
+            'events_details': events_details,
+            'latest_event': latest_event,
+            'teams': teams,
+        })
+        return context
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        default_context = self.get_context(request, *args, **kwargs)
+        context = self.update_context(default_context)
+        
 
        
         return TemplateResponse(
