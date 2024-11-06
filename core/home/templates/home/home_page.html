@@ -231,8 +231,6 @@
                                   </div>
                                 </div>
                               </article>
-        
-                              
                         </div>
                         {% endif%}
                         {% endfor%}
@@ -248,38 +246,43 @@
           <div class="container-fluid">
               <div class="row top-row">
                   <div class="col-md-6">
-                      <h2 class="font-57">Upcoming Events</h2>
+                      <h2 class="font-57">{{page.event_heading}}</h2>
+
                   </div>
+
                   <div class="col-md-6">
-                      <a class="read-more mobile-hide" href="">More Events <img src="assets/img/arrow.svg"></a>
+                      <a class="read-more mobile-hide" href="{{page.more_event_link_page}}">{{page.upcoming_event_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
               </div>
+
               <div class="row bottom-row">
                   <div class="col-md-8">
+                    {% for events in events_details %}
                       <div class="upcoming-events">
-                              <p class="event-date">JUN 8, 2024</p>
-                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
-                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
+                              <p class="event-date">{{ events.date|date:"M j, Y" }}</p>
+                              <h2 class="font-27"><a href="">{{ events.heading }}</a></h2>
+                            <a class="event-btn" href=""><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></a>
                       </div>
-                       <div class="upcoming-events">
-                              <p class="event-date">JUN 8, 2024</p>
-                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
-                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
-                      </div>
-                       <div class="upcoming-events">
-                              <p class="event-date">JUN 8, 2024</p>
-                              <h2 class="font-27"><a href="">Event heading will come here, It could be big enough to come In two lines like example</a></h2>
-                            <a class="event-btn" href=""><img src="assets/img/business-development/feather-arrow-up.png"></a>
-                      </div>
-                       <a class="read-more mobile-show" href="">More Events <img src="assets/img/arrow.svg"></a>
+                    {% endfor %}
+                      
+
+                       <a class="read-more mobile-show" href="">More Events <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
                   <div class="col-md-4">
                       <div class="feature-img">
-                          <img src="assets/img/events/event-img.jpg">
-                          <div class="date"> 24 JUN <span class="year">2024</span></div>
-                          <div class="feature-title">
-                              <h2>2024 Christmas Parade</h2>
-                          </div>
+                        {% if events_details %}
+                           {% with latest_event=events_details.0 %}
+                                  {% image latest_event.event_bg_image width-1024 as event_bg_image %}
+                                <img src="{{event_bg_image.url}}">
+                                {% comment %} <div class="date"> 24 JUN <span class="year">2024</span></div> {% endcomment %}
+                                {{ latest_event.date|date:"j M" }} <span class="year">{{ latest_event.date|date:"Y" }}</span>
+                                <div class="feature-title">
+                                    <h2>{{latest_event.event_short_heading}}</h2>
+                                </div>
+
+                            {% endwith %}
+
+                        {% endif %}
                       </div>
                   </div>
               </div>

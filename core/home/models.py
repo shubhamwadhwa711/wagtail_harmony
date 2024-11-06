@@ -17,6 +17,8 @@ from wagtail.models import Orderable
 from django.template.response import TemplateResponse
 
 from core.news.models import NewsDetailPage
+from custom.events.models import EventPage
+
 ##################################################################################################
 
 class HomePage(RichTextPageAbstract):
@@ -79,7 +81,8 @@ class HomePage(RichTextPageAbstract):
     )
 
     # Upcoming
-    upcoming_event_text = models.TextField(blank=True, null=True)
+    event_heading = models.CharField(max_length=200,blank=True, null=True,default="Upcoming Events")
+    upcoming_event_button_text = models.TextField(blank=True, null=True,default="More Events")
     more_event_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -137,7 +140,8 @@ class HomePage(RichTextPageAbstract):
         ], heading='Attach Latest News'),
         
         MultiFieldPanel([
-            FieldPanel('upcoming_event_text'),
+            FieldPanel('event_heading'),
+            FieldPanel('upcoming_event_button_text'),
             FieldPanel('more_event_link_page'),
         ], heading='Attach More Event Page'),
 
@@ -174,7 +178,10 @@ class HomePage(RichTextPageAbstract):
         context = self.get_context(request, *args, **kwargs)
            # Retrieve all NewsDetailPage objects
         news_details = NewsDetailPage.objects.all()[:5]
+        events_details = EventPage.objects.all()[:3]
         context['news_details'] = news_details
+        context['events_details'] = events_details
+
        
         return TemplateResponse(
             request,
