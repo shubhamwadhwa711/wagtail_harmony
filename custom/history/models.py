@@ -12,6 +12,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from django.template.response import TemplateResponse
+from django.db.models import Q
 
 ##################################################################################################
 
@@ -70,10 +71,17 @@ class HistoriesPage(RichTextPageAbstract):
         verbose_name = 'Histories Page'
         verbose_name_plural = 'Histories Pages'
     
-    def update_context(self,context):
+    def update_context(self,context,search_query):
         histories = HistoryPage.objects.all()
+        if search_query:
+            histories = histories.filter(
+                Q(content_short_description__icontains=search_query) |
+                Q(content_full_description__icontains=search_query) |
+                Q(date__icontains=search_query)  # Adjust fields as needed
+            )
         context.update({
             'histories': histories,
+            'search_query': search_query,
            
         })
         return context
@@ -82,8 +90,9 @@ class HistoriesPage(RichTextPageAbstract):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
-        
+        search_query = request.GET.get('search', '')
+        context = self.update_context(default_context,search_query)
+
         return TemplateResponse(
             request,
             template,
