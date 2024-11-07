@@ -50,10 +50,22 @@ class ElectionsPage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
+
+    button_text_two = models.TextField(blank=True, null=True,default="Run for Position")
+    link_page_two = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
     heading_two =  models.TextField(blank=True, null=True)
     sub_heading_two =  models.TextField(blank=True, null=True)
-    button_text_two = models.TextField(blank=True, null=True,default="Get on Ballot")
-    link_page_two = models.ForeignKey(
+
+    nomination_heading = models.TextField(blank=True, null=True,default="Apply for the nomination Check the criteria and Eligibility")
+    button_text_three = models.TextField(blank=True, null=True,default="Get on Ballot")
+    link_page_three = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
         related_name='+',
@@ -72,13 +84,19 @@ class ElectionsPage(RichTextPageAbstract):
         MultiFieldPanel([
             FieldPanel('button_text_one'),
             FieldPanel('link_page_one'),
-        ], heading='Add Position  Button Page'),
+        ], heading='Add Position  Button Page One'),
         FieldPanel("heading_two"),
         FieldPanel("sub_heading_two"),
-      
+        FieldPanel("nomination_heading"),
+
         MultiFieldPanel([
             FieldPanel('button_text_two'),
             FieldPanel('link_page_two'),
+        ], heading='Add Position  Button Page Two'),
+      
+        MultiFieldPanel([
+            FieldPanel('button_text_three'),
+            FieldPanel('link_page_three'),
         ], heading='Add Ballot Page '),
 
     ]
@@ -94,8 +112,9 @@ class ElectionsPage(RichTextPageAbstract):
     def update_context(self,context):
         election_persons= SingleElectionPage.objects.all()
         context.update({
-            'election_persons': election_persons,
+            'elections_users': election_persons,
         })
+
         return context
 
     def serve(self,request,*args, **kwargs):

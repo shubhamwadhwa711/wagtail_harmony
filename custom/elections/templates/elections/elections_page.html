@@ -5,26 +5,9 @@
 
 
 {% block title %}Election Page{% endblock %}
-
-
 {% block main %}
 
   
-
-{% comment %} 
-notice_text
-page_name
-heading
-description
-heading_one
-sub_heading_one
-button_text_one
-link_page_one
-heading_two
-sub_heading_two
-button_text_two
-link_page_two
-Page {% endcomment %}
   <main class="main">
       
       <div class="elections-date">
@@ -65,21 +48,20 @@ Page {% endcomment %}
                           <!--h3>Nominees</h3-->
                           <div class="img-box">
 
-                           {% for user in election_persons %}
-                           {{user.name}}
-                                    {% comment %} {% image user.election_page_person.image width-1024 as userimg %} {% endcomment %}
-                                 
-            
-                        
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere">
-                                  <img src="assets/img/elections/nominess.jpg">
+                            {% for user in elections_users %}
+                                {% for person in user.election_page_person.all %}
+
+                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{person.id}}">
+
+                                {% image person.image width-1024 as perimg %}
+                                  <img src="{{perimg.url}}">
                                   <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                  <p class="re-election designation">Sitting in the position already</p>
+                                  <h4 class="name">{{person.name}}</h4>
+                                  <p class="designation">{{person.designation}}</p>
+                                  <p class="re-election designation">{{person.re_election_designation}}</p>
                                   
                                    <!-- The Modal -->
-                                <div class="modal" id="namehere">
+                                <div class="modal" id="{{person.id}}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                         <div class="modal-body">
@@ -87,17 +69,14 @@ Page {% endcomment %}
                                                 </button>
                                           <div class="row">
                                               <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
+                                                {% image person.image width-1024 as perimg %}
+                                                    <img src="{{perimg.url}}">
+                                                                                                </div>
                                               <div class="detail-side">
                                                 <div class="elected-details">
-                                                  <h4 class="name">Name here</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
+                                                  <h4 class="name">{{person.name}}</h4>
+                                                  <p class="designation">{{person.designation}}</p>
+                                                  <p class="description">{{person.designation}}</p>
                                               </div>
                                               </div>
                                           </div>
@@ -107,114 +86,12 @@ Page {% endcomment %}
                                     </div>
                                 </div>
                               </div>
-                              {% endfor %}
 
-                              {% comment %} {% endfor %} {% endcomment %}
-                              {% comment %} <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-2">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-2">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                        <div class="img-side">
-                                        <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                            <div class="detail-side">
-                                            <div class="elected-details">
-                                            <h4 class="name">Name here - 2</h4>
-                                            <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div> {% endcomment %}
-                              {% comment %} <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-3">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-3">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">Name here - 3</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div> {% endcomment %}
-                              {% comment %} <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-4">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-4">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">Name here - 3</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div> {% endcomment %}
+                            {% endfor %}
+                            {% endfor %}
                           </div>
                           <a class="dscrptn" href="">View Description +</a>
-                          <a class="read-more" href="{{page.link_page_one}}">{{page.button_text_one}} <img src="assets/img/arrow-up.svg"></a>
+                <a class="read-more" href="{{page.link_page_one}}">{{page.button_text_one}} <img src="{% static 'img/arrow-up.svg' %}"></a>
                     
               </div>
                   </div>
@@ -223,152 +100,61 @@ Page {% endcomment %}
                       <div class="nominess">
                           <h2>{{page.heading_two}}</h2>
                           <p>{{page.sub_heading_two}}</p>
-                          <!--h3>Nominees</h3-->
+                          
+                         
                           <div class="img-box">
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                  
-                                   <!-- The Modal -->
-                                <div class="modal" id="namehere">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">Name here</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
+                             
+                            {% for user in elections_users %}
+                            {% for person in user.election_page_person.all %}
+
+                          <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{person.id}}">
+
+                            {% image person.image width-1024 as perimg %}
+                              <img src="{{perimg.url}}">
+                              <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
+                              <h4 class="name">{{person.name}}</h4>
+                              <p class="designation">{{person.designation}}</p>
+                              <p class="re-election designation">{{person.re_election_designation}}</p>
+                              
+                               <!-- The Modal -->
+                            <div class="modal" id="{{person.id}}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-body">
+                                         <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                            </button>
+                                      <div class="row">
+                                          <div class="img-side">
+                                            {% image person.image width-1024 as perimg %}
+                                                 <img src="{{perimg.url}}">
+
                                           </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-2">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-2">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                        <div class="img-side">
-                                        <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                            <div class="detail-side">
+                                          <div class="detail-side">
                                             <div class="elected-details">
-                                            <h4 class="name">Name here - 2</h4>
-                                            <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
+                                              <h4 class="name">{{person.name}}</h4>
+                                              <p class="designation">{{person.designation}}</p>
+                                              <p class="description">{{person.designation}}</p>
                                           </div>
-                                        </div>
-                                        
-                                        </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    
                                     </div>
                                 </div>
-                              </div>
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-3">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-3">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">Name here - 3</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#namehere-4">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <img class="large-pop" src="assets/img/large-pop.svg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                                    <!-- The Modal -->
-                                <div class="modal" id="namehere-4">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                  <img src="assets/img/elections/nominess.jpg">
-                                              </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">Name here - 3</h4>
-                                                  <p class="designation">Designation</p>
-                                                  <p class="description">Jerry Smith is a race car driver at Hendrick Motorsports with five years’ experience making speedy turns for several hours, helping his thousands of fans to fulfill their entertainment needs. Specializing in left turns and safely overtaking his opponents in the pursuit of a checkered flag, Jerry uses that expertise to never come in last.
-                                        <br><br>
-                                        By focusing on making sure Hendrick Motorsports ends up in the winner’s circle at every race, Jerry has been able to put the racing certifications he earned at driver’s school to good use. Over the years, his strengths at Hendrick Motorsports have garnered some recognition for winning several races each year. Jerry may spend his days at the racetrack, but it’s the thrill of the race and the glory of coming in first that gets him up in the morning.
-                                         <br><br>
-                                        When he’s not behind the wheel, Jerry is an avid fisherman and loves spending time in the great outdoors.</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
+                            </div>
+                          </div>
+
+                        {% endfor %}
+                        {% endfor %}
+                              
                           </div>
                           <a class="dscrptn" href="">View Description +</a>
-                          <a class="read-more" href="">Run for Position <img src="assets/img/arrow-up.svg"></a>
+              <a class="read-more" href="{{page.link_page_two}}">{{page.button_text_two}} <img src="{% static 'img/arrow-up.svg' %}"></a>
                       </div>
+
                   </div>
               </div>
-              <img class="green-path" src="assets/img/green-upath.svg">
+              <img class="green-path" src="{% static 'img/green-upath.svg' %}">
           </div>
       </div>
       
@@ -376,33 +162,29 @@ Page {% endcomment %}
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-5">
-                      <h2>Apply for the nomination <br>Check the criteria and <br>Eligibility</h2>
+                      <h2>{{page.nomination_heading}}</h2>
                       
-                      <a class="read-more mobile-hide" href="">Get on Ballot <img src="assets/img/arrow-up.svg"></a>
+                      <a class="read-more mobile-hide" href="{{page.button_text_three}}">{{page.button_text_three}} <img src="{% static 'img/arrow-up.svg' %}"></a>
                   </div>
                   <div class="col-md-7">
                       <div class="img-box">
+                        {% for user in elections_users %}
+                            {% for person in user.election_page_person.all %}
                               <div class="nominess-box">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
+                                {% image person.image width-1024 as perimg %}
+                                  <img src="{{perimg.url}}">
+                                  <h4 class="name">{{person.name}}</h4>
+                                  <p class="designation">{{person.designation}}</p>
                               </div>
-                              <div class="nominess-box">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                              </div>
-                              <div class="nominess-box">
-                                  <img src="assets/img/elections/nominess.jpg">
-                                  <h4 class="name">Name here</h4>
-                                  <p class="designation">Designation</p>
-                              </div>
+
+                            {% endfor %}
+                            {% endfor %}
                           </div>
                           
-                          <a class="read-more mobile-show" href="">Get on Ballot <img src="assets/img/arrow-up.svg"></a>
+                          <a class="read-more mobile-show" href="">Get on Ballot <img src="{% static 'img/arrow-up.svg' %}"></a>
                   </div>
               </div>
-              <img class="polygon-icon" src="assets/img/Polygon.svg">
+              <img class="polygon-icon" src="{% static 'img/Polygon.svg' %}">
           </div>
       </div>
       
