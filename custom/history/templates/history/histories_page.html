@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+
+
+
+{% block title %}History Page{% endblock %}
+
+
+{% block main %}
+
+
+<main class="main">
+    
+    <div class="history-search">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="d-flex">
+                        <label>Search</label>
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">
+                            <i class="material-icons">search</i>
+                        </button>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="history-of-harmony">
+       
+        <div class="container-fluid">
+            <div class="row">
+                <div clas="col-md-12">
+                    <h2>{{page.heading}}</h2>
+                    <div class="tab">
+                              <ul>
+                                <li class="tablinks active" onclick="openService(event, '1960')" id="defaultOpen">
+                                    <span>1960</span> 
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '1970')">
+                                    <span>1970</span>
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '1980')">
+                                    <span>1980</span>
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '1990')">
+                                    <span>1990</span>
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '2000')">
+                                    <span>2000</span>
+                                </li>
+                                 <li class="tablinks" onclick="openService(event, '2010')">
+                                    <span>2010</span>
+                                </li>
+                                 <li class="tablinks" onclick="openService(event, '2015')">
+                                    <span>2015</span>
+                                </li>
+                                 <li class="tablinks" onclick="openService(event, '2017')">
+                                    <span>2017</span>
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '2020')">
+                                    <span>2020</span>
+                                </li>
+                                <li class="tablinks" onclick="openService(event, '2021')">
+                                    <span>2021</span>
+                                </li>
+                                 <li class="tablinks" onclick="openService(event, '2023')">
+                                    <span>2023</span>
+                                </li>
+                                 <li class="tablinks" onclick="openService(event, '2024')">
+                                    <span>2024</span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="history-right">
+                         <div id="1960" class="tabcontent">
+                            <div class="history-top-content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>{{page.short_heading}}</h3>
+                                        <p>{{page.short_description}}</p>
+                                    </div>
+                                </div>
+                                <div class="history-bottom-content">
+                                {% for history in histories %}
+                                <div class="row">
+                                    <div class="image-side"> 
+                                        
+                                    {% image history.image width-1024 as hisimg %}
+                                
+                                    <img class="" src="{{hisimg.url}}"> 
+                                    </div>
+                                    <div class="content-side">
+                                      <div class="history-right-side">
+                                          <h2>{{history.date}}</h2>
+                                            <p class="color">{{history.content_short_description}} </p>
+                                            <p>{{history.content_full_description}}</p>
+                                      </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="submit-photo hold-event">
+     <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %}); background-color:#054651;">
+         <img class="green-u" src="{% static 'img/green-upath.svg' %}">
+        <div class="row">
+            <div class="col-md-4">
+                {% image page.bottom_image_one  width-1024  as leftimg%}
+                <img src="{{imgone.url}}">
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    <h2>{{page.bottom_heading}}</h2>
+                    <a class="read-more share-btn" href="">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                </div>
+            </div>
+            <div class="col-md-4 second-img">
+                {% image page.bottom_image_two width-1024 as rightimg %}
+                <img src="{{rightimg.url}}">
+            </div>
+        </div>
+    </div>
+  </div>
+  
+</main>
+
+
+<script>
+function openService(evt, serviceName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(serviceName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
+  </script>
+
+
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}
