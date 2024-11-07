@@ -1,3 +1,45 @@
-<h1>
-    Hello</h1>
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}Business Permits Page{% endblock %}
+
+{% block main %}
+
+
+<main class="main" style="">
     
+    <div class="permits">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{page.heading}}</h2>
+                    <div class="apply-permits">
+                        {% for permit in permits%}
+                        <div class="business-permits">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h3>{{permit.heading}}</h3>
+                                    <p>{{permit.description}}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="read-more" href="{{permit.permit_link_page}}">{{permit.permit_button_text}}
+                                        <img src="{% static 'img/arrow-up.svg' %}"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</main>
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}

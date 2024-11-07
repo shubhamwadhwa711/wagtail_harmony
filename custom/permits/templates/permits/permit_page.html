@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}Business Single Permit Page{% endblock %}
+
+{% block main %}
+
+
+
+<main class="main" style="">
+    
+   <div class="permits single-permit">
+        <div class="container">
+             <div class="row">
+                <div class="col-md-12">
+                    <div class="business-permits">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="back-btn">
+                                        <a href="">
+                                            <img src="{% static 'img/business-development/feather-arrow-up.png' %}">
+                                        </a> 
+                                    </div>
+                                    <div class="permit-content">
+                                        <h3>{{page.heading}}</h3>
+                                        <p>{{page.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="read-more" href="{{page.permit_link_page}}">{{page.permit_button_text}}
+                                        <img src="{% static 'img/arrow-up.svg' %}"></a>
+                                </div>
+                            </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="single-permit-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                 <div class="fill-form">   
+                    <h2>Fill the form below to apply</h2>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" placeholder="First name" class="form-control" name="first name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" placeholder="Last name" class="form-control" name="last name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" placeholder="Email" class="form-control" name="email">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="tel" placeholder="Phone number" class="form-control" name="phone number">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Choose a Business type</label>
+                                    <select name="business type" id="business-select" class="form-control">
+                                      <option value="">Business type</option>
+                                      <option value="Business type - 1">Business type - 1</option>
+                                      <option value="Business type - 2">Business type - 2</option>
+                                      <option value="Business type - 3">Business type - 3</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Choose Category</label>
+                                    <select name="category type" id="category-select" class="form-control">
+                                      <option value="">Business type</option>
+                                      <option value="Category - 1">Category - 1</option>
+                                      <option value="Category - 2">Category - 2</option>
+                                      <option value="Category - 3">Category - 3</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-12">
+                                     <textarea placeholder="Message" name="message" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <p>By clicking on “Send”, you confirm that you are interested in being contacted by our team, either by email or by phone. <br>
+We are committed to respecting your privacy in accordance with Law 25. <a href="">See our privacy policy.</a></p>
+                            </div>
+                            <div class="col-md-12 submit-btn">
+    <button class="btn btn-primary" type="Send message"> Send message <img src="assets/img/arrow.svg"></button>
+  </div>
+                        </div>
+                    </form>
+                </div>
+              </div> 
+            </div>
+        </div>
+    </div>
+    
+</main>
+
+
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}
