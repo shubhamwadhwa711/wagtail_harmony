@@ -23,6 +23,7 @@ from wagtail.contrib.forms.views import SubmissionsListView
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel,FieldRowPanel
 from modelcluster.fields import ParentalKey
 from django.template.response import TemplateResponse
+from django.contrib import messages
 ##################################################################################################
 
 
@@ -242,7 +243,6 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
         verbose_name_plural = 'Single Election Page'
 
 
-
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
@@ -252,6 +252,9 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
             form = self.get_form(request.POST, request.FILES, page=self)
             if form.is_valid():
                self.process_form_submission(form)
+               context['form'] = self.get_form(page=self)
+               messages.success(request, "Form submitted successfully!")
+
         else:
             context['form'] = self.get_form(page=self)
        
@@ -261,68 +264,85 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
             context,
         )
 
-
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         party_names = Party.objects.values_list('party_name', flat=True)
         position_titles = PartyPosition.objects.values_list('party_position', flat=True)
-        
-        # Join choices into comma-separated strings
         party_choices = ",".join(party_names)
         position_choices = ",".join(position_titles)
+        if not self.form_fields.exists():
+            default_fields = [
+                {"label": "First Name", "field_type": "singleline"},
+                {"label": "Last Name", "field_type": "singleline"},
+                {"label": "Email", "field_type": "email"},
+                {"label": "Phone number", "field_type": "singleline"},
+                {"label": "Choose party", "field_type": "dropdown", "choices": party_choices},
+                {"label": "Choose position", "field_type": "dropdown", "choices": position_choices},
+                {"label": "Your Intro", "field_type": "multiline"},
+            ]
+            for field_data in default_fields:
+                FormField.objects.create(page=self, required=True, **field_data)
 
-        # Automatically create default form fields if they don't already exist
-        if not  self.form_fields.exists():
-            FormField.objects.create(
-                page=self,
-                label="First Name",
-                field_type="singleline",
-                required=True,
-            )
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     party_names = Party.objects.values_list('party_name', flat=True)
+    #     position_titles = PartyPosition.objects.values_list('party_position', flat=True)
+        
+    #     # Join choices into comma-separated strings
+    #     party_choices = ",".join(party_names)
+    #     position_choices = ",".join(position_titles)
 
-            FormField.objects.create(
-                page=self,
-                label="Last Name",
-                field_type="singleline",
-                required=True,
-            )
+    #     # Automatically create default form fields if they don't already exist
+    #     if not  self.form_fields.exists():
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="First Name",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
 
-            FormField.objects.create(
-                page=self,
-                label="Email",
-                field_type="email",
-                required=True,
-            )
-            FormField.objects.create(
-                page=self,
-                label="Phone number",
-                field_type="singleline",
-                required=True,
-            )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Last Name",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
 
-            FormField.objects.create(
-                page=self,
-                label="Choose party",
-                field_type="dropdown",
-                required=True,
-                choices=party_choices)
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Email",
+    #             field_type="email",
+    #             required=True,
+    #         )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Phone number",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
+
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Choose party",
+    #             field_type="dropdown",
+    #             required=True,
+    #             choices=party_choices)
             
 
-            FormField.objects.create(
-                page=self,
-                label="Choose position",
-                field_type="dropdown",
-                required=True,
-                choices=position_choices)
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Choose position",
+    #             field_type="dropdown",
+    #             required=True,
+    #             choices=position_choices)
             
 
-            FormField.objects.create(
-                page=self,
-                label="Your Intro",
-                field_type="multiline",
-                required=True,
-                )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Your Intro",
+    #             field_type="multiline",
+    #             required=True,
+    #             )
     
 
     
