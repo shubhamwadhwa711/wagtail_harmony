@@ -1,3 +1,273 @@
-<h1>
-    Hello</h1>
+
+
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}News Page{% endblock %}
+
+
+{% block main %}
+
+
+<main class="main">
     
+    <div class="news">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+                    <p class="sub-title">{{page.name}}</p>
+                    {% for news in news_details %}
+                        {% if forloop.last %}
+                            <h2 class="latest-title">{{ news.any_headline_heading }}</h2>
+                   
+                    
+                    <a class="read-more" href="">Read more <img src="{% static 'img/arrow.svg' %}"></a>
+                </div>
+                <div class="col-md-7">
+                    <div class="featured-img">
+                        {% image news.main_headline_image width-1024 as latestnews %}
+                        
+                       <img src="{{latestnews.url}}" alt="" class="img-fluid" />
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="meeting-agendas recent-posts">
+        <div class="container-fluid">
+            <img class="polygon-icon" src="assets/img/Polygon.svg">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order" style="background-color: #c8d6d8;">
+                        <div class="all-meetings">
+                            <ul class="portfolio-filters isotope-filters aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                                <li data-filter="*" class="filter-active">All news</li>
+                                <li data-filter=".filter-last-month">Last month</li>
+                                <li data-filter=".filter-last-days">Last 90 days</li>
+                                <li data-filter=".filter-last-year">2023</li>
+                            </ul>
+                        </div>
+                        <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 1750.38px;">
+                            <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-month" style="position: absolute; left: 0px; top: 0px;">
+                                <div class="row bottom-row">
+                                    <div class="col-md-4">
+                                        <article>
+                           <i class="bi bi-pin-angle-fill"></i>
+                                            <div class="post-img">
+                                                <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid" />
+                                            </div>
+
+                                            <h2 class="title">
+                                                <a href="">News heading will come here In two lines</a>
+                                            </h2>
+
+                                            <a class="learn-more" href="#">READ MORE</a>
+                                        </article>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <article>
+                                        <i class="bi bi-pin-angle-fill"></i>
+                                                    <h2 class="title">
+                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-days" style="position: absolute; left: 440px; top: 0px;">
+                               <div class="row bottom-row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <article>
+                                                    
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <article>
+                                                    <h2 class="title">
+                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-year" style="position: absolute; left: 880px; top: 0px;">
+                                <div class="row bottom-row">
+                                    <div class="col-md-4">
+                                        <article>
+                                          
+                                            <div class="post-img">
+                                                <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid" />
+                                            </div>
+
+                                            <h2 class="title">
+                                                <a href="">News heading will come here In two lines</a>
+                                            </h2>
+
+                                            <a class="learn-more" href="#">READ MORE</a>
+                                        </article>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                    <div class="col-md-4">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="">News heading will come here In two lines</a>
+                                                    </h2>
+
+                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                </article>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="submit-photo hold-event ">
+        <div class="container-fluid" style="background-image: url(assets/img/quick-bg.png); background-color:#054651;">
+            <img class="green-u-path" src="{% static 'img/business-development/u-path.svg' %}">
+            <div class="row">
+                <div class="col-md-4">
+                    {% image page.bottom_image_one width-1024 as btm_one_image %}
+                    <img src="{{btm_one_image.url}}" />
+                </div>
+                <div class="col-md-4">
+                    <div class="submit-img">
+                        <h2>
+                            {{body.bottom_heading}}
+                        </h2>
+
+                       <a class="read-more share-btn" href="" style="width: 250px; justify-content: space-between; ">History 
+                        <img src="{% static 'img/arrow.svg' %}"></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    {% image page.bottom_image_two width-1024 as btm_two_image %}
+  
+                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .portfolio-item.isotope-item {
+        display: block;
+    }
+</style>
+
+
+
+
+
+{% block extra_js %}<script src="{% static 'single.js' %}"></script> {% endblock %}
+<div class="container">
+  {% include 'includes/body.html' %}
+</div>
+{% endblock %}
