@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags humanize %}
+{% load static wagtailcore_tags wagtailimages_tags humanize crispy_forms_tags %}
 
 {% block title %}Business Single Permit Page{% endblock %}
 
@@ -43,21 +43,25 @@
                 <div class="col-md-12">
                  <div class="fill-form">   
                     <h2>Fill the form below to apply</h2>
-                    <form>
+                    <form method="post" enctype="multipart/form-data" >
                         <div class="row">
-                            <div class="col-md-6">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+
+
+                            {% comment %} <div class="col-md-6">
                                 <input type="text" placeholder="First name" class="form-control" name="first name">
                             </div>
                             <div class="col-md-6">
                                 <input type="text" placeholder="Last name" class="form-control" name="last name">
-                            </div>
-                            <div class="col-md-6">
+                            </div> {% endcomment %}
+                            {% comment %} <div class="col-md-6">
                                 <input type="email" placeholder="Email" class="form-control" name="email">
                             </div>
                             <div class="col-md-6">
                                 <input type="tel" placeholder="Phone number" class="form-control" name="phone number">
-                            </div>
-                            <div class="col-md-12">
+                            </div> {% endcomment %}
+                            {% comment %} <div class="col-md-12">
                                 <label>Choose a Business type</label>
                                     <select name="business type" id="business-select" class="form-control">
                                       <option value="">Business type</option>
@@ -65,8 +69,8 @@
                                       <option value="Business type - 2">Business type - 2</option>
                                       <option value="Business type - 3">Business type - 3</option>
                                     </select>
-                            </div>
-                            <div class="col-md-12">
+                            </div> {% endcomment %}
+                            {% comment %} <div class="col-md-12">
                                 <label>Choose Category</label>
                                     <select name="category type" id="category-select" class="form-control">
                                       <option value="">Business type</option>
@@ -77,13 +81,13 @@
                             </div>
                             <div class="col-md-12">
                                      <textarea placeholder="Message" name="message" class="form-control"></textarea>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="col-md-12">
                                 <p>By clicking on “Send”, you confirm that you are interested in being contacted by our team, either by email or by phone. <br>
 We are committed to respecting your privacy in accordance with Law 25. <a href="">See our privacy policy.</a></p>
                             </div>
                             <div class="col-md-12 submit-btn">
-    <button class="btn btn-primary" type="Send message"> Send message <img src="assets/img/arrow.svg"></button>
+    <button class="btn btn-primary" type="Send message"> Send message <img src="{% static 'img/arrow.svg' %}"></button>
   </div>
                         </div>
                     </form>
