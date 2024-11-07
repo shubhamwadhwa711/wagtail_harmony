@@ -194,15 +194,18 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
         use_json_field=True,
         blank=True,
     )
+    page_notice  = models.TextField(blank=True, null=True)
     heading = models.TextField(blank=True, null=True)
     party_name =  models.TextField(blank=True, null=True)
     position_title = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     result_declare_heading = models.TextField(blank=True, null=True)
+    form_description_message = models.TextField(blank=True, null=True)
 
     parent_page_types = ['elections.ElectionsPage']
     subpage_types = []
     content_panels = AbstractEmailForm.content_panels + [
+        FieldPanel("page_notice"),
         FieldPanel("heading"),
         FieldPanel("party_name"),
         FieldPanel("position_title"),
@@ -210,6 +213,8 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
         FieldPanel("result_declare_heading"),
         InlinePanel('election_page_person', label='Election Page Person'),
         InlinePanel("form_fields", heading="Form fields", label="Field"),
+        FieldPanel("form_description_message"),
+
         FormSubmissionsPanel(),
         MultiFieldPanel(
             [
@@ -235,6 +240,26 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
     class Meta:
         verbose_name = 'Single Election Page'
         verbose_name_plural = 'Single Election Page'
+
+
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+        # context = self.update_context(default_context)
+        if request.method == 'POST':
+            form = self.get_form(request.POST, request.FILES, page=self)
+            if form.is_valid():
+               self.process_form_submission(form)
+        else:
+            context['form'] = self.get_form(page=self)
+       
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
 
 
 
@@ -298,8 +323,12 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
                 field_type="multiline",
                 required=True,
                 )
+    
 
-           
+    
+
+
+
             
 
 

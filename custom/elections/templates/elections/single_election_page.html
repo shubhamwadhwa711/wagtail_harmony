@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize crispy_forms_tags %}
+
+
+{% block title %}Single Election Page{% endblock %}
+
+{% comment %} 
+{% block extra_css %}
+<link href="{% static 'single.css' %}" rel="stylesheet">
+{% endblock %} {% endcomment %}
+
+
+{% block main %}
+
+  <main class="main">
+      <div class="elections-date">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <p>{{page.page_notice}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+       <div class="development-officer single-election">
+            <img class="big-wave mobile-show" src="{% static 'img/mobile-wave-2.png' %}">
+            <img class="big-wave mobile-hide" src="{% static 'img/big-wave.png' %}">
+          <div class="container-fluid">
+                <img class="yellow-u" src="{% static 'img/elections/yellow-u.svg' %}">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="nominess">
+                            <div class="back-btn">
+                                    <a href="">
+                                        <img src="{% static 'img/business-development/feather-arrow-up.png' %}">
+                                    </a> 
+                                </div>
+                          <h2>{{page.heading}}</h2>
+                          <p>{{page.party_name}}</p>
+                          <h3>{{page.position_title}}</h3> 
+                          <div class="img-box">
+                            {% for person in page.election_page_person.all %}
+
+                              <div class="nominess-box">
+                                {% image person.image width-277 height-296 as perimg %}
+                                <img src="{{perimg.url}}">
+                                  {% comment %} <img src="assets/img/elections/nominess.jpg"> {% endcomment %}
+                                  <div class="nominess-details">
+                                      <h4 class="name">{{person.name}}</h4>
+                                      <p class="designation">{{person.designation}}</p>
+                                      <p>{{page.description}}</p>
+                                  </div>
+                              </div>
+                            {% endfor %}
+                             
+                          </div>
+                          <p class="note">{{page.description}} </p>
+                      </div>
+                      
+                      <div class="apply-form">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="declared-date">
+                                      <h2>{{page.result_declare_heading}}</h2>
+                                  </div>
+                              </div>
+                              <div class="col-md-8">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" placeholder="First name" class="form-control" name="first name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" placeholder="Last name" class="form-control" name="last name">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" placeholder="Email" class="form-control" name="email">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="tel" placeholder="Phone number" class="form-control" name="phone number">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Choose party</label>
+                                    <select name="party type" id="party-select" class="form-control">
+                                      <option value="">Party name</option>
+                                      <option value="Party name - 1">Party name - 1</option>
+                                      <option value="Party name - 2">Party name - 2</option>
+                                      <option value="Party name - 3">Party name - 3</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Choose position</label>
+                                    <select name="category type" id="category-select" class="form-control">
+                                      <option value="">Position name</option>
+                                      <option value="Position name - 1">Position name - 1</option>
+                                      <option value="Position name - 2">Position name - 2</option>
+                                      <option value="Position name - 3">Position name - 3</option>
+                                    </select>
+                            </div>
+                            <div class="col-md-12">
+                                     <textarea placeholder="Your intro" name="message" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <p>{{page.form_description_message}}. <a href="">See our privacy policy.</a></p>
+                            </div>
+                            <div class="col-md-12 submit-btn">
+                                <button class="btn btn-primary" type="Apply now"> Apply now <img src="{% static 'img/arrow.svg' %}"></button>
+                            </div>
+                        </div>
+                    </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      
+      
+  </main>
+  
+ <style>
+    body {
+        background-color: #054651;
+    }
+ </style>
+  
+
+
+  
+
+
+  
+
+{% block extra_js %}<script src="{% static 'single.js' %}"></script> {% endblock %}
+<div class="container">
+   {% include 'includes/body.html' %}
+ </div>
+{% endblock %}
