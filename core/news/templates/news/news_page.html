@@ -18,7 +18,7 @@
                     <p class="sub-title">{{page.name}}</p>
                     {% for news in news_details %}
                         {% if forloop.last %}
-                            <h2 class="latest-title">{{ news.any_headline_heading }}</h2>
+                            <h2 class="latest-title">{{ news.main_headline_text }}</h2>
                    
                     
                     <a class="read-more" href="">Read more <img src="{% static 'img/arrow.svg' %}"></a>

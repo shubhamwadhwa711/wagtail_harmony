@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+
+{% block title %}News Details Page{% endblock %}
+
+{% block main %}
+
+
+<main class="main">
+   
+<div class="single-events single-news"   style="{% image page.news_bg_image width-1024 as img %}background-image:url('{{ img.url }}');">
+      
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="sub-heading">{{page.name}}</p>
+                    <h2 class="event-name newa-title">{{page.heading}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="single-event-details single-news-details">
+        <div class="conatiner-fluid">
+            <div class="row">
+                <h2>{{page.any_headline_heading}}</h2>
+                <p>{{page.any_headline_sort_description}}</p>
+                <div class="event-photo">
+                    {% for img in page.news_page_images.all %}
+                    <div class="event-img-box single-news-box">
+                        {% image img.image width-1024 as newsimage %}
+                        <img src="{{newsimage.url}}">
+                        <h3>{{img.image_title}}</h3>
+                    </div>
+
+                    {% endfor %}
+                    
+                </div>
+ 
+                <div class="event-description single-news-description">
+                    <h2>{{page.main_headline_text}}</h2>
+                    <p>{{page.main_headline_description}}</p>
+
+                    {% image page.main_headline_image  width-1024 as mainimage %}
+                     <img src="{{mainimage.url}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="submit-photo hold-event">
+     <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %});">
+         <img class="green-u-path" src="{% static 'img/business-development/u-path.svg' %}">
+        <div class="row">
+            <div class="col-md-4">
+                {% image page.bottom_image_one  width-1024 as leftimg %}
+                <img src="{{leftimg.url}}">
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+    
+                    <h2>{{page.bottom_heading}}</h2>
+                    <a class="read-more history-btn" href="">{{page.bottom_button_text}}<img src="{% static 'img/arrow.svg' %}"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% image page.bottom_image_two  width-1024 as rightimg %}
+                <img class="mobile-hide" src="{{rightimg.url}}">
+            </div>
+        </div>
+    </div>
+  </div>
+
+</main>
+<style>
+    body {
+        background-color: #054651;
+    }
+</style>
+
+
+
+
+<div class="container">
+  {% include 'includes/body.html' %}
+</div>
+{% endblock %}
+
+
+
