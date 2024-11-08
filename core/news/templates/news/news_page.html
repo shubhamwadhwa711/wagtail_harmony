@@ -241,8 +241,10 @@
                             {{body.bottom_heading}}
                         </h2>
 
-                       <a class="read-more share-btn" href="" style="width: 250px; justify-content: space-between; ">History 
-                        <img src="{% static 'img/arrow.svg' %}"></a>
+                        <a class="read-more share-btn" href="" style="width: 250px; justify-content: space-between; ">
+                            {{page.bottom_button_text}} 
+                            <img src="{% static 'img/arrow.svg' %}">
+                        </a>
                     </div>
                 </div>
 
@@ -264,9 +266,6 @@
 
 
 
-
-
-{% block extra_js %}<script src="{% static 'single.js' %}"></script> {% endblock %}
 <div class="container">
   {% include 'includes/body.html' %}
 </div>

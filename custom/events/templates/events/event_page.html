@@ -1,3 +1,78 @@
-<h1>
-    Hello</h1>
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}Single Event Page{% endblock %}
+{% block main %}
+
+<main class="main">
+    <div class="single-events" style="{% image page.event_bg_image width-1024 as img %}background-image:url('{{ img.url }}');">
+       
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="sub-heading">{{page.page_name}}</p>
+                    <h2 class="event-name">{{page.heading}}</h2>
+                    <h3 class="event-date">{{ page.event_date|date:"F jS, Y" }} | {{ page.event_date|date:"l" }}</h3>
+                    <a class="read-more calender" href="">{{page.button_text}} <img src="{% static 'img/events/calender.svg' %}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
     
+
+    <div class="single-event-details">
+        <div class="conatiner-fluid">
+            <div class="row">
+                <h2>{{page.event_details_heading}}</h2>
+                <p>{{page.event_short_description}}</p>
+                <div class="event-photo">
+                    {%for event in page.event_page_images.all %}
+
+                    <div class="event-img-box">
+                        {% image event.image width-1024 as eventimg %}
+                        <img src="{{eventimg.url}}">
+                        <h3>{{event.title}}</h3>
+                    </div>
+                    {%endfor %}
+                </div>
+                <div class="event-description">
+                    <p>{{page.description}}</p>
+                </div>
+                <a class="read-more calender" href="">{{page.button_text}} <img src="{% static 'img/events/calender.svg' %}"></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="submit-photo hold-event">
+     <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %});">
+        <div class="row">
+            <div class="col-md-4">
+                {% image page.bottom_image_one width-1024 as btm_one_image %}
+                <img src="{{btm_one_image.url}}"/>
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    <h2>{{page.bottom_heading}}</h2>
+                    <a class="read-more" href="">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                </div>
+            </div>
+            <div class="col-md-4 second-img">
+                {% image page.bottom_image_two width-1024 as btm_two_image %}
+                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+            </div>
+        </div>
+    </div>
+  </div>
+
+</main>
+<style>
+    body {
+        background-color: #054651;
+    }
+</style>
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}
