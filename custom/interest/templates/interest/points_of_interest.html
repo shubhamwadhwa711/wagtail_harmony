@@ -1,3 +1,115 @@
-<h1>
-    Hello</h1>
+
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %}Points of Interests Page{% endblock %}
+{% block main %}
+
+
+
+
+
+<main class="main" style="">
+
+<div class="land-location point-of-interest">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 ">
+                <div class="map-location faq">
+                    <div class="faq-container">
+                    <div class="faq-item">
+                    <h2>{{page.text}}</h2>
+                    <div class="faq-content">
+                        <div class="details">
+                        {% image page.small_land_image width-1024 as landimg %}
+                        <img src="{{landimg.url}}">
+                      <div class="plan-details">
+                        <h2>Filter by</h2>
+                        <ul class="tags">
+                            {% for category_value, category_name in all_categories %}
+                            <li>
+                                <a href="#" class="{% if page.category == category_value %}selected{% endif %}">
+                                    {{ category_name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                           
+                            {% comment %} <li></a></li> {% endcomment %}
+                            {% comment %} <li><a href="">Parks</a></li>
+                            <li><a href="">Town hall</a></li>
+                            <li><a href="">Town hall</a></li>
+                            <li><a href="">Parking & Streets</a></li>
+                            <li><a href="">Parking & Streets</a></li> {% endcomment %}
+                        </ul>
+                    </div>
+                     </div>
+                    </div>
+                    <div class="faq-toggle"><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></div>
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="col-left">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% for interest in interests %}
+
+                                 <h2><a href="">{{interest.single_point_heading}} </a></h2>
+                                 <p>{{interest.single_point_description}}</p>
+                                 {% image interest.single_point_description_image width-1024 as interestimg%}
+                                 <img src="{{interestimg.url}}">
+
+
+                            </div>
+
+                            {% endfor %}
+                          
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
+<div class="submit-photo" >
+    <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %});">
+        <div class="row">
+            <div class="col-md-4">
+                {% image page.bottom_image_one width-1024 as btm_one_image %}
+                <img src="{{btm_one_image.url}}" />
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    <h1>{{page.bottom_heading}}</h2>
+                    <a class="read-more" href=""> {{page.bottom_button_text}}  <img src="{%static 'img/arrow.svg' %}"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% image page.bottom_image_two width-1024 as btm_two_image %}
+  
+                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+    $(".faq-toggle").click(function(){
+        $(".land-location").toggleClass("overlay");
+    });
+});
+</script>
+
+
+
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}

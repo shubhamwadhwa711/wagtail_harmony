@@ -1,0 +1,108 @@
+
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+{% block title %}Single points of interest{% endblock %}
+{% block main %}
+
+<main class="main" style="">
+
+<div class="land-location point-of-interest">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 single-point-of-interest-right">
+                <div class="map-location">
+                    <h2>{{page.text}}</h2>
+                    {% image page.small_land_image width-1024 as landimg %}
+                        <img src="{{landimg.url}}">
+                
+                    <div class="plan-details">
+                        <h2>Filter by</h2>
+                        <ul class="tags">
+                            {% for category_value, category_name in all_categories %}
+                            <li>
+                                <a href="#" class="{% if page.category == category_value %}selected{% endif %}">
+                                    {{ category_name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="col-left single-point-of-interest">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="back-btn">
+                                    <a href=""><img src="{% static 'img/business-development/feather-arrow-up.png' %}"> 
+                                        <p>{{page.back_button_text}}</p> 
+                                    </a> 
+                                </div>
+                                 <h2>{{page.single_point_heading}}</h2>
+                                 {% image page.single_point_description_image  width-1024 as sigelpageimg%}
+                                 <img src="{{sigelpageimg.url}}">
+                                 <p>{{page.single_point_description}}</p>
+                                 
+                            </div>
+                           <div class="big-img">
+    <div class="image-gallery">
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+            <a href="assets/img/single-details-imgs/big-img.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                {% image page.single_land_image width-1024 as singlelandimg %}
+                <img src="{{singlelandimg.url}}" class="img-fluid" alt="" />
+            </a>
+        </div>
+    </div>
+</div>
+<div class="small-imgs">
+    <div class="image-gallery">
+        {% for subimg in page.single_page_point_images.all %}
+            {% image subimg.image width-1024 as landsubimg %}
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+            <a href="{{landsubimg.url}}" data-gallery="portfolio-gallery-app" class="glightbox">
+                <img src="{{landsubimg.url}}" class="img-fluid" alt="" />
+            </a>
+        </div>
+
+        {%endfor %}
+       
+    </div>
+</div>
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="submit-photo" >
+    <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %});">
+        <div class="row">
+            <div class="col-md-4">
+                {% image page.bottom_image_one width-1024 as btm_one_image %}
+                <img src="{{btm_one_image.url}}" />
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    <h2>{{page.bottom_heading}}</h2>
+                    <a class="read-more" href="">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% image page.bottom_image_two width-1024 as btm_two_image %}
+  
+                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}
