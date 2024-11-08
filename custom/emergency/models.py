@@ -18,6 +18,7 @@ from wagtail.models import Orderable, Page
 from modelcluster.fields import ParentalKey
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
+from django.template.response import TemplateResponse
 
 class EmergencyPage(RichTextPageAbstract):
     heading = models.TextField(blank=True, null=True, default="All Emergency Services")
@@ -42,10 +43,25 @@ class EmergencyPage(RichTextPageAbstract):
         verbose_name_plural = 'Emergency Pages'
 
 
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+        # context = self.update_context(default_context)
+       
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+
+
 class EmergencyPageContent(Orderable):
     page = ParentalKey(EmergencyPage, on_delete=models.CASCADE, related_name="emergency_contents")
-    name = models.TextField(blank=True, null=True, default="All Emergency Services")
-    short_description = models.TextField(blank=True, null=True, default="All Emergency Services")
+    service_sidebar_name = models.TextField(blank=True, null=True)
+    service_name_heading = models.TextField(blank=True, null=True)
+    short_description = models.TextField(blank=True, null=True)
     call_text = models.TextField(blank=True, null=True, default="Call")
     mobile_number = models.TextField(blank=True, null=True)
     email_text = models.TextField(blank=True, null=True, default="Email")
@@ -59,11 +75,12 @@ class EmergencyPageContent(Orderable):
         blank=True,
         null=True,
     )
-    button_name = models.TextField(blank=True, null=True)
+    button_name = models.TextField(blank=True, null=True,default="READ MORE")
     button_text = models.TextField(blank=True, null=True)
     
     panels = [
-        FieldPanel("name"),
+        FieldPanel("service_sidebar_name"),
+        FieldPanel("service_name_heading"),
         FieldPanel("short_description"),
         MultiFieldPanel([
             FieldPanel('call_text'),
@@ -85,4 +102,3 @@ class EmergencyPageContent(Orderable):
     class Meta:
         verbose_name = 'Emergency Content'
         verbose_name_plural = 'Emergency Contents'
-
