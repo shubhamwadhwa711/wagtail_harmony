@@ -4,22 +4,22 @@ from wagtail_modeladmin.mixins import ThumbnailMixin
 from .models import SingleElectionPage,Party,PartyPosition
 
 
-class SingleElectionPageModelAdmin(ThumbnailMixin, ModelAdmin):
-    model = SingleElectionPage
-    menu_label = 'Add Single Election'
-    # menu_icon = 'news'
-    menu_order = 200
-    add_to_settings_menu = False
-    exclude_from_explorer = False
-    # list_display = ()
-    # search_fields = ('title',)
-    # list_filter = ()
-    # thumb_image_field_name = ''
-    # list_export = (
+# class SingleElectionPageModelAdmin(ThumbnailMixin, ModelAdmin):
+#     model = SingleElectionPage
+#     menu_label = 'Add Single Election'
+#     # menu_icon = 'news'
+#     menu_order = 200
+#     add_to_settings_menu = False
+#     exclude_from_explorer = False
+#     # list_display = ()
+#     # search_fields = ('title',)
+#     # list_filter = ()
+#     # thumb_image_field_name = ''
+#     # list_export = (
    
-    # )
+#     # )
 
-modeladmin_register(SingleElectionPageModelAdmin)
+# modeladmin_register(SingleElectionPageModelAdmin)
 
 
 

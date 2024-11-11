@@ -3,17 +3,15 @@ from django.db import models
 # Create your models here.
 # core/models.py
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
 from wagtail.models import Orderable, Site
 from modelcluster.fields import ParentalKey
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
+from wagtail.fields import  StreamField
 from wagtail.models import Orderable
+from django.template.response import TemplateResponse
 
 ##################################################################################################
 
@@ -23,14 +21,14 @@ class BusinessPage(RichTextPageAbstract):
         use_json_field=True,
         blank=True,
     )
-    business_heading =  models.TextField(blank=True, null=True)
+    business_heading =  models.TextField(blank=True, null=True,default="Why do Business in harmony")
     growth_data_text_one =  models.TextField(blank=True, null=True)
-    growth_data_numbes_one =  models.TextField(blank=True, null=True)
+    growth_data_number_one =  models.TextField(blank=True, null=True)
     growth_data_text_two =  models.TextField(blank=True, null=True)
-    growth_data_numbes_two =  models.TextField(blank=True, null=True)
+    growth_data_number_two =  models.TextField(blank=True, null=True)
     growth_data_text_three =  models.TextField(blank=True, null=True)
-    growth_data_numbes_three =  models.TextField(blank=True, null=True)
-    resource_heading = models.TextField(blank=True, null=True)
+    growth_data_number_three =  models.TextField(blank=True, null=True)
+    resource_heading = models.TextField(blank=True, null=True,default="Helpful Resources")
     #
     location_heading = models.TextField(blank=True, null=True)
 
@@ -52,26 +50,22 @@ class BusinessPage(RichTextPageAbstract):
 
         MultiFieldPanel([
             FieldPanel('growth_data_text_one'),
-            FieldPanel('growth_data_numbes_one'),
+            FieldPanel('growth_data_number_one'),
         ], heading='Growth Data One'),
 
         MultiFieldPanel([
             FieldPanel('growth_data_text_two'),
-            FieldPanel('growth_data_numbes_two'),
+            FieldPanel('growth_data_number_two'),
         ], heading='Growth Data Two'),
 
         MultiFieldPanel([
             FieldPanel('growth_data_text_three'),
-            FieldPanel('growth_data_numbes_three'),
+            FieldPanel('growth_data_number_three'),
         ], heading='Growth Data Two'),
 
         FieldPanel("resource_heading"),
         InlinePanel('buginess_page_faq', label='Buginess Page Faq'),
         FieldPanel("location_heading"),
-
-
-
-
         MultiFieldPanel([
             FieldPanel('button_text'),
             FieldPanel('link_page'),
@@ -88,6 +82,21 @@ class BusinessPage(RichTextPageAbstract):
         verbose_name = 'Business Page'
         verbose_name_plural = 'Business Pages'
 
+    
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+        search_query = request.GET.get('search', '')
+        # context = self.update_context(default_context,search_query)
+
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+    
 
 
 class  BusinessBGSlide(Orderable):
