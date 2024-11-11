@@ -29,29 +29,9 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlineP
 from modelcluster.fields import ParentalKey
 ###################
 
+from django.template.response import TemplateResponse
 
 
-
-
-
-class ContactsPage(RichTextPageAbstract):
-    body = StreamField(
-        richtext_blocks,
-        use_json_field=True,
-        blank=True,
-    )
- 
-   
-    content_panels = RichTextPageAbstract.content_panels + [
-       
-    ]
-
-    parent_page_types = ['home.HomePage']
-    subpage_types = ["contact.ContactPage"]
-
-    class Meta:
-        verbose_name = 'Contacts Page'
-        verbose_name_plural = 'Contacts Pages'
 
 
 
@@ -102,29 +82,10 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
         use_json_field=True,
         blank=True,
     )
-    contact_form_name = models.TextField(blank=True, null=True)
-
-    # contact_type = models.CharField(max_length=20, choices=ContactType.choices,
-    #                                 default= ContactType.HOST_EVENT)
-    heading = models.TextField(blank=True, null=True)
-    description =  models.TextField(blank=True, null=True)
-    
-    contact_heading = models.CharField(max_length=20,blank=True, null=True,default="Quick Contact")
-    contact_number  = models.CharField(max_length=20,blank=True, null=True)
-    contact_address  = models.TextField(blank=True, null=True)
   
-    parent_page_types = ['contact.HomePage']
-    subpage_types = []
     content_panels = AbstractEmailForm.content_panels + [
-        FieldPanel('contact_form_name'),
-        FieldPanel("heading"),
-        FieldPanel("description"),
-        MultiFieldPanel([
-            FieldPanel("contact_heading"),
-            FieldPanel("contact_number"),
-            FieldPanel("contact_address"),
-        ],heading='Add Contact Details'),
         InlinePanel("form_fields", heading="Form fields", label="Field"),
+        InlinePanel('contactform_details', label='Add Contact form details'),
         FormSubmissionsPanel(),
         MultiFieldPanel(
             [
@@ -140,7 +101,7 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
         ),
     ]
     
-    parent_page_types = ['contact.ContactsPage']  
+    parent_page_types = ['home.Homepage']  
     subpage_types = []
     form_builder = CustomFormBuilder
     submissions_list_view_class = [CustomSubmissionsListView]
@@ -149,80 +110,127 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
         verbose_name = 'Contact Page'
         verbose_name_plural = 'Contact Pages'
      
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # Automatically create default form fields if they don't already exist
-        if not  self.form_fields.exists():
-            FormField.objects.create(
-                page=self,
-                label="First Name",
-                field_type="singleline",
-                required=True,
-            )
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     # Automatically create default form fields if they don't already exist
+    #     if not  self.form_fields.exists():
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="First Name",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
 
-            FormField.objects.create(
-                page=self,
-                label="Last Name",
-                field_type="singleline",
-                required=True,
-            )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Last Name",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
 
-            FormField.objects.create(
-                page=self,
-                label="Email",
-                field_type="email",
-                required=True,
-            )
-            FormField.objects.create(
-                page=self,
-                label="Phone number",
-                field_type="singleline",
-                required=True,
-            )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Email",
+    #             field_type="email",
+    #             required=True,
+    #         )
+    #         FormField.objects.create(
+    #             page=self,
+    #             label="Phone number",
+    #             field_type="singleline",
+    #             required=True,
+    #         )
 
-            FormField.objects.create(
-                page=self,
-                label="Event Date",
-                field_type="date",
-                required=True,
-                )
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Date",
+            #     field_type="date",
+            #     required=True,
+            #     )
             
-            FormField.objects.create(
-                page=self,
-                label="Event Time",
-                field_type="time",
-                required=True,
-                )
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Time",
+            #     field_type="time",
+            #     required=True,
+            #     )
 
 
 
-            FormField.objects.create(
-                page=self,
-                label="Event Description",
-                field_type="multiline",
-                required=True,
-                )
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Event Description",
+            #     field_type="multiline",
+            #     required=True,
+            #     )
             
 
-            FormField.objects.create(
-                page=self,
-                label="Upload Event Featured Image",
-                help_text = "",
-                field_type="file",
-                required=True,
-            )
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Upload Event Featured Image",
+            #     help_text = "",
+            #     field_type="file",
+            #     required=True,
+            # )
 
-            FormField.objects.create(
-                page=self,
-                label="Upload Event Featured Image",
-                help_text = "Add Event Images(Upto 5 Images)",
-                field_type="file",
-                required=True,
+            # FormField.objects.create(
+            #     page=self,
+            #     label="Upload Event Featured Images",
+            #     help_text = "Add Event Images(Upto 5 Images)",
+            #     field_type="file",
+            #     required=True,
                 
+            # )
+
+
+        
+    def serve(self,request,*args, **kwargs):
+            request.is_preview = False
+            template = self.get_template(request, *args, **kwargs)
+            context = self.get_context(request, *args, **kwargs)
+            # context = self.update_context(default_context)
+        
+            return TemplateResponse(
+                request,
+                template,
+                context,
             )
 
 
+    
+
+class  ConactDetails(Orderable):
+    page = ParentalKey(
+        ContactPage,
+        on_delete=models.CASCADE,
+        related_name='contactform_details',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    contact_form_heading = models.TextField(blank=True, null=True)
+    heading = models.TextField(blank=True, null=True)
+    description =  models.TextField(blank=True, null=True)
+    contact_heading = models.CharField(max_length=20,blank=True, null=True,default="Quick Contact")
+    contact_number  = models.CharField(max_length=20,blank=True, null=True)
+    contact_address  = models.TextField(blank=True, null=True)
+
+    panels =  [
+        FieldPanel('contact_form_heading'),
+        FieldPanel('heading'),
+        FieldPanel('description'),
+        MultiFieldPanel([
+            FieldPanel('contact_heading'),
+            FieldPanel('contact_number'),
+            FieldPanel('contact_address'),
             
+        ], heading='Add Form Details'),
+
+    ]
 
 
 
