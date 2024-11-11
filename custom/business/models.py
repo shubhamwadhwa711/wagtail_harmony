@@ -13,6 +13,7 @@ from wagtail.fields import  StreamField
 from wagtail.models import Orderable
 from django.template.response import TemplateResponse
 from  core.land.models import LandPage
+from core.land.models import SingleLandFeaturedDetails
 ##################################################################################################
 
 class BusinessPage(RichTextPageAbstract):
@@ -62,10 +63,11 @@ class BusinessPage(RichTextPageAbstract):
    
 
     def update_context(self,context):
-    
         lands = LandPage.objects.all()
+        singlelands = SingleLandFeaturedDetails.objects.all()[:4]
         context.update({
             'lands': lands,
+            'singlelands': singlelands
         })
         return context
 

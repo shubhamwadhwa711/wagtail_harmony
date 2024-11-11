@@ -204,7 +204,7 @@
             <div class="col-md-5">
                 <h2>{{land.heading}}</h2>
                 <ul>
-                    {% for feature in land.land_spot_feature.all%}
+                    {% for feature in land.land_spot_feature.all %}
                     {% image feature.image width-1024 as iconimg %}
 
                     <li><img src="{{iconimg.url}}" />{{feature.text}}</li>
@@ -218,13 +218,14 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="row">
-                            {% for landinfo in land.land_spot_info.all%}
+                            {% for singleland in singlelands %}
                                 
                                 <div class="col-md-6">
-                                    {% image landinfo.image width-1024 as landinfoimg %}
-                                    <img src="{{landinfoimg.url}}" class="d-block w-100" alt="" />
+                                    {% image singleland.main_image  width-1024 as mainimg %}
+                                    <img src="{{mainimg.url}}" class="d-block w-100" alt="" />
+                        
                                     <div class="carousel-caption-1 d-md-block">
-                                        <h5>Best location for Storage house</h5>
+                                        <h5>{{singleland.heading}}</h5>
                                         <a href="">View on map</a>
                                     </div>
                                 </div>
@@ -252,38 +253,7 @@
                                 </div> {% endcomment %}
                             </div>
                         </div>
-                        {% comment %} <div class="carousel-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="assets/img/business-development/storage-house.jpg" class="d-block w-100" alt="" />
-                                    <div class="carousel-caption-1 d-md-block">
-                                        <h5>Best location for Storage house</h5>
-                                        <a href="">View on map</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
-                                    <div class="carousel-caption-1 d-md-block">
-                                        <h5>Ultimate spot for Car wash</h5>
-                                        <a href="">View on map</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <img src="assets/img/business-development/offices.jpg" class="d-block w-100" alt="" />
-                                    <div class="carousel-caption-1 d-md-block">
-                                        <h5>Convenient for ATMs, Banks and IT Offices</h5>
-                                        <a href="">View on map</a>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <img src="assets/img/business-development/land-suitable.jpg" class="d-block w-100" alt="" />
-                                    <div class="carousel-caption-1 d-md-block">
-                                        <h5>Land suitable for Car wash business</h5>
-                                        <a href="">View on map</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> {% endcomment %}
+    
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#best-spot-slider" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>

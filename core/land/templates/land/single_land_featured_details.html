@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+{% block title %} Single Featured Detail Page {% endblock %}
+
+{% block main %}
+
+
+
+
+<main class="main" style="">
+<div class="land-location">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="map-location">
+                    <h2>{{page.land_location_text}}</h2>
+                    {% image page.location_image  width-1024 as locationimg %}
+                    <img src="{{locationimg.url}}">
+                    <div class="plan-details">
+                        <h2>{{page.plan_text}}</h2>
+                        <ul>
+                            <li>{{page.yard}}</li>
+                            <li>{{page.size}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="col-left">
+                    <h2>{{page.heading}}</h2>
+                        <div class="row">
+                            <div class="big-img">
+    <div class="image-gallery">
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+            <a href="assets/img/single-details-imgs/big-img.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                {% image page.land_image  width-1024 as landimg %}
+                <img src="{{landimg.url}}" class="img-fluid" alt="" />
+            </a>
+        </div>
+    </div>
+</div>
+<div class="small-imgs">
+    <div class="image-gallery">
+        {% for img in  page.single_page_feature_images.all  %}
+
+        {% image  img.image  width-1024 as landimageurl %}
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+            <a href="{{landimageurl.url}}" data-gallery="portfolio-gallery-app" class="glightbox">
+                <img src="{{landimageurl.url}}" class="img-fluid" alt="" />
+            </a>
+        </div>
+
+        {% endfor %}
+       
+    </div>
+</div>
+
+                        </div>
+                        <p>{{page.description}}</p>
+                        {% image  page.main_image  width-1024 as mainimageurl %}
+                             
+                          
+                          <img src="{{mainimageurl.url}}">   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="best-spot featured-details">
+    <div class="container-fluid">
+        <div class="row">
+            {% for land in lands %}
+            <div class="col-md-5">
+                <h2>{{land.heading}}</h2>
+                <ul> 
+                    {% for feature in land.land_spot_feature.all %}
+                    {% image feature.image width-1024 as iconimg %}
+
+                    <li><img src="{{iconimg.url}}" />{{feature.text}}</li>
+                    {% endfor %}
+
+
+                   
+                </ul>
+                <a class="read-more" href="">Get Assistance  <img src="{% static 'img/arrow.svg' %}"></a>
+            </div>
+            {%endfor %}
+            <div class="col-md-7">
+                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                {% for singleland in singlelands %}
+                                <div class="col-md-6">
+                                    {% image singleland.main_image  width-1024 as mainimg %}
+                                    
+
+                                    <img src="{{mainimg.url}}" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>{{singleland.heading}}</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+
+
+                                {% comment %} <div class="col-md-6">
+                                    <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Ultimate spot for Car wash</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/offices.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Convenient for ATMs, Banks and IT Offices</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/land-suitable.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Land suitable for Car wash business</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+                        {% comment %} <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/storage-house.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Best location for Storage house</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Ultimate spot for Car wash</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/offices.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Convenient for ATMs, Banks and IT Offices</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/land-suitable.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Land suitable for Car wash business</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#best-spot-slider" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true">
+                            <img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#best-spot-slider" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true">
+                            <img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+<!--img class="u-path" src="assets/img/business-development/u-path.svg"-->
+    </div>
+</div>
+</main>
+
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}

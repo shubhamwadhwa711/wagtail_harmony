@@ -34,7 +34,7 @@ class LandPage(RichTextPageAbstract):
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("heading"),
         InlinePanel('land_spot_feature', label='Add Land Spot Feature'),
-        InlinePanel('land_spot_info', label='Add Land Spot Info'),
+        # InlinePanel('land_spot_info', label='Add Land Spot Info'),
         MultiFieldPanel([
             FieldPanel('button_text'),
             FieldPanel('link_page'),
@@ -42,7 +42,7 @@ class LandPage(RichTextPageAbstract):
         ]
     
     parent_page_types = ['home.HomePage']
-    subpage_types = []
+    subpage_types = ["land.SingleLandFeaturedDetails"]
 
 
     class Meta:
@@ -77,13 +77,98 @@ class  Spotfeature(Orderable):
         verbose_name_plural = 'Spot features'
 
 
-class  LandSpot(Orderable):
-    page = ParentalKey(
-        LandPage,
-        on_delete=models.CASCADE,
-        related_name='land_spot_info',
+
+
+
+
+
+
+class SingleLandFeaturedDetails(RichTextPageAbstract):
+    body = StreamField(
+        richtext_blocks,
+        use_json_field=True,
+        blank=True,
     )
-    title = models.CharField(max_length=50,blank=True, null=True)
+    land_location_text =models.TextField(blank=True, null=True,default="Land Location")
+    location_image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    plan_text =models.TextField(blank=True, null=True,default="Plan details") 
+    yard = models.TextField(blank=True, null=True)
+    size  = models.TextField(blank=True, null=True)
+    heading = models.TextField(blank=True, null=True)
+    land_image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    #images
+    description = models.TextField(blank=True, null=True)
+    main_image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    
+    content_panels = RichTextPageAbstract.content_panels + [
+        FieldPanel("land_location_text"),
+        FieldPanel("location_image"),
+        FieldPanel("plan_text"),
+        FieldPanel("yard"),
+        FieldPanel("size"),
+        FieldPanel("heading"),
+        FieldPanel("land_image"),
+        FieldPanel("description"),
+        FieldPanel("main_image"),
+        InlinePanel('single_page_feature_images', label='Single Page Feature Images')
+
+    ]
+
+    parent_page_types = ['land.LandPage']
+    subpage_types = []
+    class Meta:
+        verbose_name = 'Singel Feature Page'
+        verbose_name_plural = 'Single Feature Pages'
+
+
+
+    def update_context(self,context):
+        lands = LandPage.objects.all()
+        singlelands = SingleLandFeaturedDetails.objects.all()[:4]
+        context.update({
+            'lands': lands,
+            'singlelands': singlelands
+        })
+        return context
+
+
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        default_context = self.get_context(request, *args, **kwargs)
+        context = self.update_context(default_context)
+    
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+
+
+class  SinglePageFeaturedDetailPageImages(Orderable):
+    page = ParentalKey(
+        SingleLandFeaturedDetails,
+        on_delete=models.CASCADE,
+        related_name='single_page_feature_images',
+    )
     image = models.ForeignKey(
         'wagtailimages.Image',
         on_delete=models.SET_NULL,
@@ -91,14 +176,9 @@ class  LandSpot(Orderable):
         blank=True,
         null=True,
     )
-
     panels = [
-        FieldPanel('title'),
         FieldPanel('image'),
     ]
-
     class Meta:
-        verbose_name = 'Land Spot Slide'
-        verbose_name_plural = 'Land Spots Slides'
-
-
+        verbose_name = 'Single Page Featured Detail  Image'
+        verbose_name_plural = 'Single Page Featured Detail Images'
