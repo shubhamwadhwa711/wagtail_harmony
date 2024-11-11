@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'blocks',
     "core.home",
+    "core.land",
     "core.richtext",
     "core.news",
     "core.contact",
@@ -238,3 +239,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]

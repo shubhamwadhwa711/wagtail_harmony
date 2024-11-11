@@ -12,7 +12,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.fields import  StreamField
 from wagtail.models import Orderable
 from django.template.response import TemplateResponse
-
+from  core.land.models import LandPage
 ##################################################################################################
 
 class BusinessPage(RichTextPageAbstract):
@@ -29,19 +29,7 @@ class BusinessPage(RichTextPageAbstract):
     growth_data_text_three =  models.TextField(blank=True, null=True)
     growth_data_number_three =  models.TextField(blank=True, null=True)
     resource_heading = models.TextField(blank=True, null=True,default="Helpful Resources")
-    #
-    location_heading = models.TextField(blank=True, null=True)
-
-    button_text = models.TextField(blank=True, null=True)
-    link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-
-
+   
     content_panels = RichTextPageAbstract.content_panels + [
         
         FieldPanel("business_heading"),
@@ -65,37 +53,35 @@ class BusinessPage(RichTextPageAbstract):
 
         FieldPanel("resource_heading"),
         InlinePanel('buginess_page_faq', label='Buginess Page Faq'),
-        FieldPanel("location_heading"),
-        MultiFieldPanel([
-            FieldPanel('button_text'),
-            FieldPanel('link_page'),
-        ], heading='Add Assistance Button')
-        
-
     ]
-
     parent_page_types = ['home.HomePage']
     subpage_types = []
-
-
     class Meta:
         verbose_name = 'Business Page'
         verbose_name_plural = 'Business Pages'
+   
 
+    def update_context(self,context):
     
+        lands = LandPage.objects.all()
+        context.update({
+            'lands': lands,
+        })
+        return context
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
-        context = self.get_context(request, *args, **kwargs)
-        search_query = request.GET.get('search', '')
-        # context = self.update_context(default_context,search_query)
-
+        default_context = self.get_context(request, *args, **kwargs)
+        context = self.update_context(default_context)
+    
         return TemplateResponse(
             request,
             template,
             context,
         )
+    
+
     
 
 

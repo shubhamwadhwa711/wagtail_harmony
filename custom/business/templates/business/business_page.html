@@ -186,7 +186,7 @@
                     <p>{{faq.description}}</p>
                 </div>
                 
-                <div class="faq-toggle"><img src="assets/img/business-development/feather-arrow-up.png"></div>
+                <div class="faq-toggle"><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></div>
             </div>
 
             {% endfor %}
@@ -199,31 +199,37 @@
 
 <div class="best-spot">
     <div class="container-fluid">
+        {% for land in lands %}
         <div class="row">
             <div class="col-md-5">
-                <h2>We found out the best <br>spot for you to make <br> money out of this land!</h2>
+                <h2>{{land.heading}}</h2>
                 <ul>
-                    <li><img src="assets/img/business-development/check-circle.svg" /> Lower property taxes</li>
-                    <li><img src="assets/img/business-development/check-circle.svg" /> Best sewer pipelines</li>
-                    <li><img src="assets/img/business-development/check-circle.svg" /> 24x7 Fresh water & electricity supply</li>
-                    <li><img src="assets/img/business-development/check-circle.svg" /> Lower utilities</li>
-                    <li><img src="assets/img/business-development/check-circle.svg" /> 250 kya Grid for society</li>
+                    {% for feature in land.land_spot_feature.all%}
+                    {% image feature.image width-1024 as iconimg %}
+
+                    <li><img src="{{iconimg.url}}" />{{feature.text}}</li>
+                    {% endfor %}
+
                 </ul>
-                <a class="read-more mobile-hide" href="">Get Assistance  <img src="assets/img/arrow.svg"></a>
+                <a class="read-more mobile-hide" href=""> {{land.button_text}}  <img src="{% static 'img/arrow.svg' %}"></a>
             </div>
             <div class="col-md-7">
-                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">
+                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">      
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="row">
+                            {% for landinfo in land.land_spot_info.all%}
+                                
                                 <div class="col-md-6">
-                                    <img src="assets/img/business-development/storage-house.jpg" class="d-block w-100" alt="" />
+                                    {% image landinfo.image width-1024 as landinfoimg %}
+                                    <img src="{{landinfoimg.url}}" class="d-block w-100" alt="" />
                                     <div class="carousel-caption-1 d-md-block">
                                         <h5>Best location for Storage house</h5>
                                         <a href="">View on map</a>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {% endfor %}
+                                {% comment %} <div class="col-md-6">
                                     <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
                                     <div class="carousel-caption-1 d-md-block">
                                         <h5>Ultimate spot for Car wash</h5>
@@ -243,10 +249,10 @@
                                         <h5>Land suitable for Car wash business</h5>
                                         <a href="">View on map</a>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
-                        <div class="carousel-item">
+                        {% comment %} <div class="carousel-item">
                             <div class="row">
                                 <div class="col-md-6">
                                     <img src="assets/img/business-development/storage-house.jpg" class="d-block w-100" alt="" />
@@ -277,21 +283,22 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#best-spot-slider" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"><img src="assets/img/business-development/feather-arrow-up.png" /></span>
+                        <span class="carousel-control-prev-icon" aria-hidden="true"><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#best-spot-slider" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"><img src="assets/img/business-development/feather-arrow-up.png" /></span>
+                        <span class="carousel-control-next-icon" aria-hidden="true"><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
                  <a class="read-more mobile-show" href="">Get Assistance  <img src="assets/img/arrow.svg"></a>
             </div>
+        {% endfor %}
         </div>
-        <img class="u-path" src="assets/img/business-development/u-path.svg">
+        <img class="u-path" src="{% static 'img/business-development/u-path.svg' %}">
     </div>
 </div>
 
@@ -306,7 +313,6 @@
     overflow: visible;
 }
 </style>
-
 
 
 
