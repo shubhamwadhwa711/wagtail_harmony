@@ -212,6 +212,10 @@ class NewsDetailPage(RichTextPageAbstract):
 
 
 
+
+
+
+
 class  NewsPageImages(Orderable):
     image_title = models.TextField(blank=True, null=True)
     page = ParentalKey(

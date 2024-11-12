@@ -160,7 +160,7 @@
                       <h2 class="font-57">{{page.news_heading}}</h2>
                   </div>
                   <div class="col-md-6">
-                      <a class="read-more mobile-hide" href="{{page.read_more_link_page}}"><span>{{page.news_button_text}} <img src="{% static 'img/arrow.svg' %}"></span></a>
+                      <a class="read-more mobile-hide" href="{{page.read_more_link_page.url}}"><span>{{page.news_button_text}} <img src="{% static 'img/arrow.svg' %}"></span></a>
                   </div>
               </div>
               <div class="row bottom-row">
@@ -231,7 +231,7 @@
                   </div>
 
                   <div class="col-md-6">
-                      <a class="read-more mobile-hide" href="{{page.more_event_link_page}}">{{page.upcoming_event_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                      <a class="read-more mobile-hide" href="{{page.more_event_link_page.url}}">{{page.upcoming_event_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
               </div>
 
@@ -277,7 +277,7 @@
                       
                       <h3 class="font-57"><span class="font">{{page.history_heading}}</span></h3>
                       <p>{{page.history_text}}</p>
-                      <a class="read-more" href="{{page.history_link_page}}">{{page.history_page_button_text}}<img src="{% static 'img/arrow.svg'%}"></a>
+                      <a class="read-more" href="{{page.history_link_page.url}}">{{page.history_page_button_text}}<img src="{% static 'img/arrow.svg'%}"></a>
                       </div>
                   </div>
               </div>
@@ -293,7 +293,7 @@
                   <div class="col-md-6">
                       <h2 class="font-57">{{page.team_heading}}</h2>
                       <p class="mobile-hide">{{page.team_text}} </p>
-                      <a class="read-more" href="{{page.team_link_page}}">{{page.team_page_button_text}}
+                      <a class="read-more" href="{{page.team_link_page.url}}">{{page.team_page_button_text}}
                         <img src="{% static 'img/arrow.svg' %}"></a>
                   </div>
                   <div class="col-md-6">
