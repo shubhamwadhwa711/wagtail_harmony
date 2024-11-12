@@ -166,7 +166,7 @@ class HomePage(RichTextPageAbstract):
             FieldPanel('team_text'),
             FieldPanel('team_page_button_text'),
             FieldPanel('team_link_page'),
-            InlinePanel('team_member', label='Team Member'),
+            # InlinePanel('team_member', label='Team Member'),
         ], heading='Home Page Team'),
     ]
 
