@@ -1,15 +1,9 @@
 
 {% extends 'base.html' %}
-{% load static wagtailcore_tags wagtailimages_tags humanize %}
-
-
-
+{% load static wagtailcore_tags wagtailimages_tags humanize crispy_forms_tags %}
 {% block title %}Contact Page{% endblock %}
 
-
 {% block main %}
-
-
 
 <main class="main">
     <div class="contact-us-page">
@@ -72,9 +66,23 @@
                                     </ul>
                                 </div>
                             </div>
+                            {% endfor %}
                             <div class="col-right">
                                 <div class="form-side">
-                                    <form action="">
+                                    <form method="post" enctype="multipart/form-data" >
+                                        <div class="row">
+                                            {% csrf_token %}
+                                            {{ form|crispy }}
+                                            <div class="col-12 submit-btn">
+                                                <button class="btn btn-primary" type="Send message">Send message 
+                                                    <img src="{% static 'img/arrow.svg' %}" /></button>
+                                            </div>
+                                        </form>
+                
+
+
+
+                                    {% comment %} <form action="">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <input type="text" placeholder="First name" class="form-control" required />
@@ -155,7 +163,7 @@
                                                 <button class="btn btn-primary" type="Send message">Send message <img src="assets/img/arrow.svg" /></button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form> {% endcomment %}
 
                                     <div class="contact-details mobile-show">
                                         <h2>Quick Contact</h2>
@@ -171,7 +179,7 @@
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                   
                     {% comment %} <div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
                          <div class="row">
                             <div class="col-left">

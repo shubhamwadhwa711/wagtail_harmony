@@ -2,55 +2,117 @@ from django.db import models
 
 # Create your models here.
 # core/models.py
-
+from django.core.files.storage import FileSystemStorage
 
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
-from wagtail.models import Orderable, Site
-
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
 from wagtail.models import Orderable
+from wagtail.fields import  StreamField
+from django.utils.translation import gettext_lazy as _
 
-from wagtail.contrib.forms.models import (
-    FORM_FIELD_CHOICES,
-    AbstractEmailForm,
-    AbstractFormField,
-)
+from django.template.response import TemplateResponse
+import os
+from django.conf import settings
 from wagtail.contrib.forms.forms import FormBuilder
-from django.forms import FileField
+from django.forms import FileField,TimeField
+from django.forms.widgets import ClearableFileInput, CheckboxSelectMultiple
 from django.utils.html import format_html
 from wagtail.contrib.forms.panels import FormSubmissionsPanel
 from wagtail.contrib.forms.views import SubmissionsListView
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel,FieldRowPanel
 from modelcluster.fields import ParentalKey
+from django import forms
+
 ###################
 
-from django.template.response import TemplateResponse
 
-
-
-
-
-
-
+from wagtail.contrib.forms.models import (
+    FORM_FIELD_CHOICES,
+    AbstractEmailForm,
+    AbstractFormField,
+    AbstractFormField,
+)
+from django.forms import FileInput ,MultiValueField
 
 class FormField(AbstractFormField):
+    """
+    Extended FormField to include custom field types.
+    """
+
+    FIELD_TYPE_CHOICES = list(FORM_FIELD_CHOICES) + [
+        ('file', 'Upload File'),
+        ('time', 'Time'),
+        ('multiupload', 'Multiple Upload'),
+    ]
+
     field_type = models.CharField(
-        verbose_name='field type',
+        verbose_name="field type",
         max_length=16,
-        choices=list(FORM_FIELD_CHOICES) + [('file', 'Upload File')]
+        choices=FIELD_TYPE_CHOICES
     )
-    page = ParentalKey("ContactPage", related_name="form_fields", on_delete=models.CASCADE)
+
+    page = ParentalKey(
+        "ContactPage", 
+        related_name="form_fields", 
+        on_delete=models.CASCADE
+    )
 
 
+
+
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
 
 class CustomFormBuilder(FormBuilder):
+    """Custom FormBuilder for handling additional field types."""
+
     def create_file_field(self, field, options):
+        """Single file upload field."""
         return FileField(**options)
+    
+    def create_time_field(self, field, options):
+        """Time field creation."""
+        return TimeField(**options)
+    
+    
+    # FileField works for multiple files
+    def create_multiupload_field(self, field, options):
+        """Multiple file upload field with `multiple` attribute set."""
+        return MultipleFileField(**options)
+    
+
+    
+    def get_form_field(self, field):
+        """Override form field retrieval."""
+        options = self.get_field_options(field)
+        field_type = field.field_type
+
+        # Add a dynamic mapper for custom field
+        if field_type == "file":
+            return self.create_file_field(field, options)
+        elif field_type == "time":
+            return self.create_time_field(field, options)
+        elif field_type == "multiupload":
+            return self.create_multiupload_field(field, options)
+        else:
+            return super().get_form_field(field)
 
 
 class CustomSubmissionsListView(SubmissionsListView):
@@ -104,84 +166,57 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
     parent_page_types = ['home.Homepage']  
     subpage_types = []
     form_builder = CustomFormBuilder
-    submissions_list_view_class = [CustomSubmissionsListView]
+
+    
+    submissions_list_view_class = CustomSubmissionsListView
 
     class Meta:
         verbose_name = 'Contact Page'
         verbose_name_plural = 'Contact Pages'
-     
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     # Automatically create default form fields if they don't already exist
-    #     if not  self.form_fields.exists():
-    #         FormField.objects.create(
-    #             page=self,
-    #             label="First Name",
-    #             field_type="singleline",
-    #             required=True,
-    #         )
 
-    #         FormField.objects.create(
-    #             page=self,
-    #             label="Last Name",
-    #             field_type="singleline",
-    #             required=True,
-    #         )
 
-    #         FormField.objects.create(
-    #             page=self,
-    #             label="Email",
-    #             field_type="email",
-    #             required=True,
-    #         )
-    #         FormField.objects.create(
-    #             page=self,
-    #             label="Phone number",
-    #             field_type="singleline",
-    #             required=True,
-    #         )
+ 
 
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Date",
-            #     field_type="date",
-            #     required=True,
-            #     )
+    def save_img_path(self,f):
+        fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT))
+        filename = fs.save(f'contacts/{f.name}', f)
+        uploaded_file_url = fs.url(filename)
+        return uploaded_file_url
+
+
+    def process_form_submission(self, form):
+        cleaned_data = form.cleaned_data
+        try:
+            all_images_path = []
+            for name, field in form.fields.items():
+                if isinstance(field, FileField):
+                    image_file_data = cleaned_data.get(name)
+                    if image_file_data:
+
+                        image_file_data = image_file_data if isinstance(image_file_data, list) else [image_file_data]
+                        cleaned_data[name] = [self.save_img_path(f) for f in image_file_data]
+                    else:
+                        # Remove empty file field from cleaned data
+                        del cleaned_data[name]
+
+            # Save form submission to database
+            submission = self.get_submission_class().objects.create(
+                form_data=cleaned_data,
+                page=self,
+            )
+
+            # Send email if necessary
+            if self.to_address:
+                self.send_mail(form)
+
+            return submission
+
+        except Exception as e:
+            print(f"Error processing form submission: {e}")
+            return None
+
             
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Time",
-            #     field_type="time",
-            #     required=True,
-            #     )
-
-
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Event Description",
-            #     field_type="multiline",
-            #     required=True,
-            #     )
             
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Upload Event Featured Image",
-            #     help_text = "",
-            #     field_type="file",
-            #     required=True,
-            # )
-
-            # FormField.objects.create(
-            #     page=self,
-            #     label="Upload Event Featured Images",
-            #     help_text = "Add Event Images(Upto 5 Images)",
-            #     field_type="file",
-            #     required=True,
-                
-            # )
-
 
         
     def serve(self,request,*args, **kwargs):
@@ -189,13 +224,23 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
             template = self.get_template(request, *args, **kwargs)
             context = self.get_context(request, *args, **kwargs)
             # context = self.update_context(default_context)
+            if request.method == 'POST':
+                form = self.get_form(request.POST, request.FILES, page=self)
+                if form.is_valid():
+                    self.process_form_submission(form)
+                    context['form'] = self.get_form(page=self)
+                   
+                else:
+                    print(form.errors)
+                    context['form'] = self.get_form(page=self)
+
+            context['form'] = self.get_form(page=self)
         
             return TemplateResponse(
                 request,
                 template,
                 context,
             )
-
 
     
 
@@ -235,55 +280,3 @@ class  ConactDetails(Orderable):
 
 
     
-
-# FORM_FIELD_CHOICES = (
-#     ("singleline", _("Single line text")),
-#     ("multiline", _("Multi-line text")),
-#     ("email", _("Email")),
-#     ("number", _("Number")),
-#     ("url", _("URL")),
-#     ("checkbox", _("Checkbox")),
-#     ("checkboxes", _("Checkboxes")),
-#     ("dropdown", _("Drop down")),
-#     ("multiselect", _("Multiple select")),
-#     ("radio", _("Radio buttons")),
-#     ("date", _("Date")),
-#     ("datetime", _("Date/time")),
-#     ("hidden", _("Hidden field")),
-# )
-
-
-
-
-
-#             FormField.objects.create(
-#                 page=self,
-#                 label="Your Location",
-#                 field_type="dropdown",
-#                 required=True,
-#                 choices="North Carolina,Texas")
-          
-#             FormField.objects.create(
-#                 page=self,
-#                 label="Attach Design",
-#                 help_text = "Optional, max file size of 20 MB",
-#                 field_type="file",
-#                 required=True,
-#             )
-
-#             FormField.objects.create(
-#                 page=self,
-#                 label="What's important to you in your custom home?",
-#                 field_type="multiline",
-#                 required=True,
-#             )
-    
-
-
-
-
-
-# class ContactType(models.TextChoices):
-#     HOST_EVENT = "host_event", "Host an Event or Other"
-#     SHARE_HISTORY = "share_history", "Share History Story"
-#     DEVELOP_HARMONY = "develop_harmony", "Develop in Harmony"
