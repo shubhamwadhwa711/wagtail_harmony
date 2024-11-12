@@ -175,6 +175,38 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
         verbose_name_plural = 'Contact Pages'
 
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        # Automatically create default form fields if they don't already exist
+        if not self.form_fields.exists():
+            default_fields = [
+                {"label": "First Name", "field_type": "singleline", "required": True},
+                {"label": "Last Name", "field_type": "singleline", "required": True},
+                {"label": "Email", "field_type": "email", "required": True},
+                {"label": "Phone number", "field_type": "singleline", "required": True},
+                {"label": "Event Date", "field_type": "date", "required": True},
+                {"label": "Event Time", "field_type": "time", "required": True},
+                {"label": "Event Description", "field_type": "multiline", "required": True},
+                {"label": "Upload Event Featured Image", "field_type": "file", "required": True, },
+                {"label": "Upload Event Featured Images", "field_type": "multiupload", "required": True,},
+                {"label": "Event Price", "field_type": "radio", "required": True, "choices": "paid,free"},
+                {"label": "Amount", "field_type": "dropdown", "required": False, "choices": "20,30,40"},
+            ]
+            
+            for field_data in default_fields:
+                FormField.objects.create(page=self, **field_data)
+
+
+
+
+
+
+
+
+
+
+
  
 
     def save_img_path(self,f):
@@ -187,7 +219,7 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
     def process_form_submission(self, form):
         cleaned_data = form.cleaned_data
         try:
-            all_images_path = []
+        
             for name, field in form.fields.items():
                 if isinstance(field, FileField):
                     image_file_data = cleaned_data.get(name)
@@ -196,7 +228,7 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
                         image_file_data = image_file_data if isinstance(image_file_data, list) else [image_file_data]
                         cleaned_data[name] = [self.save_img_path(f) for f in image_file_data]
                     else:
-                        # Remove empty file field from cleaned data
+                       
                         del cleaned_data[name]
 
             # Save form submission to database
@@ -204,8 +236,6 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
                 form_data=cleaned_data,
                 page=self,
             )
-
-            # Send email if necessary
             if self.to_address:
                 self.send_mail(form)
 
