@@ -180,7 +180,7 @@
                                 <img src="{{ latestnews.url }}" alt="" class="img-fluid">
                               </div>
                               <h2 class="title font-27">
-                              <a href="">{{ news.main_headline_text }}</a>
+                              <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
                               </h2>
                             
                               <div class="d-flex align-items-center">
@@ -201,7 +201,7 @@
                             <div class="col-md-6">
                               <article>
                                 <h2 class="title font-27">
-                                <a href="">{{ news.main_headline_text }}</a>
+                                <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
                                 </h2>
                               
                                 <div class="d-flex align-items-center">
@@ -242,28 +242,34 @@
                 <div class="col-md-8">
                   {% for events in events_details %}
                     <div class="upcoming-events">
-                            <p class="event-date">{{ events.date|date:"M j, Y" }}</p>
+                            <p class="event-date">{{ events.event_date|date:"M j, Y" }}</p>
                             <h2 class="font-27"><a href="">{{ events.heading }}</a></h2>
-                          <a class="event-btn" href=""><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></a>
+                          <a class="event-btn" href="{% pageurl events %}"><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></a>
                     </div>
                   {% endfor %}
                      <a class="read-more mobile-show" href="">More Events <img src="{% static 'img/arrow.svg' %}"></a>
                 </div>
+
+                {% if latest_event %}
                 <div class="col-md-4">
-                    <div class="feature-img">
-                      {% if latest_event %}
-                                {% image latest_event.event_bg_image width-1024 as event_bg_image %}
-                              <img src="{{event_bg_image.url}}">
-                              {{ latest_event.date|date:"j M" }} <span class="year">{{ latest_event.date|date:"Y" }}</span>
-                              <div class="feature-title">
-                                  <h2>{{latest_event.event_short_heading}}</h2>
-                              </div>
-                      {% endif %}
-                    </div>
-                </div>
-            </div>
+                  <div class="feature-img">
+                    {% image latest_event.event_bg_image width-1024 as event_bg_image %}
+                    <img src="{{event_bg_image.url}}">
+                      {% comment %} <img src="assets/img/events/event-img.jpg"> {% endcomment %}
+                      <div class="date"> {{ latest_event.event_date|date:"j M" }} <span class="year">{{ latest_event.event_date|date:"Y" }}</span></div>
+                      <div class="feature-title">
+                          <h2>{{latest_event.heading}}</h2>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {%endif %}
+
+
+
         </div>
     </div>
+
       
       <div class="history">
           <div class="container-fluid">
@@ -288,9 +294,9 @@
       </div>
       
       <div class="public-servants">
-          <img class="big-wave mobile-hide" src="assets/img/big-wave.png">
-          <img class="big-wave mobile-show" src="assets/img/mobile-wave.png">
-          <img class="path mobile-hide" src="assets/img/path.png">
+          <img class="big-wave mobile-hide" src="{% static 'img/big-wave.png' %}">
+          <img class="big-wave mobile-show" src="{% static 'img/mobile-wave.png' %}">
+          <img class="path mobile-hide" src="{% static 'img/path.png' %}">
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-6">
@@ -507,15 +513,6 @@ $("#slider").stack_slider({
 });
 
 </script>
-
-
-
-
-
-
-
-
-
 
 
 

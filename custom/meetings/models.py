@@ -57,13 +57,13 @@ class MeetingsPage(Page):
         blank=True,
         null=True,
     )
-    bottom_link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+    # bottom_link_page = models.ForeignKey(
+    #     'wagtailcore.Page',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    # )
   
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("meeting_text"),
@@ -72,7 +72,7 @@ class MeetingsPage(Page):
             FieldPanel('bottom_heading'),
             FieldPanel('bottom_image_one'),
             FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_link_page'),
+            # FieldPanel('bottom_link_page'),
         ], heading='Add Bottom Section'),
     ]
     parent_page_types = ['home.HomePage']

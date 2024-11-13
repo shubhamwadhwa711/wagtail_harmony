@@ -14,7 +14,6 @@
                     <h2>{{page.text}}</h2>
                     {% image page.small_land_image width-1024 as landimg %}
                         <img src="{{landimg.url}}">
-                
                     <div class="plan-details">
                         <h2>Filter by</h2>
                         <ul class="tags">
@@ -34,7 +33,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="back-btn">
-                                    <a href=""><img src="{% static 'img/business-development/feather-arrow-up.png' %}"> 
+                                    <a href="{% pageurl page.get_parent%}"
+                                    ><img src="{% static 'img/business-development/feather-arrow-up.png' %}"> 
                                         <p>{{page.back_button_text}}</p> 
                                     </a> 
                                 </div>

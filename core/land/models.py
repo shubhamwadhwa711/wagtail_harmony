@@ -79,10 +79,6 @@ class  Spotfeature(Orderable):
 
 
 
-
-
-
-
 class SingleLandFeaturedDetails(RichTextPageAbstract):
     body = StreamField(
         richtext_blocks,

@@ -13,7 +13,7 @@
                     <p class="sub-heading">{{page.page_name}}</p>
                     <h2 class="event-name">{{page.heading}}</h2>
                     <h3 class="event-date">{{ page.event_date|date:"F jS, Y" }} | {{ page.event_date|date:"l" }}</h3>
-                    <a class="read-more calender" href="">{{page.button_text}} <img src="{% static 'img/events/calender.svg' %}"></a>
+                    <a class="read-more calender" href="{{page.link_page.url}}">{{page.button_text}} <img src="{% static 'img/events/calender.svg' %}"></a>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="event-description">
                     <p>{{page.description}}</p>
                 </div>
-                <a class="read-more calender" href="">{{page.button_text}} <img src="{% static 'img/events/calender.svg' %}"></a>
+                <a class="read-more calender" href="{{page.link_page_two.url}}">{{page.button_text_two}} <img src="{% static 'img/events/calender.svg' %}"></a>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
             <div class="col-md-4">
                 <div class="submit-img">
                     <h2>{{page.bottom_heading}}</h2>
-                    <a class="read-more" href="">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    <a class="read-more" href="{{page.bottom_link_page.url}}">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                 </div>
             </div>
             <div class="col-md-4 second-img">

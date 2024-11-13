@@ -39,8 +39,8 @@ class EmergencyPage(RichTextPageAbstract):
     subpage_types = []
 
     class Meta:
-        verbose_name = 'Emergency Page'
-        verbose_name_plural = 'Emergency Pages'
+        verbose_name = 'Emergency service Page'
+        verbose_name_plural = 'Emergency service Pages'
 
 
 
@@ -60,6 +60,14 @@ class EmergencyPage(RichTextPageAbstract):
 class EmergencyPageContent(Orderable):
     page = ParentalKey(EmergencyPage, on_delete=models.CASCADE, related_name="emergency_contents")
     service_sidebar_name = models.TextField(blank=True, null=True)
+    icon_image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
     service_name_heading = models.TextField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     call_text = models.TextField(blank=True, null=True, default="Call")
@@ -80,6 +88,7 @@ class EmergencyPageContent(Orderable):
     
     panels = [
         FieldPanel("service_sidebar_name"),
+        FieldPanel("icon_image"),
         FieldPanel("service_name_heading"),
         FieldPanel("short_description"),
         MultiFieldPanel([

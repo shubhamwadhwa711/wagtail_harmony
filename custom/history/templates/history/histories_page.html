@@ -118,12 +118,13 @@
         <div class="row">
             <div class="col-md-4">
                 {% image page.bottom_image_one  width-1024  as leftimg%}
-                <img src="{{imgone.url}}">
+                <img src="{{leftimg.url}}">
             </div>
             <div class="col-md-4">
                 <div class="submit-img">
                     <h2>{{page.bottom_heading}}</h2>
-                    <a class="read-more share-btn" href="">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    <a class="read-more share-btn" href="{{page.bottom_link_page.url}}">
+                        {{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                 </div>
             </div>
             <div class="col-md-4 second-img">

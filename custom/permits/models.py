@@ -51,8 +51,8 @@ class PermitsPage(RichTextPageAbstract):
     ]
 
     class Meta:
-        verbose_name = 'Permits Page'
-        verbose_name_plural = 'Permits Pages'
+        verbose_name = 'Business Permits'
+        verbose_name_plural = 'Businesses Permits'
 
 
 
@@ -215,7 +215,7 @@ class PermitPage(RichTextPageAbstract,AbstractEmailForm):
                 {"label": "Last Name", "field_type": "singleline"},
                 {"label": "Email", "field_type": "email"},
                 {"label": "Phone number", "field_type": "singleline"},
-                {"label": "Choose a Business type", "field_type": "dropdown", "choices": "Businuess1,Businuess2,Businuess13"},
+                {"label": "Choose a Business type", "field_type": "dropdown", "choices": "Businuess1,Businuess2,Businuess3"},
                 {"label": "Choose Category", "field_type": "dropdown", "choices": "category1,category2,category3"},
                 {"label": "Message", "field_type": "multiline"},
             ]

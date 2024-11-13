@@ -6,7 +6,6 @@
 {% block main %}
 
 
-
 <main class="main" style="">
     
    <div class="permits single-permit">
@@ -17,7 +16,7 @@
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="back-btn">
-                                        <a href="">
+                                        <a href="{% pageurl page.get_parent %}">
                                             <img src="{% static 'img/business-development/feather-arrow-up.png' %}">
                                         </a> 
                                     </div>
@@ -27,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <a class="read-more" href="{{page.permit_link_page}}">{{page.permit_button_text}}
+                                    <a class="read-more" href="{{page.permit_link_page.url}}">{{page.permit_button_text}}
                                         <img src="{% static 'img/arrow-up.svg' %}"></a>
                                 </div>
                             </div>

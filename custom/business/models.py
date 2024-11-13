@@ -33,10 +33,10 @@ class BusinessPage(RichTextPageAbstract):
    
     content_panels = RichTextPageAbstract.content_panels + [
         
-        FieldPanel("business_heading"),
         InlinePanel('buginess_page_slide', label='Buginess Page Slide'),
+        FieldPanel("business_heading"),
         InlinePanel('buginess_page_criteria', label='Buginess Page Criteria'),
-
+       
         MultiFieldPanel([
             FieldPanel('growth_data_text_one'),
             FieldPanel('growth_data_number_one'),
@@ -58,8 +58,8 @@ class BusinessPage(RichTextPageAbstract):
     parent_page_types = ['home.HomePage']
     subpage_types = []
     class Meta:
-        verbose_name = 'Business Page'
-        verbose_name_plural = 'Business Pages'
+        verbose_name = 'Business Development Page'
+        verbose_name_plural = 'Businesses Development Pages'
    
 
     def update_context(self,context):

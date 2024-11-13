@@ -20,14 +20,16 @@
                     <h2 class="latest-title">{{event.heading}}</h2>
                     <p class="date">{{ event.event_date|date:"F jS, Y" }} | {{ event.event_date|date:"l" }}</p>
 
-                    <a class="read-more mobile-hide" href="">{{page.button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    <a class="read-more mobile-hide" href="{% pageurl event %}">
+                        {{page.button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                 </div>
                 <div class="col-md-7">
                     <div class="featured-img">
                         {% image event.event_bg_image width-1024 as latestevent %}
 
                        <img src="{{latestevent.url}}" alt="" class="img-fluid" />
-                       <a class="read-more mobile-show" href="">{{page.button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                       <a class="read-more mobile-show" href="{% pageurl event %}">
+                        {{page.button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
                     </div>
                 </div>
                 {% endif%}
@@ -65,7 +67,7 @@
                                 <div class="post-img">
                                     {% image event.event_bg_image width-1024 as eventimg %}
                                     <img src="{{eventimg.url}}" alt="" class="img-fluid" />
-                                    <a class="read-more" href=""> Details <img src="{% static 'img/arrow.svg' %}" /></a>
+                                    <a class="read-more" href="{% pageurl event %}"> Details <img src="{% static 'img/arrow.svg' %}" /></a>
                                 </div>
                                     <h2 class="title">
                                     <a href="">{{event.heading}}</a>
@@ -117,8 +119,8 @@
                             <h2>{{page.bottom_heading}}</h2>
                         </h2>
 
-                       <a class="read-more" href="" style="width: 250px; justify-content: space-between; ">{{page.bottom_button_text}} 
-                           <img src="{% static 'img/arrow.svg' %}"></a>
+                       <a class="read-more" href="{{page.bottom_link_page.url}}" style="width: 250px; justify-content: space-between; ">{{page.bottom_button_text}} 
+                        <img src="{% static 'img/arrow.svg' %}"></a>
                     </div>
                 </div>
                 <div class="col-md-4">

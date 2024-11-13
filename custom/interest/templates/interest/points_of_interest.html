@@ -34,12 +34,6 @@
                             </li>
                             {% endfor %}
                            
-                            {% comment %} <li></a></li> {% endcomment %}
-                            {% comment %} <li><a href="">Parks</a></li>
-                            <li><a href="">Town hall</a></li>
-                            <li><a href="">Town hall</a></li>
-                            <li><a href="">Parking & Streets</a></li>
-                            <li><a href="">Parking & Streets</a></li> {% endcomment %}
                         </ul>
                     </div>
                      </div>
@@ -55,7 +49,7 @@
                             <div class="col-md-12">
                                 {% for interest in interests %}
 
-                                 <h2><a href="">{{interest.single_point_heading}} </a></h2>
+                                 <h2><a href="{% pageurl interest %}">{{interest.single_point_heading}} </a></h2>
                                  <p>{{interest.single_point_description}}</p>
                                  {% image interest.single_point_description_image width-1024 as interestimg%}
                                  <img src="{{interestimg.url}}">
@@ -103,6 +97,10 @@
     });
 });
 </script>
+
+
+
+
 
 
 

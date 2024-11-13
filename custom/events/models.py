@@ -71,7 +71,7 @@ class EventsPage(RichTextPageAbstract):
     content_panels = RichTextPageAbstract.content_panels + [  
         FieldPanel("heading"),
         FieldPanel("button_text"),     
-        FieldPanel("link_page"),
+        # FieldPanel("link_page"),
         MultiFieldPanel([
             FieldPanel('bottom_heading'),
             FieldPanel('bottom_image_one'),
@@ -149,7 +149,7 @@ class EventPage(RichTextPageAbstract):
     )
     
     # event_full_description = models.TextField(blank=True, null=True)
-    button_text_two = models.TextField(blank=True, null=True)
+    button_text_two = models.TextField(blank=True, null=True,default="Add to Calender")
     link_page_two= models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
@@ -221,13 +221,6 @@ class EventPage(RichTextPageAbstract):
         verbose_name_plural = 'Event Pages'
 
 
-    # def update_context(self,context):
-    #     events = EventPage.objects.all()
-    #     context.update({
-    #         'events': events,
-    
-    #     })
-    #     return context
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
