@@ -106,8 +106,8 @@ class ElectionsPage(RichTextPageAbstract):
     subpage_types = ["elections.SingleElectionPage"]
 
     class Meta:
-        verbose_name = 'Election Pages'
-        verbose_name_plural = 'Election Pages'
+        verbose_name = 'Elections Page'
+        verbose_name_plural = 'Elections Pages'
    
 
     def update_context(self,context):
@@ -203,8 +203,7 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
     result_declare_heading = models.TextField(blank=True, null=True)
     form_description_message = models.TextField(blank=True, null=True)
 
-    parent_page_types = ['elections.ElectionsPage']
-    subpage_types = []
+  
     content_panels = AbstractEmailForm.content_panels + [
         FieldPanel("page_notice"),
         FieldPanel("heading"),
@@ -231,7 +230,7 @@ class SingleElectionPage(RichTextPageAbstract,AbstractEmailForm):
         ),
     ]
     
-    parent_page_types = ['home.HomePage']   #need to discuss
+    parent_page_types = ['elections.ElectionsPage']   #need to discuss
     subpage_types = []
     form_builder = CustomFormBuilder
     submissions_list_view_class = CustomSubmissionsListView

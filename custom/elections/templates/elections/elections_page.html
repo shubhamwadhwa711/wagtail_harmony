@@ -76,7 +76,7 @@
                                                 <div class="elected-details">
                                                   <h4 class="name">{{person.name}}</h4>
                                                   <p class="designation">{{person.designation}}</p>
-                                                  <p class="description">{{person.designation}}</p>
+                                                  <p class="description">{{person.description}}</p>
                                               </div>
                                               </div>
                                           </div>
@@ -91,7 +91,7 @@
                             {% endfor %}
                           </div>
                           <a class="dscrptn" href="">View Description +</a>
-                <a class="read-more" href="{{page.link_page_one}}">{{page.button_text_one}} <img src="{% static 'img/arrow-up.svg' %}"></a>
+                <a class="read-more" href="{{page.link_page_one.url}}">{{page.button_text_one}} <img src="{% static 'img/arrow-up.svg' %}"></a>
                     
               </div>
                   </div>
@@ -133,7 +133,7 @@
                                             <div class="elected-details">
                                               <h4 class="name">{{person.name}}</h4>
                                               <p class="designation">{{person.designation}}</p>
-                                              <p class="description">{{person.designation}}</p>
+                                              <p class="description">{{person.description}}</p>
                                           </div>
                                           </div>
                                       </div>
@@ -149,7 +149,9 @@
                               
                           </div>
                           <a class="dscrptn" href="">View Description +</a>
-              <a class="read-more" href="{{page.link_page_two}}">{{page.button_text_two}} <img src="{% static 'img/arrow-up.svg' %}"></a>
+              <a class="read-more" href="{{page.link_page_two.url}}">
+                    {{page.button_text_two}} <img src="{% static 'img/arrow-up.svg' %}"
+                    ></a>
                       </div>
 
                   </div>
@@ -164,7 +166,7 @@
                   <div class="col-md-5">
                       <h2>{{page.nomination_heading}}</h2>
                       
-                      <a class="read-more mobile-hide" href="{{page.button_text_three}}">{{page.button_text_three}} <img src="{% static 'img/arrow-up.svg' %}"></a>
+                      <a class="read-more mobile-hide" href="{{page.button_text_three.url}}">{{page.button_text_three}} <img src="{% static 'img/arrow-up.svg' %}"></a>
                   </div>
                   <div class="col-md-7">
                       <div class="img-box">

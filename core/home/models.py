@@ -48,8 +48,8 @@ class HomePage(RichTextPageAbstract):
     )
 
 
-
-    quick_links_text = models.TextField(blank=True, null=True)
+    #link
+    quick_links_text = models.TextField(blank=True, null=True,default="Quick Links")
     page_links_bgimage = models.ForeignKey(
         'wagtailimages.Image',
         on_delete=models.SET_NULL,
@@ -127,15 +127,17 @@ class HomePage(RichTextPageAbstract):
         FieldPanel('notice'),
         FieldPanel('county_text'),
         FieldPanel('heading_text'),
-        FieldPanel('hero_section_image'),
-        FieldPanel('img_gallery'),
+        # FieldPanel('hero_section_image'),
+        # FieldPanel('img_gallery'),
         InlinePanel('home_hero_images', label='Home hero images'),
         FieldPanel('page_links_bgimage'),
-        
+        #quick links
         MultiFieldPanel([
             FieldPanel('quick_links_text'),
             InlinePanel('home_page_links', label='Home Page Quick Links'),
         ], heading='Attach Quick Links'),
+
+        
         MultiFieldPanel([
             FieldPanel('park_bgimage'),
             InlinePanel('home_parks', label='Home Parks Links'),
