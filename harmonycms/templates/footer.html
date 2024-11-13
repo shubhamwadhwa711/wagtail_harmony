@@ -8,7 +8,10 @@
       <div class="row gy-4">
         <div class="col-lg-3 col-md-3 footer-about">
           <a href="index.php" class="logo d-flex align-items-center">
-            <img src="{% static 'img/footer-img.svg' %}" alt="">
+            {% image navigation_settings.footer_logo width-1024 as footerlogo %}
+            <img src="{{footerlogo.url}}" alt="">
+
+
           </a>
             <div class="social-links mobile-social">
             <a href=""><i class="bi bi-facebook"></i></a>

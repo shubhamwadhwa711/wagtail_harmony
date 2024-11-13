@@ -1,6 +1,5 @@
 {% load static wagtailuserbar wagtailcore_tags wagtailimages_tags %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +59,8 @@
       <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
              <div class="logo-area">
             <a href="index.php" class="logo d-flex align-items-center">
-              <img src="{%static 'img/logo.svg' %}" alt="">
+              {% image navigation_settings.logo width-1024 as headerlogo %}
+              <img src="{{headerlogo.url}}" alt="">
             </a>
         </div> 
         <div class="col-right">
@@ -150,20 +150,30 @@ $(document).ready(function(){
         <p class="close-menu">Close</p>
         <nav class="menu1">
        <div class="row">
+        {% for block in navigation_settings.hamburger %}
+
+
            <div class="col-md-3">
                <div class="mega-menu-items">
                    <div class="menu-title">
-                   <img src="{% static 'img/Icon-ionic-md-time.svg' %}" alt=""> <h2>Agenda & Minutes</h2>
+                   <img src="{% static 'img/Icon-ionic-md-time.svg' %}" alt=""> <h2>{{ block.value.category }}</h2>
                    </div>
                    <ul>
-                       <li><a href="#">Meetings Minutes</a></li>
-                       <li><a href="#">Meeting Agendas</a></li>
-                       <li><a href="#">Upcoming</a></li>
+                     {% for child in block.value.children %}
+
+                      <li><a href="{{ child.value.page.url }}">{{ child.value.title }}</a></li>
+
+                      {% endfor %}
+                       
                    </ul>
                </div>
               
            </div>
-           <div class="col-md-3">
+
+
+
+           {%endfor%}
+           {% comment %} <div class="col-md-3">
               <div class="mega-menu-items">
                   <div class="menu-title">
                    <img src="{% static 'img/Icon-map-city-hall.svg' %}" alt=""> <h2>Points of Interest</h2>
@@ -187,7 +197,7 @@ $(document).ready(function(){
                        <li><a href="#">News</a></li>
                    </ul>
                </div>
-           </div>
+           </div> {% endcomment %}
            <div class="col-md-3">
                <a href="" class="reach-out">Reach out to us</a>
            </div>

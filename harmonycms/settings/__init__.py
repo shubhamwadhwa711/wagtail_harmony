@@ -46,9 +46,14 @@ INSTALLED_APPS = [
     'wagtail_modeladmin',
     "modelcluster",
     "taggit",
+    #setting
+    "wagtail.contrib.routable_page",
+    'wagtail.contrib.settings',
+    #form
     'crispy_forms',
     'crispy_bootstrap5',
     "django.contrib.admin",
+
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -58,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'blocks',
     "core.home",
+    'core.conf',
     "core.land",
     "core.richtext",
     "core.news",
@@ -82,6 +88,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+   
 ]
 
 ROOT_URLCONF = "harmonycms.urls"
@@ -89,9 +96,6 @@ ROOT_URLCONF = "harmonycms.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # "DIRS": [
-        #     os.path.join(PROJECT_DIR, "templates"),
-        # ],
         'DIRS': [BASE_DIR / 'harmonycms/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -100,6 +104,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "harmonycms.context_processors.navigation_settings"
             ],
         },
     },
