@@ -253,6 +253,7 @@ class ContactPage(RichTextPageAbstract,AbstractEmailForm):
             request.is_preview = False
             template = self.get_template(request, *args, **kwargs)
             context = self.get_context(request, *args, **kwargs)
+           
             # context = self.update_context(default_context)
             if request.method == 'POST':
                 form = self.get_form(request.POST, request.FILES, page=self)

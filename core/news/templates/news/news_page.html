@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <p class="sub-title">{{page.name}}</p>
-                    {% for news in news_details %}
+                    {% for news in all_news %}
                         {% if forloop.last %}
                             <h2 class="latest-title">{{ news.main_headline_text }}</h2>
                     <a class="read-more" href="{% pageurl news %}">{{page.button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
@@ -50,172 +50,172 @@
                         <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 1750.38px;">
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-month" style="position: absolute; left: 0px; top: 0px;">
                                 <div class="row bottom-row">
-                                    <div class="col-md-4">
-                                        <article>
-                           <i class="bi bi-pin-angle-fill"></i>
-                                            <div class="post-img">
-                                                <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid" />
-                                            </div>
-
-                                            <h2 class="title">
-                                                <a href="">News heading will come here In two lines</a>
-                                            </h2>
-
-                                            <a class="learn-more" href="#">READ MORE</a>
-                                        </article>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                    {% for news in all_news %}
+                                        {% if news.main_headline_image  %}
+                                    
+                                            <div class="col-md-4">
                                                 <article>
-                                        <i class="bi bi-pin-angle-fill"></i>
+                                                <i class="bi bi-pin-angle-fill"></i>
+                                                
+                                                    <div class="post-img">
+                                                        {% image news.main_headline_image width-1024 as newsimg %}
+                                                        <img src="{{newsimg.url}}" alt="" class="img-fluid" />
+                                                    </div>
+                                            
+
                                                     <h2 class="title">
-                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
+                                                        <a href="{% pageurl news %}">{{ news.main_headline_text}}</a>
                                                     </h2>
 
-                                                    <a class="learn-more" href="#">READ MORE</a>
+                                                    <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
                                                 </article>
                                             </div>
-                                            <div class="col-md-6">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
+                                        
+                                        {% else %}
+                             
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                {% if news.main_headline_text|length > 50 %}
+                                                    <div class="col-md-6">
+                                                        <article>
+                                                            <i class="bi bi-pin-angle-fill"></i>
+                                                            <h2 class="title">
+                                                                <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                            </h2>
+                                                            <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                        </article>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col-md-6">
+                                                        <article>
+                                                            <h2 class="title">
+                                                                <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                            </h2>
+                                                            <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                        </article>
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                        {%endif%}
+                                        {%endfor%}
+    
+
                             </div>
+
+                            
 
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-days" style="position: absolute; left: 440px; top: 0px;">
                                <div class="row bottom-row">
-                                    <div class="col-md-8">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <article>
-                                                    
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
-                                        </div>
-                                    </div>
+                                {% for news in all_news %}
+                                {% if news.main_headline_image  %}
+                            
                                     <div class="col-md-4">
                                         <article>
-                                                    <h2 class="title">
-                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
-                                                    </h2>
+                                        <i class="bi bi-pin-angle-fill"></i>
+                                        
+                                            <div class="post-img">
+                                                {% image news.main_headline_image width-1024 as newsimg %}
+                                                <img src="{{newsimg.url}}" alt="" class="img-fluid" />
+                                            </div>
+                                    
 
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
+                                            <h2 class="title">
+                                                <a href="{% pageurl news %}">{{ news.main_headline_text}}</a>
+                                            </h2>
+
+                                            <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                        </article>
                                     </div>
+                                
+                                {% else %}
+                     
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        {% if news.main_headline_text|length > 50 %}
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <i class="bi bi-pin-angle-fill"></i>
+                                                    <h2 class="title">
+                                                        <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                    </h2>
+                                                    <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                </article>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-6">
+                                                <article>
+                                                    <h2 class="title">
+                                                        <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                    </h2>
+                                                    <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                </article>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {%endif%}
+                                {%endfor%}
+                                   
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-last-year" style="position: absolute; left: 880px; top: 0px;">
                                 <div class="row bottom-row">
-                                    <div class="col-md-4">
-                                        <article>
-                                          
-                                            <div class="post-img">
-                                                <img src="assets/img/blog/blog-img.jpg" alt="" class="img-fluid" />
-                                            </div>
 
-                                            <h2 class="title">
-                                                <a href="">News heading will come here In two lines</a>
-                                            </h2>
+                                    {% for news in all_news %}
+                                    {% if news.main_headline_image  %}
+                                
+                                        <div class="col-md-4">
+                                            <article>
+                                            <i class="bi bi-pin-angle-fill"></i>
+                                            
+                                                <div class="post-img">
+                                                    {% image news.main_headline_image width-1024 as newsimg %}
+                                                    <img src="{{newsimg.url}}" alt="" class="img-fluid" />
+                                                </div>
+                                        
 
-                                            <a class="learn-more" href="#">READ MORE</a>
-                                        </article>
-                                    </div>
+                                                <h2 class="title">
+                                                    <a href="{% pageurl news %}">{{ news.main_headline_text}}</a>
+                                                </h2>
+
+                                                <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                            </article>
+                                        </div>
+                                    
+                                    {% else %}
+                         
                                     <div class="col-md-8">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">Long new titles can also be fit in To take space for two grid of Background shape, so here’s An example for that </a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
+                                            {% if news.main_headline_text|length > 50 %}
+                                                <div class="col-md-6">
+                                                    <article>
+                                                        <i class="bi bi-pin-angle-fill"></i>
+                                                        <h2 class="title">
+                                                            <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                        </h2>
+                                                        <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                    </article>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-md-6">
+                                                    <article>
+                                                        <h2 class="title">
+                                                            <a href="{% pageurl news %}">{{ news.main_headline_text }}</a>
+                                                        </h2>
+                                                        <a class="learn-more" href="{% pageurl news %}">READ MORE</a>
+                                                    </article>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
-                                    <div class="col-md-4">
-                                                <article>
-                                                    <h2 class="title">
-                                                        <a href="">News heading will come here In two lines</a>
-                                                    </h2>
-
-                                                    <a class="learn-more" href="#">READ MORE</a>
-                                                </article>
-                                            </div>
+                                    {%endif%}
+                                    {%endfor%}
+                                    
+                                                
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </div>

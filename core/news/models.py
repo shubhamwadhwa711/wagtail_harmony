@@ -3,16 +3,13 @@ from django.db import models
 # Create your models here.
 # core/models.py
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
-
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel
+from datetime import datetime, timedelta
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
-from wagtail.models import Orderable, Site
+from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
+from wagtail.fields import StreamField
 from wagtail.models import Orderable
 from django.template.response import TemplateResponse
 
@@ -89,13 +86,41 @@ class NewsPage(RichTextPageAbstract):
         verbose_name_plural = 'News Pages'
 
 
-    def update_context(self,context):
-        news_details = NewsDetailPage.objects.all()
-        context.update({
-            'news_details': news_details,
+    # def update_context(self,context):
+    #     news_details = NewsDetailPage.objects.all()
+    #     context.update({
+    #         'news_details': news_details,
            
+    #     })
+    #     return context
+
+
+
+    def update_context(self, context):
+        today = datetime.now().date()
+        ninety_days_ago = today - timedelta(days=90)
+        first_day_of_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+        last_day_of_last_month = first_day_of_last_month.replace(day=1) + timedelta(days=31)
+        start_of_2024 = datetime(today.year, 1, 1).date()
+
+        all_news = NewsDetailPage.objects.all().order_by('-date')
+        last_90_days_news = NewsDetailPage.objects.filter(date__gte=ninety_days_ago).order_by('-date')
+        last_month_news = NewsDetailPage.objects.filter(date__range=(first_day_of_last_month, last_day_of_last_month)).order_by('-date')
+        news_2024 = NewsDetailPage.objects.filter(date__year=2024).order_by('-date')
+
+        context.update({
+            'all_news': all_news,
+            'last_90_days_news': last_90_days_news,
+            'last_month_news': last_month_news,
+            'news_2024': news_2024,
         })
         return context
+
+
+
+
+
+
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False

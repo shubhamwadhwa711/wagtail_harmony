@@ -5,6 +5,7 @@
 
 {% block main %}
 
+
 <main class="main">
     <div class="contact-us-page">
         <div class="container-fluid">
@@ -13,41 +14,28 @@
                     {% for contact  in  page.contactform_details.all %}
                     
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="host-tab" data-bs-toggle="tab" data-bs-target="#host" type="button" role="tab" aria-controls="host" aria-selected="true">{{contact.contact_form_heading}}
+                        <button class="nav-link {% if forloop.first %}active{% endif %}" id="contact-tab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#contact-{{ forloop.counter }}" type="button" role="tab" aria-controls="contact-{{ forloop.counter }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                            {{ contact.contact_form_heading }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="14.576" height="15.405" viewBox="0 0 14.576 15.405">
-                            <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(13.576 1.414) rotate(90)">
-                            <path id="Path_4" data-name="Path 4" d="M0,12.576V0" transform="translate(6.288 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            <path id="Path_5" data-name="Path 5" d="M0,6.288,6.288,0l6.288,6.288" transform="translate(0 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            </g>
+                                <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(13.576 1.414) rotate(90)">
+                                    <path id="Path_4" d="M0,12.576V0" transform="translate(6.288 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                    <path id="Path_5" d="M0,6.288,6.288,0l6.288,6.288" transform="translate(0 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                </g>
                             </svg>
                         </button>
+
+                       
                     </li>
                     {% endfor %}
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="share-tab" data-bs-toggle="tab" data-bs-target="#share" type="button" role="tab" aria-controls="share" aria-selected="false">Share History story
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14.576" height="15.405" viewBox="0 0 14.576 15.405">
-                            <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(13.576 1.414) rotate(90)">
-                            <path id="Path_4" data-name="Path 4" d="M0,12.576V0" transform="translate(6.288 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            <path id="Path_5" data-name="Path 5" d="M0,6.288,6.288,0l6.288,6.288" transform="translate(0 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            </g>
-                            </svg>
-                        </button>
-                    </li> {% endcomment %}
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="develop-tab" data-bs-toggle="tab" data-bs-target="#develop" type="button" role="tab" aria-controls="develop" aria-selected="false">Develop in Harmony 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14.576" height="15.405" viewBox="0 0 14.576 15.405">
-                            <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(13.576 1.414) rotate(90)">
-                            <path id="Path_4" data-name="Path 4" d="M0,12.576V0" transform="translate(6.288 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            <path id="Path_5" data-name="Path 5" d="M0,6.288,6.288,0l6.288,6.288" transform="translate(0 0)" fill="none" stroke="#054651" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            </g>
-                            </svg>
-                        </button>
-                    </li> {% endcomment %}
+                
                 </ul>
                 
                 <div class="tab-content" id="contact-tab-contnet">
                     {% for contact in  page.contactform_details.all  %}
-                    <div class="tab-pane fade show active" id="host" role="tabpanel" aria-labelledby="host-tab">
+                  
+                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"  id="contact-{{ forloop.counter }}" role="tabpanel" 
+                    aria-labelledby="contact-tab-{{ forloop.counter }}">
+                
                         <div class="row">
                             <div class="col-left">
                                 <div class="contact-side">
@@ -56,7 +44,7 @@
                                         {{contact.description}}
                                     </p>
                                 </div>
-                                <div class="contact-details mobile-hide">
+                                {% comment %} <div class="contact-details mobile-hide">
                                     <h2>{{contact.contact_heading}}</h2>
                                     <ul>
                                         <li><a href="tel:7045462339">{{contact.contact_number}}</a></li>
@@ -64,9 +52,9 @@
                                             {{contact.contact_address}}
                                         </li>
                                     </ul>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
-                            {% endfor %}
+                          
                             <div class="col-right">
                                 <div class="form-side">
                                     <form method="post" enctype="multipart/form-data" >
@@ -82,89 +70,6 @@
 
 
 
-                                    {% comment %} <form action="">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="First name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Last name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="email" placeholder="Email" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="phone" placeholder="Phone number" class="form-control" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 about-event">
-                                            <label>About Event</label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Date" class="form-control" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Time" class="form-control" />
-                                            </div>
-                                            <div class="col-md-12">
-                                                <textarea placeholder="Event Description" class="form-control"></textarea>
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <div class="fileUploadWrap">
-                                                    <img src="assets/img/upload.svg" alt="" />
-                                                    <input type="file" name="fileToUpload" multiple="" />
-                                                    <div class="featured-img">
-                                                        <p class="fileName">
-                                                            Upload Event <br />
-                                                            Featured Image
-                                                        </p>
-                                                        <p class="img-name"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="upload__box">
-                                                    <div class="upload__btn-box">
-                                                        <label class="upload__btn">
-                                                            <img src="assets/img/upload.svg" alt="" />
-                                                            <input type="file" id="fileinput" multiple="" data-max_length="4" class="upload__inputfile" />
-                                                            <div class="featured-img">
-                                                                <p class="fileName">Add Event Images (Upto 5 Images)</p>
-                                                                <div class="upload__img-wrap"></div>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 about-event event-price">
-                                                <label>Event Price</label>
-                                            </div>
-                                             <div class="row paid-free">
-                                                <div class="col-md-6 paid">
-                                                <div>
-                                                   <input type="radio" value="Paid" id="radio1" name="radio">
-                                                   <label for="radio1"> Paid</label> 
-                                                </div>
-                                                
-                                                <p id="text" class="radio1">
-                                                 Amount will be shown here
-                                                </p>
-                
-                                                </div>
-                                                <div class="col-md-6 free">
-                                                    <input type="radio" id="radio2" name="radio" value="free" />
-                                                    <label for="radio2"> free</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 submit-btn">
-                                                <button class="btn btn-primary" type="Send message">Send message <img src="assets/img/arrow.svg" /></button>
-                                            </div>
-                                        </div>
-                                    </form> {% endcomment %}
-
                                     <div class="contact-details mobile-show">
                                         <h2>Quick Contact</h2>
                                         <ul>
@@ -179,249 +84,10 @@
                             </div>
                         </div>
                     </div>
+
+                      {% endfor %}
                    
-                    {% comment %} <div class="tab-pane fade" id="share" role="tabpanel" aria-labelledby="share-tab">
-                         <div class="row">
-                            <div class="col-left">
-                                <div class="contact-side">
-                                    <h2>Share History story</h2>
-                                    <p>
-                                        If you have an event that you’d like to share on our website you can submit your event here to show up in the local events pages of our website. Events we encourage are community events or other
-                                        events that the Harmonians would benefit from knowing. We do not approve yard sales, or other
-                                    </p>
-                                </div>
-                                <div class="contact-details mobile-hide">
-                                    <h2>Quick Contact</h2>
-                                    <ul>
-                                        <li><a href="tel:7045462339">704-546-2339</a></li>
-                                        <li>
-                                            3389 Harmony Hwy <br />
-                                            Harmony, NC 28634
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-right">
-                                <div class="form-side">
-                                    <form action="">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="First name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Last name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="email" placeholder="Email" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="phone" placeholder="Phone number" class="form-control" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 about-event">
-                                            <label>About Event</label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Date" class="form-control" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Time" class="form-control" />
-                                            </div>
-                                            <div class="col-md-12">
-                                                <textarea placeholder="Event Description" class="form-control"></textarea>
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <div class="fileUploadWrap">
-                                                    <img src="assets/img/upload.svg" alt="" />
-                                                    <input type="file" name="fileToUpload" multiple="" />
-                                                    <div class="featured-img">
-                                                        <p class="fileName">
-                                                            Upload Event <br />
-                                                            Featured Image
-                                                        </p>
-                                                        <p class="img-name"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="upload__box">
-                                                    <div class="upload__btn-box">
-                                                        <label class="upload__btn">
-                                                            <img src="assets/img/upload.svg" alt="" />
-                                                            <input type="file" id="fileinput" multiple="" data-max_length="4" class="upload__inputfile" />
-                                                            <div class="featured-img">
-                                                                <p class="fileName">Add Event Images (Upto 5 Images)</p>
-                                                                <div class="upload__img-wrap"></div>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--div class="col-md-12 about-event event-price">
-                                                <label>Event Price</label>
-                                            </div>
-                                             <div class="row paid-free">
-                                                <div class="col-md-6 paid">
-                                                    
-                                                <div>
-                                                   <input type="radio" value="Paid" id="radio1" name="radio">
-                                                   <label for="radio1"> Paid</label> 
-                                                </div>
-                                                
-                                                <p id="text" class="radio1">
-                                                 Amount will be shown here
-                                                </p>
-                
-                                                </div>
-                                                <div class="col-md-6 free">
-                                                    <input type="radio" id="radio2" name="radio" value="free" />
-                                                    <label for="radio2"> free</label>
-                                                </div>
-                                            </div-->
-
-                                            <div class="col-12 submit-btn">
-                                                <button class="btn btn-primary" type="Send message">Send message <img src="assets/img/arrow.svg" /></button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <div class="contact-details mobile-show">
-                                        <h2>Quick Contact</h2>
-                                        <ul>
-                                            <li><a href="tel:7045462339">704-546-2339</a></li>
-                                            <li>
-                                                3389 Harmony Hwy <br />
-                                                Harmony, NC 28634
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="develop" role="tabpanel" aria-labelledby="develop-tab">
-                         <div class="row">
-                            <div class="col-left">
-                                <div class="contact-side">
-                                    <h2>Develop in Harmony</h2>
-                                    <p>
-                                        If you have an event that you’d like to share on our website you can submit your event here to show up in the local events pages of our website. Events we encourage are community events or other
-                                        events that the Harmonians would benefit from knowing. We do not approve yard sales, or other
-                                    </p>
-                                </div>
-                                <div class="contact-details mobile-hide">
-                                    <h2>Quick Contact</h2>
-                                    <ul>
-                                        <li><a href="tel:7045462339">704-546-2339</a></li>
-                                        <li>
-                                            3389 Harmony Hwy <br />
-                                            Harmony, NC 28634
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-right">
-                                <div class="form-side">
-                                    <form action="">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="First name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Last name" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="email" placeholder="Email" class="form-control" required />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="phone" placeholder="Phone number" class="form-control" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 about-event">
-                                            <label>About Event</label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Date" class="form-control" />
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" placeholder="Event Time" class="form-control" />
-                                            </div>
-                                            <div class="col-md-12">
-                                                <textarea placeholder="Event Description" class="form-control"></textarea>
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <div class="fileUploadWrap">
-                                                    <img src="assets/img/upload.svg" alt="" />
-                                                    <input type="file" name="fileToUpload" multiple="" />
-                                                    <div class="featured-img">
-                                                        <p class="fileName">
-                                                            Upload Event <br />
-                                                            Featured Image
-                                                        </p>
-                                                        <p class="img-name"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="upload__box">
-                                                    <div class="upload__btn-box">
-                                                        <label class="upload__btn">
-                                                            <img src="assets/img/upload.svg" alt="" />
-                                                            <input type="file" id="fileinput" multiple="" data-max_length="4" class="upload__inputfile" />
-                                                            <div class="featured-img">
-                                                                <p class="fileName">Add Event Images (Upto 5 Images)</p>
-                                                                <div class="upload__img-wrap"></div>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--div class="col-md-12 about-event event-price">
-                                                <label>Event Price</label>
-                                            </div>
-                                             <div class="row paid-free">
-                                                <div class="col-md-6 paid">
-                                                    
-                                                <div>
-                                                   <input type="radio" value="Paid" id="radio1" name="radio">
-                                                   <label for="radio1"> Paid</label> 
-                                                </div>
-                                                
-                                                <p id="text" class="radio1">
-                                                 Amount will be shown here
-                                                </p>
-                
-                                                </div>
-                                                <div class="col-md-6 free">
-                                                    <input type="radio" id="radio2" name="radio" value="free" />
-                                                    <label for="radio2"> free</label>
-                                                </div>
-                                            </div-->
-
-                                            <div class="col-12 submit-btn">
-                                                <button class="btn btn-primary" type="Send message">Send message <img src="assets/img/arrow.svg" /></button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <div class="contact-details mobile-show">
-                                        <h2>Quick Contact</h2>
-                                        <ul>
-                                            <li><a href="tel:7045462339">704-546-2339</a></li>
-                                            <li>
-                                                3389 Harmony Hwy <br />
-                                                Harmony, NC 28634
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> {% endcomment %}
+                   
                 </div>
             </div>
         </div>
@@ -528,7 +194,7 @@
         width: max-content;
     }
 </style>
-
+{% comment %} 
 <script>
     $(document).on("change", ".fileUploadWrap input[type='file']", function () {
         if ($(this).val()) {
@@ -627,7 +293,7 @@ $("[id^='radio']").on("click", function() {
     }
   })
 });
-</script>
+</script> {% endcomment %}
 
 
 
