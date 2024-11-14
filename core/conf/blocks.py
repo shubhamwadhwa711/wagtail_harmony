@@ -57,8 +57,7 @@ class NavigationElementValue(StructValue):
 class NavigationPage(blocks.StructBlock):
     title = blocks.CharBlock()
     page = blocks.PageChooserBlock(required=False)
-    # url = blocks.URLBlock(label="URL", required=False)
-
+  
     class Meta:
         icon = "link"
 
@@ -75,32 +74,25 @@ class NavigationElement(blocks.StructBlock):
         value_class = NavigationElementValue
 
 
-class DropdownElement(blocks.StructBlock):
-    title = blocks.CharBlock()
-    children = blocks.StreamBlock(
-        [("element", NavigationElement())], required=False
-    )
 
+class  FooterSection(blocks.StructBlock):
+    section_name = blocks.CharBlock()
+    
+    children = blocks.StreamBlock(
+        [("navpages", NavigationPage())], required=False )
     class Meta:
         icon = "placeholder"
+        value_class = NavigationElementValue
+    
+
+
+class  SocialSection(blocks.StructBlock):
+
+    icon = blocks.CharBlock()
+    url = blocks.URLBlock(label="URL", required=False)
+    class Meta:
+        icon = "social"
+  
 
 
 
-
-
-
-
-
-
-
-
-# class NavigationElement(blocks.StructBlock):
-#     icon_image = ImageChooserBlock(required=False)
-#     category  = blocks.CharBlock()
-#     title = blocks.CharBlock()
-#     page = blocks.PageChooserBlock(required=False)
-#     url = blocks.URLBlock(label="URL", required=False)
-
-#     class Meta:
-#         icon = "placeholder"
-#         value_class = NavigationElementValue

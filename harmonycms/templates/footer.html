@@ -20,7 +20,6 @@
           </div>
       <p class="desktop-copyright">© 2024 all rights reserved. <br>
 The Town of Harmony</p>
-          
         </div>
         
         
@@ -36,17 +35,23 @@ The Town of Harmony</p>
             </div>
         </div>
 
-        <div class="col-lg-3 col-3 footer-links">
-          <ul>
-            <li><a href="#">Pay Sewer Bill</a></li>
-            <li><a href="#">Agenda & Minutes</a></li>
-            <li><a href="#">Business & Development</a></li>
-            <li><a href="#">Points of Interest</a></li>
-            <li><a href="#">Emergency Services</a></li>
-          </ul>
-        </div>
+        {% for section in navigation_settings.footer %}
 
         <div class="col-lg-3 col-3 footer-links">
+          <ul>
+            {% comment %} <li><a href="#">Pay Sewer Bill</a></li> {% endcomment %}
+            {% for child in section.value.children %}
+                <li><a href="{{ child.value.page.url|default:'#' }}">{{ child.value.title }}</a></li>
+            {% endfor %}
+            {% comment %} <li><a href="#">Agenda & Minutes</a></li>
+            <li><a href="#">Business & Development</a></li>
+            <li><a href="#">Points of Interest</a></li>
+            <li><a href="#">Emergency Services</a></li              > {% endcomment %}
+          </ul>
+        </div>
+        {%endfor%}
+
+        {% comment %} <div class="col-lg-3 col-3 footer-links">
           <ul>
             <li><a href="#">About us</a></li>
             <li><a href="#">Events</a></li>
@@ -54,25 +59,35 @@ The Town of Harmony</p>
             <li><a href="#">Contact us</a></li>
           </ul>
           
-          <p class="mobile-copyright">© 2024 all rights reserved. <br>
-The Town of Harmony</p>
-        </div>
+
+        </div> {% endcomment %}
+
+        <p class="mobile-copyright">© 2024 all rights reserved. <br>
+          The Town of Harmony</p>
 
         <div class="col-lg-3 col-md-3 footer-contact desktop-contact text-center text-md-end">
             <div class="address">
                  <h4>Office Address</h4>
-      <p>3389 Harmony Hwy <br>Harmony, NC 28634</p>
+      <p>{{navigation_settings.office_address}}</p>
+ 
             </div>
      
            <div class="phone">
                  <h4>Phone Number</h4>
-      <p><a href="tel:7045462339">704-546-2339</a></p>
+      <p><a href="tel:7045462339">{{navigation_settings.phone_number}}</a></p>
             </div>
             
             <div class="social-links d-flex">
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-youtube"></i></a>
+              {% for social in navigation_settings.social_link %}
+              
+
+              <a href="{{social.value.url}}"><i class="{{social.value.icon}}"></i></a>
+
+            
+            {% endfor %}
+            {% comment %} <a href=""><i class="bi bi-facebook"></i></a> {% endcomment %}
+            {% comment %} <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-youtube"></i></a> {% endcomment %}
           </div>
         </div>
 
