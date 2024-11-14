@@ -144,7 +144,7 @@
                       <ul>
                         {% for link in  page.home_parks.all %}
                           <li data-aos="fade-up" data-aos-delay="200">
-                          <a href="#">{{link.text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                          <a href="{{link.link_page.url}}">{{link.text}} <img src="{% static 'img/arrow.svg' %}"></a>
                           </li>
                           {%endfor%}
                         

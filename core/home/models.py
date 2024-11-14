@@ -226,10 +226,19 @@ class  ParksList(Orderable):
         related_name='home_parks',
     )
     text = models.CharField(max_length=200,null=True,blank=True)
+    link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
   
     
     panels = [
         FieldPanel('text'),
+        FieldPanel('link_page'),
+
     ]
     class Meta:
         verbose_name = 'Park List'
