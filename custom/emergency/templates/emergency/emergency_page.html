@@ -19,7 +19,10 @@
                             <div class="tab">
                               <ul>
                                 {% for sidesername in page.emergency_contents.all %}
-                                <li class="tablinks active" onclick="openService(event, 'Fire')" id="defaultOpen">
+                                <li class="tablinks {% if forloop.first %}active{% endif %}"
+                                 onclick="openService(event, '{{sidesername.id}}')"
+                                id="{% if forloop.first %}defaultOpen{%endif %}">
+                                   
                                     {% image sidesername.icon_image width-1024 as imgicon %}
                                     <img class="service-icon" src="{{imgicon.url}}"> 
                                     <span>{{sidesername.service_sidebar_name}}</span> 
@@ -37,7 +40,7 @@
                  <div class="col-md-9">
                     {% for service in page.emergency_contents.all %}
                     <div class="service-right">
-                        <div id="Fire" class="tabcontent">
+                        <div id="{{ service.id }}" class="tabcontent {% if forloop.first %}show active{% endif %}">
                             <div class="call-email">
                                 <div class="row">
                                     <div class="col-md-6">

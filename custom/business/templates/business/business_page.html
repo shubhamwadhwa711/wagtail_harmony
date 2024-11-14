@@ -42,108 +42,41 @@
                 </h2>
             </div>
             <div class="col-md-9">
-                {% for business in page.buginess_page_criteria.all %}
+               
 
                 <ul class="portfolio-filters nav nav-pills" id="pills-tab" role="tablist">
+                    {% for business in page.buginess_page_criteria.all %}
                     <li class="nav-item" role="presentation">
                         <button
-                            class="nav-link text-primary fw-semibold active position-relative"
-                            id="development"
+                            class="nav-link text-primary fw-semibold position-relative {% if forloop.first %}active{% endif %}"
+                            id="development-tab-{{ business.id }}"
                             data-bs-toggle="pill"
-                            data-bs-target="#{{business.id}}"
+                            data-bs-target="#development-{{ business.id }}"
                             type="button"
                             role="tab"
-                            aria-controls="pills-development"
-                            aria-selected="true"
+                            aria-controls="development-{{ business.id }}"
+                            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
                         > 
                            {% image  business.image width-1024 as businessicon%}
                              
-                            <img src="{{businessicon.url}}"/> {{business.title}}
+                            <img src="{{businessicon.url}}"/> {{business.heading}}
                         </button>
                     </li>
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button
-                            class="nav-link text-primary fw-semibold position-relative"
-                            id="infistructure"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-infistructure"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-infistructure"
-                            aria-selected="false"
-                        >
-                            <img src="assets/img/business-development/infistructure.svg" /> Sewer + Water Infistructure
-                        </button>
-                    </li> {% endcomment %}
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button class="nav-link text-primary fw-semibold position-relative" id="support" data-bs-toggle="pill" data-bs-target="#pills-support" type="button" role="tab" aria-controls="pills-support" aria-selected="false">
-                            <img src="assets/img/business-development/support.svg" /> Community Support
-                        </button>
-                    </li> {% endcomment %}
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button class="nav-link text-primary fw-semibold position-relative" id="located" data-bs-toggle="pill" data-bs-target="#pills-located" type="button" role="tab" aria-controls="pills-located" aria-selected="false">
-                            <img src="assets/img/business-development/located.svg" /> Centrally Located
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link text-primary fw-semibold position-relative" id="number" data-bs-toggle="pill" data-bs-target="#pills-number" type="button" role="tab" aria-controls="pills-number" aria-selected="false">
-                            <img src="assets/img/business-development/menu.svg" /> Sub menu option number 5
-                        </button>
-                    </li> {% endcomment %}
+
+                    {% endfor %}
+                    
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="{{business.id}}" role="tabpanel" aria-labelledby="pills-development-tab">
-                        <p>
+                    {% for business in page.buginess_page_criteria.all %}
+                    <div class="tab-pane fade show active" id="development-{{ business.id }}" role="tabpanel"    aria-labelledby="development-tab-{{ business.id }}">
+                    <p>
                             {{business.description}}
                         </p>
-                        {% comment %} <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p> {% endcomment %}
                     </div>
-                    {% comment %} <div class="tab-pane fade" id="pills-infistructure" role="tabpanel" aria-labelledby="pills-infistructure-tab">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                    </div> {% endcomment %}
-                    {% comment %} <div class="tab-pane fade" id="pills-support" role="tabpanel" aria-labelledby="pills-support-tab">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                    </div>
-                    <div class="tab-pane fade" id="pills-located" role="tabpanel" aria-labelledby="pills-located-tab">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                    </div>
-                    <div class="tab-pane fade" id="pills-number" role="tabpanel" aria-labelledby="pills-number-tab">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus in mollis nunc sed id semper risus. Dictum non consectetur a erat nam at. Odio ut
-                            sem nulla pharetra diam sit amet nisl. Nec tincidunt praesent semper feugiat nibh sed. Vel facilisis volutpat est velit egestas dui id. Amet mattis vulputate enim nulla.
-                        </p>
-                    </div> {% endcomment %}
+                    {%endfor%}
+                    
                 </div>
 
-            {% endfor %}
             </div>
         </div>
         
