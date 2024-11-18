@@ -1,12 +1,33 @@
 # from .base import *
 from . import *  # noqa
 # SECURITY WARNING: don't run with debug turned on in production!
+import os
+
+from .__init__ import *
+SECRET_KEY =os.getenv("DJANGO_SECRET_KEY")
+
+
 DEBUG = True
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-*tvjogj@=9aodxr#t9un)#@jvyk76b*4lz$m4^j+*uv97iict1"
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ["*"]
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        'PORT': os.getenv('DB_PORT', '5432'),
+    }
+}
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
