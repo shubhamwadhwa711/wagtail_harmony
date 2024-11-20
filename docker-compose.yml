@@ -34,7 +34,8 @@
     
       volumes:
         # - postgres_data:/var/lib/postgresql/data
-        - /home/jarvis/projects/wagtail_Harmony/mydb:/var/lib/postgresql/data
+        # - /home/jarvis/projects/wagtail_Harmony/mydb:/var/lib/postgresql/data
+        - ../mydb:/var/lib/postgresql/data
       
       ports:
         - "5433:5433"
