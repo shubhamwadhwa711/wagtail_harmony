@@ -22,7 +22,7 @@
       depends_on:
           - db
 
-    db:
+    hormony_db:
       image: postgres:17
       restart: always
       environment:
@@ -36,11 +36,11 @@
         - /home/jarvis/projects/wagtail_Harmony/mydb:/var/lib/postgresql/data
       
       ports:
-        - "5432:5432"
+        - "5433:5433"
       env_file:
         - .env
       expose:
-        - 5432
+        - 5433
 
   volumes:
     postgres_data: {}
