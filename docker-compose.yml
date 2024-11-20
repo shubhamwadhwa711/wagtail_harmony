@@ -20,7 +20,7 @@
           - DB_HOST=${DB_HOST}
           - DB_PORT=${DB_PORT}
       depends_on:
-          - db
+          - hormony_db
 
     hormony_db:
       image: postgres:17
