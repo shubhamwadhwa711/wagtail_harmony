@@ -3,3 +3,6 @@ media
 ./db.sqlite3
 .env
 .samplefile/.env
+*__pycache__/
+*.pyc
+__pycache__/
