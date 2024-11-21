@@ -50,7 +50,7 @@ class BusinessPage(RichTextPageAbstract):
         MultiFieldPanel([
             FieldPanel('growth_data_text_three'),
             FieldPanel('growth_data_number_three'),
-        ], heading='Growth Data Two'),
+        ], heading='Growth Data Three'),
 
         FieldPanel("resource_heading"),
         InlinePanel('buginess_page_faq', label='Buginess Page Faq'),

@@ -73,7 +73,8 @@
           class="container-fluid position-relative d-flex align-items-center justify-content-between"
         >
           <div class="logo-area">
-            <a href="index.php" class="logo d-flex align-items-center">
+            <a href="{% if navigation_settings.header_logo_page_link %}{{navigation_settings.header_logo_page_link.url}} {%else%} # {%endif%}" 
+            class="logo d-flex align-items-center">
               {% image navigation_settings.logo width-1024 as headerlogo %}
               <img src="{{headerlogo.url}}" alt="" />
             </a>

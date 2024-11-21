@@ -23,6 +23,14 @@ class NavigationSettings(BaseSiteSetting):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    header_logo_page_link = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=False,
+        null=True,
+    )
+
     footer_logo = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -30,6 +38,14 @@ class NavigationSettings(BaseSiteSetting):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    footer_logo_page_link = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=False,
+        null=True,
+    )
+    
     footer_seal = models.ForeignKey(
         "wagtailimages.Image",
         null=True,

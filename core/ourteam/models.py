@@ -44,7 +44,7 @@ class OurteamPage(RichTextPageAbstract):
         FieldPanel("sub_heading_one"),
         FieldPanel("sub_heading_two"),
         FieldPanel("apply_heading"),
-        InlinePanel('ourteam_page_person', label='Buginess Page Slide'),
+        InlinePanel('ourteam_page_person', label='Add team Member'),
         MultiFieldPanel([
             FieldPanel('button_text'),
             FieldPanel('link_page'),
