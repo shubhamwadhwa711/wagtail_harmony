@@ -15,12 +15,12 @@ jobs:
   
       - name: Set environment variables from GitHub Secrets
         env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }} >> .env
+          DB_NAME: ${{ secrets.DB_NAME }} >> .env
+          DB_USER: ${{ secrets.DB_USER }} >> .env
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }} >> .env
+          DB_HOST: ${{ secrets.DB_HOST }}  >> .env
+          DB_PORT: ${{ secrets.DB_PORT }} >> .env
         run: echo "Environment variables set successfully"
 
 
