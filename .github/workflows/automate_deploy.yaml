@@ -2,8 +2,6 @@ name: Harmony VM Deployment
 
 on:
   push:
-    echo${{ secrets.DJANGO_SECRET_KEY }}
-    
     branches: ["main"]
 
 jobs:
@@ -16,11 +14,14 @@ jobs:
 
       - name: Pull latest code
         run: git pull origin main || { echo "Git pull failed"; exit 1; }
+             
 
       - name: Set environment variables from GitHub Secrets
+        run: |
+          echo "Environment variables set successfully++++++++++++++++++++++"
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}"
         env:
           echo "Docker build"
-          
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
