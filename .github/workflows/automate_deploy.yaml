@@ -77,7 +77,15 @@ jobs:
             --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
             --build-arg DB_HOST=${{ secrets.DB_HOST }} \
             --build-arg DB_PORT=${{ secrets.DB_PORT }} \
-            --no-cache || { echo "docker failed"; exit 2; }
+            --no-cache
+          if [ $? -ne 0 ]; then
+            echo "Docker build failed"
+            exit 2
+          fi
 
           echo "Docker run in background"
-          docker compose up -d || { echo "docker failed background"; exit 3; }
+          docker compose up -d
+          if [ $? -ne 0 ]; then
+            echo "Docker run failed"
+            exit 3
+          fi
