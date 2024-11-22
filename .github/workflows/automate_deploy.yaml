@@ -21,7 +21,6 @@ jobs:
 
 
 
-
       # - name: Set environment variables from GitHub Secrets
       #   env:
       #     DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
