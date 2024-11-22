@@ -14,7 +14,10 @@ jobs:
 
       - name: Set env
         env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.DJANGO_SECRET_KEY }} 
+        run: |
+            echo "${{ secrets.DJANGO_SECRET_KEY }}"
+            
 
 
 
