@@ -16,13 +16,10 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.DJANGO_SECRET_KEY }} 
         run: |
-            echo "${{ secrets.DJANGO_SECRET_KEY }}"
-            
+            echo "${{ secrets.DB_USER }}"
 
 
 
-      # - name: Pull latest code
-      #   run: git pull origin main || { echo "Git pull failed"; exit 1; }
 
       # - name: Set environment variables from GitHub Secrets
       #   env:
@@ -33,6 +30,13 @@ jobs:
       #     DB_HOST: ${{ secrets.DB_HOST }}
       #     DB_PORT: ${{ secrets.DB_PORT }}
       #   run: echo "Environment variables set successfully"
+
+
+
+      # - name: Pull latest code
+      #   run: git pull origin main || { echo "Git pull failed"; exit 1; }
+
+
 
       # - name: Run Docker
       #   run: |
