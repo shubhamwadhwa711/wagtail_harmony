@@ -16,6 +16,16 @@ jobs:
           echo "Take the pull "
           git pull origin main || { echo "Git pull failed"; exit 1; }
 
+    - name: Set environment variables from GitHub Secrets
+        run: |
+          export DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+          export DB_NAME=${{ secrets.DB_NAME }}
+          export DB_USER=${{ secrets.DB_USER }}
+          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          export DB_HOST=${{ secrets.DB_HOST }}
+          export DB_PORT=${{ secrets.DB_PORT }}
+        run: echo "Environment variables set successfully"
+
     - name : run docker
       run: |
         echo "Docker build"
@@ -28,5 +38,3 @@ jobs:
       
 
 
-    
-    
