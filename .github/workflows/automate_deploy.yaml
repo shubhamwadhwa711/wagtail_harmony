@@ -15,7 +15,7 @@ jobs:
       - name :
         run: | 
           touch .env
-          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
           cat .env
 
 
