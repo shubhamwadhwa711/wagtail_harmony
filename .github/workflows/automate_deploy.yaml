@@ -12,26 +12,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set env 
-        run : echo ${{ secrets.DJANGO_SECRET_KEY }}
+      - name: Set env
+        run: echo ${{ secrets.DJANGO_SECRET_KEY }}
 
-      - name: Pull latest code
-        run: git pull origin main || { echo "Git pull failed"; exit 1; }
 
-      - name: Set environment variables from GitHub Secrets
-        env:
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-        run: echo "Environment variables set successfully"
+      # - name: Pull latest code
+      #   run: git pull origin main || { echo "Git pull failed"; exit 1; }
 
-      - name: Run Docker
-        run: |
-          echo "Docker build"
-          docker compose build --no-cache || { echo "docker failed"; exit 2; }
+      # - name: Set environment variables from GitHub Secrets
+      #   env:
+      #     DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      #     DB_NAME: ${{ secrets.DB_NAME }}
+      #     DB_USER: ${{ secrets.DB_USER }}
+      #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      #     DB_HOST: ${{ secrets.DB_HOST }}
+      #     DB_PORT: ${{ secrets.DB_PORT }}
+      #   run: echo "Environment variables set successfully"
 
-          echo "Docker run in background"
-          docker compose up -d || { echo "docker failed background"; exit 3; }
+      # - name: Run Docker
+      #   run: |
+      #     echo "Docker build"
+      #     docker compose build --no-cache || { echo "docker failed"; exit 2; }
+
+      #     echo "Docker run in background"
+      #     docker compose up -d || { echo "docker failed background"; exit 3; }
