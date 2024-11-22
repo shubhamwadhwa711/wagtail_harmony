@@ -16,7 +16,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.DJANGO_SECRET_KEY }} 
         run: |
-            echo "${{ secrets.DB_NAME }}"
+            echo "${{ secrets.DB_NAME }}  ${{ secrets.DJANGO_SECRET_KEY }}  "
 
 
 
