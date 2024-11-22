@@ -14,9 +14,7 @@ jobs:
 
       - name: Set env
         env:
-          KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-        run: |
-            echo "KEY=$KEY"
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
 
 
 
