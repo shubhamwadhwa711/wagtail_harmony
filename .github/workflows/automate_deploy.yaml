@@ -12,55 +12,42 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name :
-        run: | 
-          touch .env
-          echo DJANGO_SECRET_KEY=" ${{ secrets.DJANGO_SECRET_KEY }} " >> .env
-          echo DB_NAME=" ${{ secrets.DB_NAME }} " >> .env
-          echo DB_USER=" ${{ secrets.DB_USER }} " >> .env
-          echo DB_PASSWORD=" ${{ secrets.DB_PASSWORD }} " >> .env
-          echo DB_HOST=" ${{ secrets.DB_HOST }} " >> .env
-          echo DB_PORT=" ${{ secrets.DB_PORT }} " >> .env
-          cat .env
-
-
-
-
-
-
-        
-
       
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: 'Create env file'
+        run: |
+          ls
+
+      # - name: Create .env file
       #   run: |
       #     touch .env
-      #     echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-      #     echo API_KEY=${{ secrets.API_KEY }} >> .env
+      #     echo DJANGO_SECRET_KEY="${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+      #     echo DB_NAME="${{ secrets.DB_NAME }}" >> .env
+      #     echo DB_USER="${{ secrets.DB_USER }}" >> .env
+      #     echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> .env
+      #     echo DB_HOST="${{ secrets.DB_HOST }}" >> .env
+      #     echo DB_PORT="${{ secrets.DB_PORT }}" >> .env
       #     cat .env
 
-  
-      # - name: Set environment variables from GitHub Secrets
-      #   env:
-      #     DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }} >> .env
-      #     DB_NAME: ${{ secrets.DB_NAME }} >> .env
-      #     DB_USER: ${{ secrets.DB_USER }} >> .env
-      #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }} >> .env
-      #     DB_HOST: ${{ secrets.DB_HOST }}  >> .env
-      #     DB_PORT: ${{ secrets.DB_PORT }} >> .env
-      #   run: echo "Environment variables set successfully"
+      # - name: Set up SSH key
+      #   uses: webfactory/ssh-agent@v0.5.3
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # - name: Pull latest code on the server
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no sajal@harmony.shubpy.com "cd /home/sajal/wagtail/wagtail_harmony && git pull origin main || { echo 'Git pull failed'; exit 1; }"
 
+      # - name: Run Docker on the server
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no sajal@harmony.shubpy.com << 'EOF'
+      #       echo "Docker build"
+      #       cd /home/sajal/wagtail/wagtail_harmony
+      #       docker compose build --no-cache || { echo "docker failed"; exit 2; }
 
-      - name: Pull latest code
-        run: git pull origin main || { echo "Git pull failed"; exit 1; }
-
-
-
-      - name: Run Docker
-        run: |
-          echo "Docker build"
-          docker compose build --no-cache || { echo "docker failed"; exit 2; }
-
-          echo "Docker run in background"
-          docker compose up -d || { echo "docker failed background"; exit 3; }
+      #       echo "Docker run in background"
+      #       docker compose up -d || { echo "docker failed background"; exit 3; }
+      #     EOF
