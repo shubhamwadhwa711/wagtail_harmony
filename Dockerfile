@@ -23,5 +23,3 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 # Copy the rest of the application code into the container
 COPY . /app
 
-# Default command
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
