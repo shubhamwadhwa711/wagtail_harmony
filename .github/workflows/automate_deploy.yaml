@@ -2,6 +2,8 @@ name: Harmony VM Deployment
 
 on:
   push:
+    echo${{ secrets.DJANGO_SECRET_KEY }}
+    
     branches: ["main"]
 
 jobs:
@@ -17,6 +19,8 @@ jobs:
 
       - name: Set environment variables from GitHub Secrets
         env:
+          echo "Docker build"
+          
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
