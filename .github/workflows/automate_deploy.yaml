@@ -16,14 +16,11 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          # Start SSH agent
-          eval $(ssh-agent -s)
-          
-          # Add the private key to the agent
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 194.163.166.189 >> ~/.ssh/known_hosts
 
-          # Print the contents of the directory
-          ls -la
    
 
       # - name: Create .env file
