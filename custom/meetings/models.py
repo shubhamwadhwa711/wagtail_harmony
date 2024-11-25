@@ -19,12 +19,13 @@ from enum import Enum
 
 
 
-class MeetingTypeChoices(models.TextChoices):
-    GOVERNMENT = "gov", "Gov. Meetings"
-    SOCIETY = "society", "Society Meetings"
-    RWA = "rwa", "Monthly RWA Meetings"
 
 
+class MeetingTypes(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name  # Makes it easier to identify objects in the admin
 
 
 
@@ -35,12 +36,6 @@ class MeetingsPage(Page):
         blank=True,
     )
     meeting_text = models.CharField(max_length=200,null=True,blank=True,default="All Meetings")
-    meeting_type = models.CharField(
-        max_length=20,
-        choices=MeetingTypeChoices.choices,
-        default=MeetingTypeChoices.SOCIETY,
-        
-    )
 
     bottom_heading = models.TextField(blank=True, null=True)
     bottom_image_one = models.ForeignKey(
@@ -67,7 +62,6 @@ class MeetingsPage(Page):
   
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("meeting_text"),
-        FieldPanel("meeting_type"),
         MultiFieldPanel([
             FieldPanel('bottom_heading'),
             FieldPanel('bottom_image_one'),
@@ -87,9 +81,10 @@ class MeetingsPage(Page):
 
     def update_context(self,context):
         meetings = MeetingPage.objects.all()
+        meeting_types= MeetingTypes.objects.all()
         context.update({
             'meetings': meetings,
-            'meeting_types': MeetingTypeChoices.choices,
+            'meeting_types': meeting_types
            
         })
         return context
@@ -118,16 +113,18 @@ class MeetingPage(Page):
         use_json_field=True,
         blank=True,
     )
+
+    
     meeting_date = models.DateField("Meeting Date",null=True,blank=True)
     meeting_start_time = models.TimeField("Start Time",null=True,blank=True)
     meeting_end_time = models.TimeField("End Time",null=True,blank=True)
     meeting_description =models.TextField("Enter meeting AGENDA",null=True,blank=True)
-   
-    meeting_type = models.CharField(
-        max_length=20,
-        choices=MeetingTypeChoices.choices,
-        default=MeetingTypeChoices.SOCIETY,
-        
+    meeting = models.ForeignKey(
+        'meetings.MeetingTypes',  # Reference the `MeetingTypes` model
+        on_delete=models.SET_NULL,  # Allows null values if the type is deleted
+        null=True,
+        blank=True,
+        related_name='meetings',  # Optional: to access related MeetingPages from MeetingTypes
     )
 
   
@@ -136,7 +133,7 @@ class MeetingPage(Page):
         FieldPanel('meeting_date'),
         FieldPanel('meeting_start_time'),
         FieldPanel('meeting_end_time'),
-        FieldPanel('meeting_type'),
+        FieldPanel('meeting'),
         FieldPanel('meeting_description')
 
     ]

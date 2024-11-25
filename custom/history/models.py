@@ -92,8 +92,6 @@ class HistoriesPage(RichTextPageAbstract):
                 )
 
 
-           
-
         context.update({
             'histories': histories,
             'search_query': search_query,
