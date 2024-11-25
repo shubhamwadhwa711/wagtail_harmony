@@ -34,131 +34,77 @@
               </div>
           </div>
       </div>
-      
+
+
       <div class="development-officer main-election">
-           <img class="big-wave mobile-show" src="{% static 'img/mobile-wave-2.png' %}">
-           <img class="big-wave mobile-hide" src="{% static 'img/big-wave.png '%}">
-          <div class="container-fluid">
-              <img class="yellow-u" src="{% static 'img/elections/yellow-u.svg' %}">
-              <div class="row">
-                  <div class="col-md-12">
-                      <div class="nominess">
-                          <h2>{{page.heading_one}}</h2>
-                          <p>{{page.sub_heading_one}}</p>
-                          <!--h3>Nominees</h3-->
-                          <div class="img-box">
-
-                            {% for user in elections_users %}
-                                {% for person in user.election_page_person.all %}
-
-                              <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{person.id}}">
-
-                                {% image person.image width-1024 as perimg %}
-                                  <img src="{{perimg.url}}">
-                                  <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
-                                  <h4 class="name">{{person.name}}</h4>
-                                  <p class="designation">{{person.designation}}</p>
-                                  <p class="re-election designation">{{person.re_election_designation}}</p>
-                                  
-                                   <!-- The Modal -->
-                                <div class="modal" id="{{person.id}}">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                        <div class="modal-body">
-                                             <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                                </button>
-                                          <div class="row">
-                                              <div class="img-side">
-                                                {% image person.image width-1024 as perimg %}
-                                                    <img src="{{perimg.url}}">
-                                                                                                </div>
-                                              <div class="detail-side">
-                                                <div class="elected-details">
-                                                  <h4 class="name">{{person.name}}</h4>
-                                                  <p class="designation">{{person.designation}}</p>
-                                                  <p class="description">{{person.description}}</p>
-                                              </div>
-                                              </div>
-                                          </div>
-                                        </div>
-                                        
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-
-                            {% endfor %}
-                            {% endfor %}
-                          </div>
-                          <a class="dscrptn" href="">View Description +</a>
-                <a class="read-more" href="{{page.link_page_one.url}}">{{page.button_text_one}} <img src="{% static 'img/arrow-up.svg' %}"></a>
+        <img class="big-wave mobile-show" src="{% static 'img/mobile-wave-2.png' %}">
+        <img class="big-wave mobile-hide" src="{%static 'img/big-wave.png' %}">
+       <div class="container-fluid">
+           <img class="yellow-u" src="{%static 'img/elections/yellow-u.svg' %}">
+           <div class="row">
+                {% if elections_users.live %}
                     
-              </div>
-                  </div>
-                  
-                  <div class="col-md-12">
-                      <div class="nominess">
-                          <h2>{{page.heading_two}}</h2>
-                          <p>{{page.sub_heading_two}}</p>
-                          
-                         
-                          <div class="img-box">
-                             
-                            {% for user in elections_users %}
-                            {% for person in user.election_page_person.all %}
-
-                          <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{person.id}}">
-
-                            {% image person.image width-1024 as perimg %}
-                              <img src="{{perimg.url}}">
-                              <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
-                              <h4 class="name">{{person.name}}</h4>
-                              <p class="designation">{{person.designation}}</p>
-                              <p class="re-election designation">{{person.re_election_designation}}</p>
-                              
-                               <!-- The Modal -->
-                            <div class="modal" id="{{person.id}}">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                    <div class="modal-body">
-                                         <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                            </button>
-                                      <div class="row">
-                                          <div class="img-side">
-                                            {% image person.image width-1024 as perimg %}
-                                                 <img src="{{perimg.url}}">
-
-                                          </div>
-                                          <div class="detail-side">
-                                            <div class="elected-details">
-                                              <h4 class="name">{{person.name}}</h4>
-                                              <p class="designation">{{person.designation}}</p>
-                                              <p class="description">{{person.description}}</p>
-                                          </div>
-                                          </div>
-                                      </div>
+                    {% for user in elections_users %}
+                        <div class="col-md-12">
+                            <div class="nominess">
+                                <h2>{{user.heading}}</h2>
+                                <p>{{user.party_name}}</p>
+                                <!--h3>Nominees</h3-->
+                                <div class="img-box">
+                                    {% for person in user.election_page_person.all %}
+                                    <div class="nominess-box" data-bs-toggle="modal" data-bs-target="#{{person.id}}">
+                                        {% image person.image width-1024 as perimg %}
+                                        <img src="{{perimg.url}}">
+                                        <img class="large-pop" src="{% static 'img/large-pop.svg' %}">
+                                        <h4 class="name">{{person.name}}</h4>
+                                        <p class="designation">{{person.designation}}</p>
+                                        <p class="re-election designation">{{person.re_election_designation}}</p>
+                                        
+                                            <!-- The Modal -->
+                                        <div class="modal" id="{{person.id}}">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                        </button>
+                                                <div class="row">
+                                                    <div class="img-side">
+                                                        <img src="{{perimg.url}}">
+                                                    </div>
+                                                    <div class="detail-side">
+                                                        <div class="elected-details">
+                                                        <h4 class="name">{{person.name}}</h4>
+                                                        <p class="designation">{{person.designation}}</p>
+                                                        <p class="description">{{person.description}}</p>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {%endfor %}
                                     
-                                    </div>
                                 </div>
+                                <a class="dscrptn" href="">View Description +</a>
+                                <a class="read-more" href="">Run for Position <img src="{% static 'img/arrow-up.svg' %}"></a>
                             </div>
-                          </div>
-
-                        {% endfor %}
-                        {% endfor %}
-                              
-                          </div>
-                          <a class="dscrptn" href="">View Description +</a>
-              <a class="read-more" href="{{page.link_page_two.url}}">
-                    {{page.button_text_two}} <img src="{% static 'img/arrow-up.svg' %}"
-                    ></a>
-                      </div>
-
-                  </div>
-              </div>
-              <img class="green-path" src="{% static 'img/green-upath.svg' %}">
-          </div>
-      </div>
+                        </div>
+                        
+                    {% endfor %}
+                {% endif %}
+                    
+        
+        
+           </div>
+           <img class="green-path" src="{% static 'img/green-upath.svg' %}">
+       </div>
+     </div>
+   
+      
+    <!--election ballot-->
       
       <div class="election ballot">
           <div class="container-fluid">

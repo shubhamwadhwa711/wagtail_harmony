@@ -24,6 +24,7 @@ class HistoriesPage(RichTextPageAbstract):
         use_json_field=True,
         blank=True,
     )
+    heading = models.TextField(blank=True, null=True,default="History of Harmony")
 
     bottom_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
     bottom_image_one = models.ForeignKey(
@@ -51,6 +52,7 @@ class HistoriesPage(RichTextPageAbstract):
 
 
     content_panels = RichTextPageAbstract.content_panels + [
+            FieldPanel('heading'),
             InlinePanel('history_page_details', label='History Page Details'),
             MultiFieldPanel([
             FieldPanel('bottom_heading'),
@@ -70,17 +72,60 @@ class HistoriesPage(RichTextPageAbstract):
         verbose_name_plural = 'Histories Pages'
 
 
+
+
+    def update_context(self,context,search_query):
+        histories = HistoryContent.objects.all()
+
+        if search_query:
+            histories = histories.filter(
+                Q(content_short_description__icontains=search_query) |
+                Q(content_full_description__icontains=search_query) |
+                Q(date__icontains=search_query)  # Adjust fields as needed
+            )
+             # Fallback to HistoryDetails if no matches are found
+            if not histories.exists():
+                histories = HistoryDetails.objects.filter(
+                    Q(history_year__icontains=search_query) |
+                    Q(short_heading__icontains=search_query) |
+                    Q(description__icontains=search_query)
+                )
+
+
+           
+
+        context.update({
+            'histories': histories,
+            'search_query': search_query,
+        
+        })
+        return context
+
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
-        context = self.get_context(request, *args, **kwargs)
-        # context = self.update_context(default_context)
-       
+        default_context = self.get_context(request, *args, **kwargs)
+        search_query = request.GET.get('search', '')
+        context = self.update_context(default_context,search_query)
+
         return TemplateResponse(
             request,
             template,
             context,
         )
+
+
+    # def serve(self,request,*args, **kwargs):
+    #     request.is_preview = False
+    #     template = self.get_template(request, *args, **kwargs)
+    #     context = self.get_context(request, *args, **kwargs)
+    #     # context = self.update_context(default_context)
+       
+    #     return TemplateResponse(
+    #         request,
+    #         template,
+    #         context,
+    #     )
 
 
 class  HistoryDetails(Orderable,ClusterableModel):
@@ -90,13 +135,11 @@ class  HistoryDetails(Orderable,ClusterableModel):
         related_name='history_page_details',
     )
     history_year = models.CharField(max_length=200,null=True,blank=False)
-    heading = models.TextField(blank=True, null=True,default="History of Harmony")
     short_heading = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
  
     panels = [
         FieldPanel("history_year"),
-        FieldPanel('heading'),
         FieldPanel('short_heading'),
         FieldPanel('description'),
         InlinePanel('history_contents', label='History Contents'),

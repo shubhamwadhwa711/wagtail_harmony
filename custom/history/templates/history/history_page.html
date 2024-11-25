@@ -15,3 +15,56 @@
     {% include 'includes/body.html' %}
    </div>
 {% endblock %}
+
+
+
+
+{% comment %}  
+def update_context(self,context,search_query):
+histories = HistoryPage.objects.all()
+if search_query:
+    histories = histories.filter(
+        Q(content_short_description__icontains=search_query) |
+        Q(content_full_description__icontains=search_query) |
+        Q(date__icontains=search_query)  # Adjust fields as needed
+    )
+context.update({
+    'histories': histories,
+    'search_query': search_query,
+   
+})
+return context
+
+def serve(self,request,*args, **kwargs):
+request.is_preview = False
+template = self.get_template(request, *args, **kwargs)
+default_context = self.get_context(request, *args, **kwargs)
+search_query = request.GET.get('search', '')
+context = self.update_context(default_context,search_query)
+
+return TemplateResponse(
+    request,
+    template,
+    context,
+) {% endcomment %}
+
+
+
+
+{% comment %} <div class="history-search">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="d-flex" method="get" action="">
+                    <label>Search</label>
+                    <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" 
+                      value="{{ search_query }}">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="material-icons">search</i>
+                    </button>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div> 
+ {% endcomment %}

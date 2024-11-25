@@ -7,30 +7,25 @@
 <main class="main">
   <div class="history-search">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <form class="d-flex">
-            <label>Search</label>
-            <input
-              class="form-control"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              <i class="material-icons">search</i>
-            </button>
-          </form>
+        <div class="row">
+            <div class="col-md-12">
+                <form class="d-flex" method="get" action="">
+                    <label>Search</label>
+                    <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" 
+                      value="{{ search_query }}">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="material-icons">search</i>
+                    </button>
+                  </form>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
+</div>
   <div class="history-of-harmony">
     <div class="container-fluid">
       <div class="row">
         <div clas="col-md-12">
-          <h2>History of Harmony</h2>
+          <h2>{{page.heading}}</h2>
           <div class="tab">
             <ul>
               {% for year in page.history_page_details.all%}
@@ -89,9 +84,6 @@
             {%endfor%}
           
           </div>
-
-
-
         </div>
       </div>
     </div>
@@ -102,9 +94,7 @@
       class="container-fluid"
       style="
         background-image: url({%static 'img/quick-bg.png' %});
-        background-color: #054651;
-      "
-    >
+        background-color: #054651;">
       <img class="green-u" src="{% static 'img/green-upath.svg' %}" />
       <div class="row">
         <div class="col-md-4">

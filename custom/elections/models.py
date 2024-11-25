@@ -41,64 +41,65 @@ class ElectionsPage(RichTextPageAbstract):
     page_name =  models.TextField(blank=True, null=True,default="ELECTIONS")
     heading = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    heading_one = models.TextField(blank=True, null=True)
-    sub_heading_one = models.TextField(blank=True, null=True)
-    button_text_one = models.TextField(blank=True, null=True,default="Run for Position")
-    link_page_one = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+    
+    # heading_one = models.TextField(blank=True, null=True)
+    # sub_heading_one = models.TextField(blank=True, null=True)
+    # button_text_one = models.TextField(blank=True, null=True,default="Run for Position")
+    # link_page_one = models.ForeignKey(
+    #     'wagtailcore.Page',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    # )
 
-    button_text_two = models.TextField(blank=True, null=True,default="Run for Position")
-    link_page_two = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+    # button_text_two = models.TextField(blank=True, null=True,default="Run for Position")
+    # link_page_two = models.ForeignKey(
+    #     'wagtailcore.Page',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    # )
 
-    heading_two =  models.TextField(blank=True, null=True)
-    sub_heading_two =  models.TextField(blank=True, null=True)
+    # heading_two =  models.TextField(blank=True, null=True)
+    # sub_heading_two =  models.TextField(blank=True, null=True)
 
-    nomination_heading = models.TextField(blank=True, null=True,default="Apply for the nomination Check the criteria and Eligibility")
-    button_text_three = models.TextField(blank=True, null=True,default="Get on Ballot")
-    link_page_three = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+    # nomination_heading = models.TextField(blank=True, null=True,default="Apply for the nomination Check the criteria and Eligibility")
+    # button_text_three = models.TextField(blank=True, null=True,default="Get on Ballot")
+    # link_page_three = models.ForeignKey(
+    #     'wagtailcore.Page',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    # )
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("notice_text"),
         FieldPanel("page_name"),
     
         FieldPanel("heading"),
         FieldPanel("description"),
-        FieldPanel("heading_one"),
-        FieldPanel("sub_heading_one"),
+        # FieldPanel("heading_one"),
+        # FieldPanel("sub_heading_one"),
     
-        MultiFieldPanel([
-            FieldPanel('button_text_one'),
-            FieldPanel('link_page_one'),
-        ], heading='Add Position  Button Page One'),
-        FieldPanel("heading_two"),
-        FieldPanel("sub_heading_two"),
-        FieldPanel("nomination_heading"),
+        # MultiFieldPanel([
+        #     FieldPanel('button_text_one'),
+        #     FieldPanel('link_page_one'),
+        # ], heading='Add Position  Button Page One'),
+        # FieldPanel("heading_two"),
+        # FieldPanel("sub_heading_two"),
+        # FieldPanel("nomination_heading"),
 
-        MultiFieldPanel([
-            FieldPanel('button_text_two'),
-            FieldPanel('link_page_two'),
-        ], heading='Add Position  Button Page Two'),
+        # MultiFieldPanel([
+        #     FieldPanel('button_text_two'),
+        #     FieldPanel('link_page_two'),
+        # ], heading='Add Position  Button Page Two'),
       
-        MultiFieldPanel([
-            FieldPanel('button_text_three'),
-            FieldPanel('link_page_three'),
-        ], heading='Add Ballot Page '),
+        # MultiFieldPanel([
+        #     FieldPanel('button_text_three'),
+        #     FieldPanel('link_page_three'),
+        # ], heading='Add Ballot Page '),
 
     ]
 
