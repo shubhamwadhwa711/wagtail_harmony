@@ -12,9 +12,12 @@
             <div class="row">
                 <ul class="nav nav-tabs" id="contact-tab" role="tablist">
                     {% for contact  in  page.contactform_details.all %}
-                    
+    
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link {% if forloop.first %}active{% endif %}" id="contact-tab-{{ forloop.counter }}" data-bs-toggle="tab" data-bs-target="#contact-{{ forloop.counter }}" type="button" role="tab" aria-controls="contact-{{ forloop.counter }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <button class="nav-link {% if forloop.first %}active{% endif %}" id="contact-tab-{{ forloop.counter }}" data-bs-toggle="tab" 
+                        data-bs-target="#contact-{{ forloop.counter }}" 
+                        type="button" role="tab" aria-controls="contact-{{ forloop.counter }}" 
+                        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
                             {{ contact.contact_form_heading }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="14.576" height="15.405" viewBox="0 0 14.576 15.405">
                                 <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(13.576 1.414) rotate(90)">
@@ -33,7 +36,9 @@
                 <div class="tab-content" id="contact-tab-contnet">
                     {% for contact in  page.contactform_details.all  %}
                   
-                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"  id="contact-{{ forloop.counter }}" role="tabpanel" 
+                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                    id="contact-{{ forloop.counter }}"
+                    role="tabpanel" 
                     aria-labelledby="contact-tab-{{ forloop.counter }}">
                 
                         <div class="row">
@@ -65,9 +70,10 @@
                                                 <button class="btn btn-primary" type="Send message">Send message 
                                                     <img src="{% static 'img/arrow.svg' %}" /></button>
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
+                                        
                 
-
 
 
                                     <div class="contact-details mobile-show">
@@ -82,6 +88,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 

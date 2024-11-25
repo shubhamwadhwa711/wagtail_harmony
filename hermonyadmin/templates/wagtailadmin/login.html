@@ -1,0 +1,10 @@
+{% extends "wagtailadmin/login.html" %}
+{% load static %}
+
+{% block branding_login %}Sign in to HarmonyCMS{% endblock %}
+
+{% block branding_logo %}
+<div class="login-logo">
+    <img class="login-logo-img" src="{% static 'images/gryphon.png' %}" alt="HarmonyCMS" />
+</div>
+{% endblock %}

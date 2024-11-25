@@ -1,0 +1,41 @@
+//
+// Wagtail admin colors
+//
+
+:root {
+  --w-color-primary: #001d29;
+  --w-color-primary-200: #002a3a;
+}
+
+
+//
+// Wagtail userbar styling
+//
+
+.w-userbar-trigger, .w-userbar-trigger a, .w-userbar-trigger button {
+  background-color: #001d29 !important;
+
+  &:hover, &:focus {
+    background-color: #002a3a !important;
+  }
+}
+
+.w-userbar__item, .w-userbar__item .w-action, .w-userbar__item a, .w-userbar__item button {
+  background-color: #001d29 !important;
+
+  &:hover, &:focus {
+    background-color: #002a3a !important;
+  }
+}
+
+
+//
+// Wagtail admin menu styling
+//
+
+
+.sidebar--slim {
+  .sidebar-custom-branding {
+    padding: 0 15px;
+  }
+}

@@ -37,11 +37,15 @@ INSTALLED_APPS = [
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
+    #
+    "hermonyadmin",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
+
+    
     "wagtail",
     'wagtail_modeladmin',
     "modelcluster",

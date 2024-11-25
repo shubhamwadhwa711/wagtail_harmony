@@ -13,6 +13,8 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from django.template.response import TemplateResponse
 from django.db.models import Q
+from modelcluster.models import ClusterableModel
+
 
 ##################################################################################################
 
@@ -22,10 +24,7 @@ class HistoriesPage(RichTextPageAbstract):
         use_json_field=True,
         blank=True,
     )
-    search = models.TextField(blank=True, null=True)
-    heading = models.TextField(blank=True, null=True,default="History of Harmony")
-    short_heading = models.TextField(blank=True, null=True)
-    short_description = models.TextField(blank=True, null=True)
+
     bottom_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
     bottom_image_one = models.ForeignKey(
         'wagtailimages.Image',
@@ -50,12 +49,10 @@ class HistoriesPage(RichTextPageAbstract):
         null=True,
     )
 
-    content_panels = RichTextPageAbstract.content_panels + [
 
-        FieldPanel("heading"),
-        FieldPanel("short_heading"),
-        FieldPanel("short_description"),
-        MultiFieldPanel([
+    content_panels = RichTextPageAbstract.content_panels + [
+            InlinePanel('history_page_details', label='History Page Details'),
+            MultiFieldPanel([
             FieldPanel('bottom_heading'),
             FieldPanel('bottom_image_one'),
             FieldPanel('bottom_image_two'),
@@ -66,33 +63,19 @@ class HistoriesPage(RichTextPageAbstract):
     ]
 
     parent_page_types = ['home.HomePage']
-    subpage_types = ["history.HistoryPage"]
+    subpage_types = []
+
     class Meta:
         verbose_name = 'Histories Page'
         verbose_name_plural = 'Histories Pages'
-    
-    def update_context(self,context,search_query):
-        histories = HistoryPage.objects.all()
-        if search_query:
-            histories = histories.filter(
-                Q(content_short_description__icontains=search_query) |
-                Q(content_full_description__icontains=search_query) |
-                Q(date__icontains=search_query)  # Adjust fields as needed
-            )
-        context.update({
-            'histories': histories,
-            'search_query': search_query,
-           
-        })
-        return context
+
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
-        default_context = self.get_context(request, *args, **kwargs)
-        search_query = request.GET.get('search', '')
-        context = self.update_context(default_context,search_query)
-
+        context = self.get_context(request, *args, **kwargs)
+        # context = self.update_context(default_context)
+       
         return TemplateResponse(
             request,
             template,
@@ -100,17 +83,33 @@ class HistoriesPage(RichTextPageAbstract):
         )
 
 
-
+class  HistoryDetails(Orderable,ClusterableModel):
+    page = ParentalKey(
+        HistoriesPage,
+        on_delete=models.CASCADE,
+        related_name='history_page_details',
+    )
+    history_year = models.CharField(max_length=200,null=True,blank=False)
+    heading = models.TextField(blank=True, null=True,default="History of Harmony")
+    short_heading = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+ 
+    panels = [
+        FieldPanel("history_year"),
+        FieldPanel('heading'),
+        FieldPanel('short_heading'),
+        FieldPanel('description'),
+        InlinePanel('history_contents', label='History Contents'),
+    ]
     
 
-
-
-class  HistoryPage(RichTextPageAbstract):
-    body = StreamField(
-        richtext_blocks,
-        use_json_field=True,
-        blank=True,
+class  HistoryContent(Orderable):
+    page = ParentalKey(
+        HistoryDetails,
+        on_delete=models.CASCADE,
+        related_name='history_contents',
     )
+  
     date = models.DateField(blank=True, null=True)
     content_short_description = models.TextField(blank=True, null=True)
     content_full_description = models.TextField(blank=True, null=True)
@@ -122,23 +121,11 @@ class  HistoryPage(RichTextPageAbstract):
         null=True,
     )
 
-    content_panels = RichTextPageAbstract.content_panels + [
+    panels=[
         FieldPanel('date'),
         FieldPanel('image'),
         FieldPanel('content_short_description'),
         FieldPanel('content_full_description'),
     ]
 
-    parent_page_types = ['history.HistoriesPage']
-    subpage_types = []
-
-    class Meta:
-        verbose_name = 'History Page Content'
-        verbose_name_plural = 'History Page Contents'
-
-
-
-
-
-
-
+   

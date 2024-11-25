@@ -1,102 +1,50 @@
-  # version: '3.8'
+  version: '3.8'
 
-  # services:
-  #   wagtail_app:
-  #     build: .
-  #     ports:
-  #       - "8003:8003"
-  #     depends_on:
-  #       - hormony_db
+  services:
+    wagtail_app:
+      build: .
+      ports:
+        - "8003:8003"
+      depends_on:
+        - hormony_db
 
-  #     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8003"
-  #     volumes:
-  #       - .:/app
-  #     env_file:
-  #         - .env
-  #     environment:
-  #         - PYTHONPATH=/app
-  #         - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-  #         - DB_NAME=${DB_NAME}
-  #         - DB_USER=${DB_USER}
-  #         - DB_PASSWORD=${DB_PASSWORD}
-  #         - DB_HOST=${DB_HOST}
-  #         - DB_PORT=${DB_PORT}
+      command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8003"
+      volumes:
+        - .:/app
+      env_file:
+          - .env
+      environment:
+          - PYTHONPATH=/app
+          - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+          - DB_NAME=${DB_NAME}
+          - DB_USER=${DB_USER}
+          - DB_PASSWORD=${DB_PASSWORD}
+          - DB_HOST=${DB_HOST}
+          - DB_PORT=${DB_PORT}
      
 
-  #   hormony_db:
-  #     image: postgres:17
-  #     restart: always
-  #     environment:
-  #       - "POSTGRES_HOST_AUTH_METHOD=trust"
-  #       - POSTGRES_DB=${DB_NAME}
-  #       - POSTGRES_USER=${DB_USER}
-  #       - POSTGRES_PASSWORD=${DB_PASSWORD}
+    hormony_db:
+      image: postgres:17
+      restart: always
+      environment:
+        - "POSTGRES_HOST_AUTH_METHOD=trust"
+        - POSTGRES_DB=${DB_NAME}
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
     
-  #     volumes:
-  #       # - postgres_data:/var/lib/postgresql/data
-  #       # - /home/jarvis/projects/wagtail_Harmony/mydb:/var/lib/postgresql/data
-  #       - ../mydb:/var/lib/postgresql/data
+      volumes:
+        # - postgres_data:/var/lib/postgresql/data
+        # - /home/jarvis/projects/wagtail_Harmony/mydb:/var/lib/postgresql/data
+        - ../mydb:/var/lib/postgresql/data
       
-  #     ports:
-  #       - "5433:5433"
-  #     env_file:
-  #       - .env
-  #     expose:
-  #       - 5433
+      ports:
+        - "5433:5433"
+      env_file:
+        - .env
+      expose: 
+        - 5433
 
-  # volumes:
-  #   postgres_data: {}
-
-
+  volumes:
+    postgres_data: {}
 
 
-version: '3.8'
-
-services:
-  wagtail_app:
-    build:
-      context: .
-      args:
-        DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASSWORD: ${DB_PASSWORD}
-        DB_HOST: ${DB_HOST}
-        DB_PORT: ${DB_PORT}
-    ports:
-      - "8003:8003"
-    depends_on:
-      - hormony_db
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8003"
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    environment:  # Pass environment variables at runtime
-      - PYTHONPATH=/app
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-
-  hormony_db:
-    image: postgres:17
-    restart: always
-    environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - ../mydb:/var/lib/postgresql/data
-    ports:
-      - "5433:5433"
-    env_file:
-      - .env
-    expose:
-      - 5433
-
-volumes:
-  postgres_data: {}

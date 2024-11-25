@@ -1,7 +1,7 @@
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail_modeladmin.mixins import ThumbnailMixin
 
-from .models import HistoryPage
+# from .models import HistoryPage
 
 
 # class HistoryPageModelAdmin(ThumbnailMixin, ModelAdmin):
