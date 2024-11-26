@@ -53,17 +53,28 @@
                     <div class="all-meetings">    
                         <h2>{{page.meeting_text}}</h2>
                         <ul class="portfolio-filters isotope-filters aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                            <li data-filter="*" class="filter-active">All Meetings</li>
-                            <li data-filter=".filter-upcoming">Upcoming</li>
-                            <li data-filter=".filter-past">Past</li>
-                            <li data-filter=".filter-year">2023</li>
+                            <li data-filter=".filter-all" class="{% if filter_option == 'all' %}filter-active{% endif %}">
+                                <a href="?filter=all">All Meetings</a>
+                            </li>
+                            <li data-filter=".filter-upcoming" class="{% if filter_option == 'upcoming' %}filter-active{% endif %}">
+                                <a href="?filter=upcoming">Upcoming</a>
+                            </li>
+
+                            <li data-filter=".filter-past" class="{% if filter_option == 'past' %}filter-active{% endif %}">
+                                <a href="?filter=past">Past</a>
+                            </li>
+                            <li data-filter=".filter-2023" class="{% if filter_option == '2023' %}filter-active{% endif %}">
+                                <a href="?filter=2023">2023</a>
+                            </li>
+
+                          
                         </ul>
                     </div>
                         <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"
                          style="position: relative; height: 1750.38px;">
                             {% for meeting in meetings %}
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-upcoming" style="position: absolute; left: 0px; top: 0px;">
-                            <p class="upcoming-event">UPCOMING EVENT</p>  
+                            <p class="upcoming-event">{{ event_text }}</p>  
                             <div class="metting-content">
                                 <div class="metting-info">
                                 <h4>AGENDA: {{meeting.meeting_description}}</h4>
@@ -135,13 +146,7 @@
 
 
 
-{% comment %} <script>
-    // Function to submit the form when a checkbox is changed
-    function submitForm() {
-        console.log("++++++++++++++++++++++")
-        document.getElementById('filter-form').submit();
-    }
-</script> {% endcomment %}
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>

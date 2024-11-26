@@ -3,24 +3,15 @@ from django.db import models
 # Create your models here.
 # core/models.py
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
-from wagtail.models import Orderable, Site
 from modelcluster.fields import ParentalKey
-from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
-from wagtail.blocks import RichTextBlock
+from wagtail.fields import StreamField
 from wagtail.models import Orderable
-
-##################################################################################################
-from enum import Enum
 from django.template.response import TemplateResponse
-
-
-from taggit.models import Tag, TaggedItemBase
+from taggit.models import  TaggedItemBase
 from modelcluster.contrib.taggit import ClusterTaggableManager
 
 

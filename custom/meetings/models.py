@@ -2,21 +2,14 @@ from django.db import models
 
 # Create your models here.
 # core/models.py
-
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel,StreamValue,InlinePanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
-from wagtail.models import Orderable, Site
-from modelcluster.fields import ParentalKey
 from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
+from wagtail.fields import  StreamField
 from django.template.response import TemplateResponse
-
-##################################################################################################
-from enum import Enum
-
+from datetime import date
 
 
 
@@ -52,14 +45,7 @@ class MeetingsPage(Page):
         blank=True,
         null=True,
     )
-    # bottom_link_page = models.ForeignKey(
-    #     'wagtailcore.Page',
-    #     on_delete=models.SET_NULL,
-    #     related_name='+',
-    #     blank=True,
-    #     null=True,
-    # )
-  
+
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("meeting_text"),
         MultiFieldPanel([
@@ -80,19 +66,42 @@ class MeetingsPage(Page):
 
    
 
-  
-    def update_context(self,context,request):
+    def update_context(self, context, request):
+        today = date.today()
         meetings = MeetingPage.objects.all()
+
+        # Get filter parameters from request
         selected_meeting_types = request.GET.getlist('meeting_types')
+        filter_option = request.GET.get('filter', 'all')
+        event_text = "All Meetings"
+     
+        # Defaults to 'all' if no filter is provided
+        if filter_option == 'upcoming':
+            meetings = meetings.filter(meeting_date__gte=today)
+            event_text = "Upcoming Event"
+        elif filter_option == 'past':
+            meetings = meetings.filter(meeting_date__lt=today)
+            event_text = "Past"
+        elif filter_option.isdigit():  # Check if it's a year
+            meetings = meetings.filter(meeting_date__year=int(filter_option))
+            event_text = "2023"
+    
         if selected_meeting_types:
-            meetings = meetings.filter(meeting__in=selected_meeting_types)
-        meeting_types= MeetingTypes.objects.all()
+            meetings = meetings.filter(meeting__id__in=selected_meeting_types)
+
+      
+        meeting_types = MeetingTypes.objects.all()
+
+        # Update context
         context.update({
-            'meetings': meetings,
-            'meeting_types': meeting_types
-           
+            'meetings': meetings.distinct(),  # Ensure no duplicates in queryset
+            'meeting_types': meeting_types,
+            'filter_option': filter_option, 
+            'event_text': event_text, # To identify the active filter in the template
         })
         return context
+
+ 
 
     def serve(self,request,*args, **kwargs):
       
