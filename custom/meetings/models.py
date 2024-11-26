@@ -10,8 +10,7 @@ from wagtail.models import Page
 from wagtail.fields import  StreamField
 from django.template.response import TemplateResponse
 from datetime import date
-
-
+from django.db.models import Q
 
 
 class MeetingTypes(models.Model):
@@ -68,12 +67,14 @@ class MeetingsPage(Page):
 
     def update_context(self, context, request):
         today = date.today()
+        search_query = request.GET.get('search', '')
         meetings = MeetingPage.objects.all()
-
+       
         # Get filter parameters from request
         selected_meeting_types = request.GET.getlist('meeting_types')
         filter_option = request.GET.get('filter', 'all')
         event_text = "All Meetings"
+        
      
         # Defaults to 'all' if no filter is provided
         if filter_option == 'upcoming':
@@ -88,6 +89,11 @@ class MeetingsPage(Page):
     
         if selected_meeting_types:
             meetings = meetings.filter(meeting__id__in=selected_meeting_types)
+
+        if search_query:
+            meetings = meetings.filter(
+                Q(meeting_description=search_query) 
+            )
 
       
         meeting_types = MeetingTypes.objects.all()
@@ -104,7 +110,6 @@ class MeetingsPage(Page):
  
 
     def serve(self,request,*args, **kwargs):
-      
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)

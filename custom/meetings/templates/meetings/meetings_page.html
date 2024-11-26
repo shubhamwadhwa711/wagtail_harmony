@@ -18,8 +18,13 @@
                                     <h2>Filters</h2>
                                 <div class="faq-content">
                                     <div class="search-details">
-                                    <form>
-                                        <input type="text" placeholder="Town hall meeting date" class="form-control">
+                                    <form method="get" action="">
+                                        <input type="text" placeholder="Town hall meeting date" 
+                                        class="form-control"
+                                        name="search"
+                                        value="{{ search_query }}"                                        
+                                        
+                                        >
                                         <button><i class="material-icons">search</i></button>
                                     </form>
                                     <h2>Search by</h2>
