@@ -1,3 +1,3 @@
 import "./styles/hermonyadmin.scss";
 
-import "./images/gryphon.png";
+import "./img/gryphon.png";
