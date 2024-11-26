@@ -20,16 +20,8 @@ from enum import Enum
 from django.template.response import TemplateResponse
 
 
-class CategoryEnum(Enum):
-    SCHOOLS = 'schools'
-    PARKS = 'parks'
-    TOWN_HALL = 'town_hall'
-    PARKING_STREETS = 'parking_streets'
-
-    @classmethod
-    def choices(cls):
-        return [(tag.value, tag.name.replace("_", " ").title()) for tag in cls]
-
+from taggit.models import Tag, TaggedItemBase
+from modelcluster.contrib.taggit import ClusterTaggableManager
 
 
 class PointsOfInterest(RichTextPageAbstract):
@@ -47,12 +39,6 @@ class PointsOfInterest(RichTextPageAbstract):
         null=True,
     )
 
-    # category = models.CharField(
-    #     max_length=50,
-    #     choices=CategoryEnum.choices(),
-    #     null=True,
-    #     blank=False
-    # )
 
     bottom_heading = models.TextField(blank=True, null=True)
     bottom_image_one = models.ForeignKey(
@@ -100,12 +86,16 @@ class PointsOfInterest(RichTextPageAbstract):
         verbose_name_plural = 'Points Of Interest Pages'
 
 
-    def update_context(self,context):
-        interests = SinglePointsOfInterest.objects.all()
+    def update_context(self,context,request):
+        # interests = SinglePointsOfInterest.objects.all()
+        selected_tag = request.GET.get('tag')
+        if selected_tag:
+            interests = SinglePointsOfInterest.objects.filter(tags__name__iexact=selected_tag).distinct()
+        else:
+            interests = SinglePointsOfInterest.objects.all()
         context.update({
-            'interests': interests,
-            'all_categories': "",
-    
+            "interests": interests,
+            "tags":  SinglePointsOfInterest.tags.all() 
         })
         return context
 
@@ -113,7 +103,7 @@ class PointsOfInterest(RichTextPageAbstract):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
+        context = self.update_context(default_context,request)
        
         return TemplateResponse(
             request,
@@ -123,7 +113,18 @@ class PointsOfInterest(RichTextPageAbstract):
 
 
 
+
+
+
+class InterestTags(TaggedItemBase):
+    content_object = ParentalKey(
+        "SinglePointsOfInterest", on_delete=models.CASCADE, related_name="tagged_items"
+    )
+
+                   
+
 class SinglePointsOfInterest(RichTextPageAbstract):
+    tags = ClusterTaggableManager(through=InterestTags, blank=True)
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
@@ -138,12 +139,6 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         null=True,
     )
 
-    # category = models.CharField(
-    #     max_length=50,
-    #     choices=CategoryEnum.choices(),
-    #     default=CategoryEnum.SCHOOLS.value,
-    #     blank=True
-    # )
     back_button_text = models.TextField(blank=True, null=True,default="Back to Points of Interest")
     single_point_heading = models.TextField(blank=True, null=True)
     single_point_description = models.TextField(blank=True, null=True)
@@ -193,6 +188,7 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         
         FieldPanel("text"),
         FieldPanel("small_land_image"),
+        FieldPanel('tags'),
         # FieldPanel("category"),
     
         MultiFieldPanel([
@@ -218,20 +214,20 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         verbose_name = 'Single Points Of Interest Page'
         verbose_name_plural = 'Single Points Of Interest Pages'
 
-    
-    def update_context(self,context):
-        pass
-        # context.update({
-        #     'all_categories': CategoryEnum.choices(),
-    
-        # })
-        # return context
+    def update_context(self,context,request):
+        context.update({
+            "tags":  SinglePointsOfInterest.tags.all() ,
+            "is_child" : True if   self.get_parent()  else False
+            
 
+        })
+        return context
+    
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
+        context = self.update_context(default_context,request)
        
         return TemplateResponse(
             request,

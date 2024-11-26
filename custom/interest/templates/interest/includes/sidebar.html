@@ -1,0 +1,17 @@
+
+<div class="plan-details">
+    <h2>Filter by</h2>
+    <ul class="tags">
+        {% for tag in tags %}
+            {% if is_child %}
+                {% with self.get_parent as parent %}
+
+                <li><a href="{{ parent.url }}?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+                {% endwith %}
+            {% else %}
+               
+                <li><a href="?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

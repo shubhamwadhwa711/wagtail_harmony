@@ -6,9 +6,6 @@
 {% block main %}
 
 
-
-
-
 <main class="main" style="">
 
 <div class="land-location point-of-interest">
@@ -21,25 +18,14 @@
                     <h2>{{page.text}}</h2>
                     <div class="faq-content">
                         <div class="details">
-                        {% image page.small_land_image width-1024 as landimg %}
-                        <img src="{{landimg.url}}">
-                      <div class="plan-details">
-                        <h2>Filter by</h2>
-                        <ul class="tags">
-                            {% for category_value, category_name in all_categories %}
-                            <li>
-                                <a href="#" class="{% if page.category == category_value %}selected{% endif %}">
-                                    {{ category_name }}
-                                </a>
-                            </li>
-                            {% endfor %}
-                           
-                        </ul>
-                    </div>
-                     </div>
+                            {% image page.small_land_image width-1024 as landimg %}
+                            <img src="{{landimg.url}}">
+                                    {% include "interest/includes/sidebar.html" %}
+                
+                        </div>
                     </div>
                     <div class="faq-toggle"><img src="{% static 'img/business-development/feather-arrow-up.png' %}"></div>
-                </div>
+                </div> 
                 </div>
                 </div>
             </div>

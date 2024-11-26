@@ -14,18 +14,7 @@
                     <h2>{{page.text}}</h2>
                     {% image page.small_land_image width-1024 as landimg %}
                         <img src="{{landimg.url}}">
-                    <div class="plan-details">
-                        <h2>Filter by</h2>
-                        <ul class="tags">
-                            {% for category_value, category_name in all_categories %}
-                            <li>
-                                <a href="#" class="{% if page.category == category_value %}selected{% endif %}">
-                                    {{ category_name }}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                        {% include "interest/includes/sidebar.html" %}
                 </div>
             </div>
             <div class="col-md-9">
@@ -33,10 +22,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="back-btn">
-                                    <a href="{% pageurl page.get_parent%}"
+                                    {% with self.get_parent as parent %}
+
+                                    <a href="{{parent.url}}"
                                     ><img src="{% static 'img/business-development/feather-arrow-up.png' %}"> 
                                         <p>{{page.back_button_text}}</p> 
                                     </a> 
+                                    {%endwith %}
                                 </div>
                                  <h2>{{page.single_point_heading}}</h2>
                                  {% image page.single_point_description_image  width-1024 as sigelpageimg%}

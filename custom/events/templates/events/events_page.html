@@ -70,7 +70,7 @@
                                     <a class="read-more" href="{% pageurl event %}"> Details <img src="{% static 'img/arrow.svg' %}" /></a>
                                 </div>
                                     <h2 class="title">
-                                    <a href="">{{event.heading}}</a>
+                                    <a href="{% pageurl event %}">{{event.heading}}</a>
                                     </h2>
                                     <p class="event-date">{{ event.event_date|date:"F jS, Y" }}</p>
                             </article>
