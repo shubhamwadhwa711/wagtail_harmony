@@ -78,7 +78,10 @@ class MeetingsPage(Page):
         verbose_name = 'Meetings Page'
         verbose_name_plural = 'Meeting Pages'
 
+   
 
+    def nn(self):
+        return {"name":"sajal"}
     def update_context(self,context,request):
         meetings = MeetingPage.objects.all()
         selected_meeting_types = request.GET.getlist('meeting_types')

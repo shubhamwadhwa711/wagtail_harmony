@@ -6,6 +6,7 @@
 
 
 <main class="main">
+    
         
 <div class="meeting-agendas about">
     <div class="container-fluid">
@@ -22,13 +23,15 @@
                                         <button><i class="material-icons">search</i></button>
                                     </form>
                                     <h2>Search by</h2>
-                                        <form method="GET"  action="">
+                                        <form method="GET"  action="" id="filter-form">
                                             <div class="search-by">
                                                 {% for type in  meeting_types %}
                                                 <input type="checkbox" 
                                                 value="{{type.id}}" 
                                                 name="meeting_types"
-                                                {% if type.id in selected_meeting_types %}checked="checked"{% endif %}>
+                                                {% if type.id in selected_meeting_types %}checked="checked"{% endif %}
+                                                onchange="submitForm()"
+                                                >
                                                 {{type.name}}
                                                 <br>
                                                 {% endfor %}
@@ -56,7 +59,8 @@
                             <li data-filter=".filter-year">2023</li>
                         </ul>
                     </div>
-                        <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 1750.38px;">
+                        <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"
+                         style="position: relative; height: 1750.38px;">
                             {% for meeting in meetings %}
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-upcoming" style="position: absolute; left: 0px; top: 0px;">
                             <p class="upcoming-event">UPCOMING EVENT</p>  
@@ -84,11 +88,6 @@
                                 </div>
                             </div>
                             {% endfor %}
-                    
-
-            
-
-                        
 
                         </div>
                 </div>
@@ -133,6 +132,16 @@
         display: block;
     }
 </style>
+
+
+
+{% comment %} <script>
+    // Function to submit the form when a checkbox is changed
+    function submitForm() {
+        console.log("++++++++++++++++++++++")
+        document.getElementById('filter-form').submit();
+    }
+</script> {% endcomment %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>

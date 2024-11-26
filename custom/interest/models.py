@@ -47,12 +47,12 @@ class PointsOfInterest(RichTextPageAbstract):
         null=True,
     )
 
-    category = models.CharField(
-        max_length=50,
-        choices=CategoryEnum.choices(),
-        null=True,
-        blank=False
-    )
+    # category = models.CharField(
+    #     max_length=50,
+    #     choices=CategoryEnum.choices(),
+    #     null=True,
+    #     blank=False
+    # )
 
     bottom_heading = models.TextField(blank=True, null=True)
     bottom_image_one = models.ForeignKey(
@@ -83,7 +83,7 @@ class PointsOfInterest(RichTextPageAbstract):
         
         FieldPanel("text"),
         FieldPanel("small_land_image"),
-        FieldPanel("category"),
+        # FieldPanel("category"),
      
         MultiFieldPanel([
             FieldPanel('bottom_heading'),
@@ -104,7 +104,7 @@ class PointsOfInterest(RichTextPageAbstract):
         interests = SinglePointsOfInterest.objects.all()
         context.update({
             'interests': interests,
-            'all_categories': CategoryEnum.choices(),
+            'all_categories': "",
     
         })
         return context
@@ -138,12 +138,12 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         null=True,
     )
 
-    category = models.CharField(
-        max_length=50,
-        choices=CategoryEnum.choices(),
-        default=CategoryEnum.SCHOOLS.value,
-        blank=True
-    )
+    # category = models.CharField(
+    #     max_length=50,
+    #     choices=CategoryEnum.choices(),
+    #     default=CategoryEnum.SCHOOLS.value,
+    #     blank=True
+    # )
     back_button_text = models.TextField(blank=True, null=True,default="Back to Points of Interest")
     single_point_heading = models.TextField(blank=True, null=True)
     single_point_description = models.TextField(blank=True, null=True)
@@ -193,7 +193,7 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         
         FieldPanel("text"),
         FieldPanel("small_land_image"),
-        FieldPanel("category"),
+        # FieldPanel("category"),
     
         MultiFieldPanel([
             FieldPanel('single_point_heading'),
@@ -220,11 +220,12 @@ class SinglePointsOfInterest(RichTextPageAbstract):
 
     
     def update_context(self,context):
-        context.update({
-            'all_categories': CategoryEnum.choices(),
+        pass
+        # context.update({
+        #     'all_categories': CategoryEnum.choices(),
     
-        })
-        return context
+        # })
+        # return context
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
