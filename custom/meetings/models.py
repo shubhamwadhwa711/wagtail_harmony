@@ -79,8 +79,11 @@ class MeetingsPage(Page):
         verbose_name_plural = 'Meeting Pages'
 
 
-    def update_context(self,context):
+    def update_context(self,context,request):
         meetings = MeetingPage.objects.all()
+        selected_meeting_types = request.GET.getlist('meeting_types')
+        if selected_meeting_types:
+            meetings = meetings.filter(meeting__in=selected_meeting_types)
         meeting_types= MeetingTypes.objects.all()
         context.update({
             'meetings': meetings,
@@ -90,15 +93,17 @@ class MeetingsPage(Page):
         return context
 
     def serve(self,request,*args, **kwargs):
+      
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
+        context = self.update_context(default_context,request)
         return TemplateResponse(
             request,
             template,
             context,
         )
+    
      
 
     
