@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'blocks',
     "core.home",
     'core.conf',
-    "core.land",
+    # "core.land",
     "core.richtext",
     "core.news",
     "core.contact",

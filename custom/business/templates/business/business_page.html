@@ -84,35 +84,20 @@
         
         <div class="stats-counter">
              <div class="row">
+                {% for growth in page.buginess_growth.all %}
 
                 <div class="stats-item d-flex">
                   <div>
-                    <span data-purecounter-start="0" data-purecounter-end="{{page.growth_data_number_one}}" data-purecounter-duration="1" class="purecounter"></span> <span>k</span>
-                    <p>{{page.growth_data_text_one}}</p>
+                    <span data-purecounter-start="0" data-purecounter-end="{{growth.number}}" data-purecounter-duration="1" class="purecounter"></span> <span>{{growth.unit}}</span>
+                    <p>{{growth.text}}</p>
                   </div>
                 </div><!-- End Stats Item -->
+                {% endfor %}
 
-                <div class="stats-item d-flex">
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="{{page.growth_data_number_two}}" data-purecounter-duration="1" class="purecounter"> </span> <span>%</span>
-                    <p>{{page.growth_data_text_two}}</p>
-                  </div>
-                </div><!-- End Stats Item -->
-
-                <div class="stats-item d-flex">
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="{{page.growth_data_number_three}}" data-purecounter-duration="1" class="purecounter"> </span> <span>%</span>
-                    <p>{{page.growth_data_text_two}}</p>
-                  </div>
-                </div><!-- End Stats Item -->
-
+               
 
             </div>
         </div>
-
-
-
-        
         
         <div class="helpful-resources faq">
             <h2>{{page.resource_heading}}</h2>
@@ -138,58 +123,113 @@
 
 <div class="best-spot">
     <div class="container-fluid">
-        {% for land in lands %}
         <div class="row">
             <div class="col-md-5">
-                <h2>{{land.heading}}</h2>
+                <h2>{{page.feature_heading}}</h2>
                 <ul>
-                    {% for feature in land.land_spot_feature.all %}
-                    {% image feature.image width-1024 as iconimg %}
-
-                    <li><img src="{{iconimg.url}}" />{{feature.text}}</li>
-                    {% endfor %}
-
+                    {% for feature in page.land_features_list.all %}
+                     {% image feature.image width-1024 as  iconimg %}
+                    <li><img src="{{iconimg.url}}" /> {{feature.text}}</li>
+                    {%endfor%}
+                  
                 </ul>
-                <a class="read-more mobile-hide" href="{{land.link_page.url}}"> {{land.button_text}}  <img src="{% static 'img/arrow.svg' %}"></a>
+                <a class="read-more mobile-hide" href="{{page.feature_link_page.url}}">{{page.feature_button_text}} <img src="{%static 'img/arrow.svg' %}"></a>
+
+    
             </div>
             <div class="col-md-7">
-                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">      
+                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
+                        {% for land in singlelands %}
+
                         <div class="carousel-item active">
                             <div class="row">
-                            {% for singleland in singlelands %}
-                                
                                 <div class="col-md-6">
-                                    {% image singleland.main_image  width-1024 as mainimg %}
-                                    <img src="{{mainimg.url}}" class="d-block w-100" alt="" />
-                        
+                                    {%image land.featured_image width-1024 as landimg %}
+
+                                    <img src="{{landimg.url}}" class="d-block w-100" alt="" />
                                     <div class="carousel-caption-1 d-md-block">
-                                        <h5>{{singleland.heading}}</h5>
+                                        <h5>{{land.heading}}</h5>
+                                        <a href="{% pageurl  land %}">View on map</a>
+                                    </div>
+                                </div>
+                                {% comment %} <div class="col-md-6">
+                                    <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Ultimate spot for Car wash</h5>
                                         <a href="">View on map</a>
                                     </div>
                                 </div>
-                                {% endfor %}
-                    
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/offices.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Convenient for ATMs, Banks and IT Offices</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/land-suitable.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Land suitable for Car wash business</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
-    
+                        {% endfor %}
+
+                        {% comment %} <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/storage-house.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Best location for Storage house</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/car-wash.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Ultimate spot for Car wash</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/offices.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Convenient for ATMs, Banks and IT Offices</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="assets/img/business-development/land-suitable.jpg" class="d-block w-100" alt="" />
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Land suitable for Car wash business</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#best-spot-slider" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="carousel-control-prev-icon" aria-hidden="true"
+                        ><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#best-spot-slider" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"><img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="carousel-control-next-icon" aria-hidden="true">
+                            <img src="{%  static 'img/business-development/feather-arrow-up.png' %}" /></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                 <a class="read-more mobile-show" href="">Get Assistance  <img src="assets/img/arrow.svg"></a>
+                 <a class="read-more mobile-show" href="">Get Assistance  <img src="{% static 'img/arrow.svg' %}"></a>
             </div>
-        {% endfor %}
         </div>
         <img class="u-path" src="{% static 'img/business-development/u-path.svg' %}">
     </div>
 </div>
+
+
 
 
 </main>

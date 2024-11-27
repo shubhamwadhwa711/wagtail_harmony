@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags humanize %}
+
+
+{% block title %}Land Detail{% endblock %}
+{% block main %}
+
+
+<main class="main" style="">
+
+<div class="land-location">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="map-location">
+                    <h2>{{page.land_location_text}}</h2>
+                    {% image page.location_image  width-1024 as locationimg %}
+                    <img src="{{locationimg.url}}">
+                    
+                    {% comment %} <img src="assets/img/single-details-imgs/map.jpg"> {% endcomment %}
+                    <div class="plan-details">
+                        <h2>{{page.plan_text}}</h2>
+                        <ul>
+                            {%for property in page.land_properties.all %}
+                        
+                            <li>{{property.text}}</li>
+                            {%endfor%}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="col-left">
+                    <h2>{{page.heading}}</h2>
+                        <div class="row">
+                            <div class="big-img">
+    {% comment %} <div class="image-gallery">
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+            <a href="assets/img/single-details-imgs/big-img.jpg" data-gallery="portfolio-gallery-app" class="glightbox">
+                <img src="assets/img/single-details-imgs/big-img.jpg" class="img-fluid" alt="" />
+            </a>
+        </div>
+    </div> {% endcomment %}
+</div>
+<div class="small-imgs">
+    <div class="image-gallery">
+        {% for img in page.feature_land_images.all %}
+             {%image img.image width-1024 as landimageurl %}
+        
+        
+                <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="100">
+                    <a href="{{landimageurl.url}}" data-gallery="portfolio-gallery-app" class="glightbox">
+                        <img src="{{landimageurl.url}}" class="img-fluid" alt="" />
+                    </a>
+
+                </div>
+
+        {% endfor %}
+        
+        <div class="portfolio-content h-100" data-aos="fade-up" data-aos-delay="500">
+            
+            <a href="{% static 'img/single-details-imgs/small-imgs.jpg" data-gallery="portfolio-gallery-app' %}" class="glightbox">
+                <img src="{% static 'img/single-details-imgs/small-imgs.jpg' %}" class="img-fluid" alt="" />
+            </a>
+        </div>
+    </div>
+</div>
+
+                        </div>
+                        <p>{{page.description}}</p>
+                        {%image page.featured_image width-1024 as landimageurl %}
+                          
+                          <img src="{{landimageurl.url}}">   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div class="best-spot featured-details">
+    <div class="container-fluid">
+        <div class="row">
+            {% with page.get_parent as parent_page %}
+            <div class="col-md-5">
+                
+                <h2>{{parent_page.feature_heading}}</h2>
+                <ul>
+                    {% for feature in parent_page.land_features_list.all %}
+                     {% image feature.image width-1024 as  iconimg %}
+                    <li><img src="{{iconimg.url}}" /> {{feature.text}}</li>
+                    {%endfor%}
+                </ul>
+                <a class="read-more mobile-hide" href="{{parent_page.feature_link_page.url}}">{{parent_page.feature_button_text}} <img src="{%static 'img/arrow.svg' %}"></a>
+            </div>
+            {%endwith%}
+            <div class="col-md-7">
+                <div id="best-spot-slider" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for land in singlelands %}
+
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {%image land.featured_image width-1024 as landimg %}
+
+                                    <img src="{{landimg.url}}" class="d-block w-100" alt="" />
+
+                                    <div class="carousel-caption-1 d-md-block">
+                                        <h5>Best location for Storage house</h5>
+                                        <a href="">View on map</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        {%endfor%}
+
+
+                        
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#best-spot-slider" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true">
+                            <img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#best-spot-slider" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true">
+                            <img src="{% static 'img/business-development/feather-arrow-up.png' %}" /></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+<!--img class="u-path" src="assets/img/business-development/u-path.svg"-->
+    </div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+ {% include 'includes/body.html' %}
+</div>
+{% endblock %}
