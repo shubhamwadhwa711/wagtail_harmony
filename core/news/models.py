@@ -35,29 +35,16 @@ class NewsPage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Read more")
-    bottom_link_page = models.ForeignKey(
+    footer_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
+    footer_button_text = models.TextField(blank=True, null=True,default ="Share Story")
+    footer_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
         related_name='+',
         blank=True,
         null=True,
     )
+
     
     content_panels = RichTextPageAbstract.content_panels + [
         # 
@@ -66,14 +53,12 @@ class NewsPage(RichTextPageAbstract):
             FieldPanel('button_text'),
             FieldPanel('link_page'),
         ], heading='Add Read more  Button'),
-
         MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
-        ], heading='Add Bottom Section'),
+                FieldPanel('footer_heading'),
+                FieldPanel('footer_button_text'),
+                FieldPanel('footer_link_page'),
+                InlinePanel('page_footer_images', label='Footer Images'),
+            ], heading='Add Bottom Section'),   
     ]
 
     parent_page_types = ['home.HomePage']
@@ -84,17 +69,6 @@ class NewsPage(RichTextPageAbstract):
     class Meta:
         verbose_name = 'News Page'
         verbose_name_plural = 'News Pages'
-
-
-    # def update_context(self,context):
-    #     news_details = NewsDetailPage.objects.all()
-    #     context.update({
-    #         'news_details': news_details,
-           
-    #     })
-    #     return context
-
-
 
     def update_context(self, context):
         today = datetime.now().date()
@@ -117,11 +91,6 @@ class NewsPage(RichTextPageAbstract):
         return context
 
 
-
-
-
-
-
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
@@ -133,7 +102,25 @@ class NewsPage(RichTextPageAbstract):
             template,
             context,
         )
-     
+
+class  Footerimages(Orderable):
+    page = ParentalKey(
+        NewsPage,
+        on_delete=models.CASCADE,
+        related_name='page_footer_images',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
+    panels = [
+        FieldPanel('image')    
+    ]
+
 
 
 class NewsDetailPage(RichTextPageAbstract):
@@ -165,30 +152,7 @@ class NewsDetailPage(RichTextPageAbstract):
         null=True,
     )
 
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="History")
-    bottom_link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-
+  
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("news_bg_image"),
         FieldPanel("name"),
@@ -204,13 +168,7 @@ class NewsDetailPage(RichTextPageAbstract):
             FieldPanel('main_headline_image'),
         ], heading='Add Main headline content'),
 
-        MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
-        ], heading='Add Bottom Section'),
+        
        
 
     ]

@@ -1,9 +1,101 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags humanize %}
+{% block title %}Meeting Page{% endblock %}
 
-{% block title %}Meeting Detail{% endblock %}
 
 {% block main %}
+
+
+
+<main class="main">
+  
+    <div class="single-events" style="background-image:url({% static 'img/events/event-bg.jpg' %});">
+    </div>
+    
+    <div class="single-event-details">
+        <div class="conatiner-fluid">
+            <div class="row">
+               
+                <h2>{{ page.meeting_date|date:"M j, Y" }}</h2>
+                <p>{{ page.meeting_start_time|time:"h:i A" }} - {{ page.meeting_end_time|time:"h:i A" }}</p>
+              
+                <div class="event-description">
+                    <p>{{page.meeting_description}}</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="submit-photo hold-event">
+     <div class="container-fluid" style="background-image:url(assets/img/quick-bg.png);">
+        <div class="row">
+            <div class="col-md-4">
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter <= 2 %}
+                             <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+                {%endwith%}
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    {% with page.get_parent as parent_page %}
+                    <h2>{{parent_page.footer_heading}}</h2>
+                    <form>
+                        <input type="email" placeholder="Enter your email to subscribe" class="form-control">
+                        <a class="read-more history-btn" href=""><img src="{% static 'img/feather-arrow-up.svg' %}"></a>
+                    </form>
+                    
+                    {%endwith %}
+                </div>
+            </div>
+
+
+            <div class="col-md-4 second-img">
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter > 2 and forloop.counter <= 4 %}
+
+                            <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+
+                {%endwith%}
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      
+    </div>
+  </div>
+
+</main>
+<style>
+    body {
+        background-color: #054651;
+    }
+</style>
+
+
 
 
 
@@ -11,3 +103,6 @@
     {% include 'includes/body.html' %}
    </div>
 {% endblock %}
+
+
+

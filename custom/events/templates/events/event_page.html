@@ -45,22 +45,43 @@
     
     <div class="submit-photo hold-event">
      <div class="container-fluid" style="background-image:url({% static 'img/quick-bg.png' %});">
+
         <div class="row">
             <div class="col-md-4">
-                {% image page.bottom_image_one width-1024 as btm_one_image %}
-                <img src="{{btm_one_image.url}}"/>
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter <= 2 %}
+                             <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+                {%endwith%}
             </div>
             <div class="col-md-4">
                 <div class="submit-img">
-                    <h2>{{page.bottom_heading}}</h2>
-                    <a class="read-more" href="{{page.bottom_link_page.url}}">{{page.bottom_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    {% with page.get_parent as parent_page %}
+                    <h2>{{parent_page.footer_heading}}</h2>
+                    <a class="read-more" href="{{parent_page.footer_link_page}} ">
+                        {{parent_page.footer_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    {%endwith %}
                 </div>
             </div>
+
+
             <div class="col-md-4 second-img">
-                {% image page.bottom_image_two width-1024 as btm_two_image %}
-                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter > 2 and forloop.counter <= 4 %}
+
+                            <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+
+                {%endwith%}
             </div>
         </div>
+        
     </div>
   </div>
 

@@ -209,28 +209,37 @@
             <img class="green-u-path" src="{% static 'img/business-development/u-path.svg' %}">
             <div class="row">
                 <div class="col-md-4">
-                    {% image page.bottom_image_one width-1024 as btm_one_image %}
-                    <img src="{{btm_one_image.url}}" />
+                  {% for img in page.page_footer_images.all %}
+                      {% image img.image width-1024 as footerimg%}
+                          {% if forloop.counter <= 2 %}
+                          <img src="{{footerimg.url}}" />
+                          {%endif %}
+                
+                  {% endfor %}
+          
                 </div>
+              
                 <div class="col-md-4">
-                    <div class="submit-img">
-                        <h2>
-                            {{page.bottom_heading}}
-                        </h2>
-
-                        <a class="read-more share-btn" href="{{page.bottom_link_page.url}}" style="width: 250px; justify-content: space-between; ">
-                            {{page.bottom_button_text}} 
-                            <img src="{% static 'img/arrow.svg' %}">
-                        </a>
-                    </div>
+                  <div class="submit-img">
+                    <h2>{{page.footer_heading}}</h2>
+                    <a class="read-more share-btn" href="{{page.footer_link_page.url}}">
+                      {{page.footer_button_text}}
+                      <img src="{% static 'img/arrow.svg' %}"
+                    /></a>
+                  </div>
                 </div>
-
-                <div class="col-md-4">
-                    {% image page.bottom_image_two width-1024 as btm_two_image %}
-  
-                    <img class="mobile-hide" src="{{btm_two_image.url}}" />
+                
+                <div class="col-md-4 second-img">
+                  {% for img in page.page_footer_images.all %}
+                    {% image img.image width-1024 as footerimg%}
+                    {% if forloop.counter > 2 and forloop.counter <= 4 %}
+        
+                      <img src="{{footerimg.url}}" />
+                    {%endif%}
+                  {% endfor %}
+                 
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 </main>

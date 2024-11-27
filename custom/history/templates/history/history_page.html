@@ -1,13 +1,91 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags humanize %}
-
-
-
-
 {% block title %}History Page{% endblock %}
 
 
 {% block main %}
+
+
+
+<main class="main">
+    {% image page.image width-1024 as historyimg %}
+    <div class="single-events" style="background-image:url('{{historyimg.url}}');">
+
+        
+        {% comment %} <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="sub-heading">EVENTS</p>
+                    <h2 class="event-name">Annual Bowling Event at the Park</h2>
+                    <h3 class="event-date">June 25th, 2024 | Sunday</h3>
+                    <a class="read-more calender" href="">Add to Calendar <img src="assets/img/events/calender.svg"></a>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </div>
+    
+    <div class="single-event-details">
+        <div class="conatiner-fluid">
+            <div class="row">
+                <h2>{{page.date}}</h2>
+                <p>{{page.short_description}}</p> 
+              
+                <div class="event-description">
+                    <p>{{page.full_description}}</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="submit-photo hold-event">
+     <div class="container-fluid" style="background-image:url(assets/img/quick-bg.png);">
+        <div class="row">
+            <div class="col-md-4">
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter <= 2 %}
+                             <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+                {%endwith%}
+            </div>
+            <div class="col-md-4">
+                <div class="submit-img">
+                    {% with page.get_parent as parent_page %}
+                    <h2>{{parent_page.footer_heading}}</h2>
+                    <a class="read-more" href="{{parent_page.footer_link_page}} ">
+                        {{parent_page.footer_button_text}} <img src="{% static 'img/arrow.svg' %}"></a>
+                    {%endwith %}
+                </div>
+            </div>
+
+
+            <div class="col-md-4 second-img">
+                {% with page.get_parent as parent_page %}
+                    {% for img in parent_page.page_footer_images.all %}
+                       {% image img.image width-1024 as footerimg%}
+                            {% if forloop.counter > 2 and forloop.counter <= 4 %}
+
+                            <img src="{{footerimg.url}}">
+                           {%endif%}
+                    {%endfor%}
+
+                {%endwith%}
+            </div>
+        </div>
+    </div>
+  </div>
+
+</main>
+<style>
+    body {
+        background-color: #054651;
+    }
+</style>
+
+
 
 
 
@@ -18,53 +96,3 @@
 
 
 
-
-{% comment %}  
-def update_context(self,context,search_query):
-histories = HistoryPage.objects.all()
-if search_query:
-    histories = histories.filter(
-        Q(content_short_description__icontains=search_query) |
-        Q(content_full_description__icontains=search_query) |
-        Q(date__icontains=search_query)  # Adjust fields as needed
-    )
-context.update({
-    'histories': histories,
-    'search_query': search_query,
-   
-})
-return context
-
-def serve(self,request,*args, **kwargs):
-request.is_preview = False
-template = self.get_template(request, *args, **kwargs)
-default_context = self.get_context(request, *args, **kwargs)
-search_query = request.GET.get('search', '')
-context = self.update_context(default_context,search_query)
-
-return TemplateResponse(
-    request,
-    template,
-    context,
-) {% endcomment %}
-
-
-
-
-{% comment %} <div class="history-search">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <form class="d-flex" method="get" action="">
-                    <label>Search</label>
-                    <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" 
-                      value="{{ search_query }}">
-                    <button class="btn btn-outline-success" type="submit">
-                        <i class="material-icons">search</i>
-                    </button>
-                  </form>
-            </div>
-        </div>
-    </div>
-</div> 
- {% endcomment %}

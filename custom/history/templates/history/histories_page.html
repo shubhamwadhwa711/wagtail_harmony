@@ -28,52 +28,52 @@
           <h2>{{page.heading}}</h2>
           <div class="tab">
             <ul>
-              {% for year in page.history_page_details.all%}
+              {% for tag in tags %}
+              <a href="?tag={{ tag.slug }}">
+                <li><a href="?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+                {% comment %} <li
+                  class="tablinks {% if forloop.first %}active{% endif %}"
+                  onclick="openService(event,'{{tag.id}}')"
+                  id="{% if forloop.first %}defaultOpen{%endif %}" >
+                  <span>{{tag.name}}</span>
 
-              <li
-                class="tablinks active"
-                onclick="openService(event, '{{year.history_year}}')"
-                id="defaultOpen" >
-                <span>{{year.history_year}}</span>
-              </li>
+                </li> {% endcomment %}
+                </a>
               {%endfor%}
             </ul>
           </div>
           <div class="history-right">
-            {% for year in page.history_page_details.all%}
-            <div id="{{year.history_year}}" class="tabcontent">
+          {% for history  in histories %}
+            <div id="{{tag.id}}" class="tabcontent">
               <div class="history-top-content">
                 <div class="row">
                   <div class="col-md-12">
-                    <h3>{{year.short_heading}}</h3>
-                    <p>{{year.description}}
+                   
                     </p>
                   </div>
                 </div>
                 <div class="history-bottom-content">
 
-                {% for content in year.history_contents.all%}
                   <div class="row">
                     <div class="image-side">
-                      {% image content.image  width-1024 as contentimg%}
+                      {% image history.image  width-1024 as historyimg %}
                     
-                        
-                      <img class="" src="{{contentimg.url}}" />
+                      <img class="" src="{{historyimg.url}}" />
                     </div>
                     <div class="content-side">
                       <div class="history-right-side">
-                        <h2>{{content.date}}</h2>
+                        <h2>{{history.date}}</h2>
                         <p class="color">
-                          {{content.content_short_description}}
+                          <a href="{% pageurl history %}">{{history.short_description}} </a>
    
                         </p>
                         <p>
-                         {{content.content_full_description}}
+                         {{history.full_description}}
                         </p>
                       </div>
                     </div>
                   </div>
-                  {%endfor%}
+               
 
               
                 </div>
@@ -88,6 +88,7 @@
   </div>
 
   <div class="submit-photo hold-event">
+ 
     <div
       class="container-fluid"
       style="
@@ -95,24 +96,37 @@
         background-color: #054651;">
       <img class="green-u" src="{% static 'img/green-upath.svg' %}" />
       <div class="row">
+       
         <div class="col-md-4">
-          {% image page.bottom_image_one width-1024 as leftimg%}
-          <img src="{{leftimg.url}}" />
+          {% for img in page.page_footer_images.all %}
+              {% image img.image width-1024 as footerimg%}
+                  {% if forloop.counter <= 2 %}
+                  <img src="{{footerimg.url}}" />
+                  {%endif %}
+        
+          {% endfor %}
+  
         </div>
+      
         <div class="col-md-4">
           <div class="submit-img">
-            <h2>{{page.bottom_heading}}</h2>
-            <a class="read-more share-btn" href="{{page.bottom_link_page.url}}">
-              {{page.bottom_button_text}}
+            <h2>{{page.footer_heading}}</h2>
+            <a class="read-more share-btn" href="{{page.footer_link_page.url}}">
+              {{page.footer_button_text}}
               <img src="{% static 'img/arrow.svg' %}"
             /></a>
           </div>
         </div>
         
-       
         <div class="col-md-4 second-img">
-          {% image page.bottom_image_two width-1024 as rightimg %}
-          <img src="{{rightimg.url}}" />
+          {% for img in page.page_footer_images.all %}
+            {% image img.image width-1024 as footerimg%}
+            {% if forloop.counter > 2 and forloop.counter <= 4 %}
+
+              <img src="{{footerimg.url}}" />
+            {%endif%}
+          {% endfor %}
+         
         </div>
       </div>
     </div>

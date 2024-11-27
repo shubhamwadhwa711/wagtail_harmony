@@ -22,52 +22,28 @@ class PointsOfInterest(RichTextPageAbstract):
         blank=True,
     )
     text =models.TextField(blank=True, null=True,default="Drop the pin to see location")
-    small_land_image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
 
-
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Submit your photo")
-    bottom_link_page = models.ForeignKey(
+    footer_heading = models.TextField(blank=True, null=True,default="Submit your fun photo at any point of interested")
+    footer_button_text = models.TextField(blank=True, null=True,default ="Share Story")
+    footer_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
         related_name='+',
         blank=True,
         null=True,
     )
-    
-    
+
     content_panels = RichTextPageAbstract.content_panels + [
         
         FieldPanel("text"),
-        FieldPanel("small_land_image"),
+        # FieldPanel("small_land_image"),
         # FieldPanel("category"),
      
         MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
+            FieldPanel('footer_heading'),
+            FieldPanel('footer_button_text'),
+            FieldPanel('footer_link_page'),
+            InlinePanel('page_footer_images', label='Footer Images'),
         ], heading='Add Bottom Section'),
     ]
     parent_page_types = ['home.HomePage']
@@ -105,6 +81,24 @@ class PointsOfInterest(RichTextPageAbstract):
 
 
 
+class  Footerimages(Orderable):
+    page = ParentalKey(
+        PointsOfInterest,
+        on_delete=models.CASCADE,
+        related_name='page_footer_images',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
+    panels = [
+        FieldPanel('image')    
+    ]
+    
 
 
 class InterestTags(TaggedItemBase):
@@ -113,7 +107,6 @@ class InterestTags(TaggedItemBase):
     )
 
                    
-
 class SinglePointsOfInterest(RichTextPageAbstract):
     tags = ClusterTaggableManager(through=InterestTags, blank=True)
     body = StreamField(
@@ -141,61 +134,19 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         null=True,
     )
 
-    single_land_image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-
-
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Submit your photo")
-    bottom_link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-
 
     content_panels = RichTextPageAbstract.content_panels + [
-        
         FieldPanel("text"),
         FieldPanel("small_land_image"),
         FieldPanel('tags'),
-        # FieldPanel("category"),
-    
+
         MultiFieldPanel([
             FieldPanel('single_point_heading'),
             FieldPanel('single_point_description'),
             FieldPanel('single_point_description_image'),
         ], heading='Add Single Point Description Data '),
-        FieldPanel("single_land_image"),
         InlinePanel("single_page_point_images", label="Single Page Point Images"),
-        MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
-        ], heading='Add Bottom Section'),
+       
 
     ]
 

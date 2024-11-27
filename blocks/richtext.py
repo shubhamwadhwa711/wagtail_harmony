@@ -45,13 +45,5 @@ class ButtonBlock(blocks.StructBlock):
 
 richtext_blocks += [("button", ButtonBlock())]
 
-class HomeHeroBlock(blocks.StructBlock):
-    title = blocks.TextBlock()
-    text = blocks.TextBlock()
-    button = ButtonBlock()
-    image = ImageChooserBlock()
 
-    class Meta:
-        template = ""
-        icon = "placeholder"
-        group = "Home"
+

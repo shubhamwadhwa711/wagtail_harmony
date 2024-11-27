@@ -14,17 +14,7 @@ from wagtail.fields import  StreamField
 from wagtail.images.models import Image
 
 from wagtail.models import Orderable
-from wagtail.contrib.forms.models import (
-    FORM_FIELD_CHOICES,
-    AbstractEmailForm,
-    AbstractFormField,
-)
-
-
-
 from django.template.response import TemplateResponse
-##################################################################################################
-
 
 
 class EventsPage(RichTextPageAbstract):
@@ -43,24 +33,9 @@ class EventsPage(RichTextPageAbstract):
         blank=True,
         null=True,
     )
-
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Contact us")
-    bottom_link_page = models.ForeignKey(
+    footer_heading = models.TextField(blank=True, null=True,default="Do you want to hold an even in Harmony?")
+    footer_button_text = models.TextField(blank=True, null=True,default ="Share Story")
+    footer_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
         related_name='+',
@@ -68,18 +43,20 @@ class EventsPage(RichTextPageAbstract):
         null=True,
     )
 
+
+    
+
     content_panels = RichTextPageAbstract.content_panels + [  
         FieldPanel("heading"),
         FieldPanel("button_text"),     
         # FieldPanel("link_page"),
         MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
-        ], heading='Add Bottom Section'),
-
+                FieldPanel('footer_heading'),
+                FieldPanel('footer_button_text'),
+                FieldPanel('footer_link_page'),
+                InlinePanel('page_footer_images', label='Footer Images'),
+            ], heading='Add Bottom Section'),  
+       
     ]
 
 
@@ -114,6 +91,23 @@ class EventsPage(RichTextPageAbstract):
             context,
         )
 
+class  Footerimages(Orderable):
+    page = ParentalKey(
+        EventsPage,
+        on_delete=models.CASCADE,
+        related_name='page_footer_images',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+
+    panels = [
+        FieldPanel('image')    
+    ]
 
 
 
@@ -158,29 +152,7 @@ class EventPage(RichTextPageAbstract):
         null=True,
     )
 
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Contact us")
-    bottom_link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+   
 
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("page_name"),
@@ -201,14 +173,7 @@ class EventPage(RichTextPageAbstract):
             FieldPanel('link_page_two'),
         ], heading='Event Calender Button'),
 
-        MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
-        ], heading='Add Bottom Section'),
-
+        
 
     ]
 

@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 # core/models.py
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,InlinePanel
 
 from core.richtext.models import RichTextPageAbstract
 from blocks.richtext import richtext_blocks
@@ -12,6 +12,8 @@ from django.template.response import TemplateResponse
 from datetime import date
 from django.db.models import Q
 
+from wagtail.models import Orderable
+from modelcluster.fields import ParentalKey
 
 class MeetingTypes(models.Model):
     name = models.CharField(max_length=20)
@@ -28,31 +30,16 @@ class MeetingsPage(Page):
         blank=True,
     )
     meeting_text = models.CharField(max_length=200,null=True,blank=True,default="All Meetings")
-
-    bottom_heading = models.TextField(blank=True, null=True)
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
+    footer_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
+   
 
     content_panels = RichTextPageAbstract.content_panels + [
         FieldPanel("meeting_text"),
         MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            # FieldPanel('bottom_link_page'),
+            FieldPanel('footer_heading'),
+            InlinePanel('page_footer_images', label='Footer Images'),
         ], heading='Add Bottom Section'),
+      
     ]
     parent_page_types = ['home.HomePage']
     subpage_types = [
@@ -63,7 +50,6 @@ class MeetingsPage(Page):
         verbose_name = 'Meetings Page'
         verbose_name_plural = 'Meeting Pages'
 
-   
 
     def update_context(self, context, request):
         today = date.today()
@@ -123,19 +109,30 @@ class MeetingsPage(Page):
      
 
     
-  
+class  Footerimages(Orderable):
+    page = ParentalKey(
+        MeetingsPage,
+        on_delete=models.CASCADE,
+        related_name='page_footer_images',
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
 
-
+    panels = [
+        FieldPanel('image')    
+    ]
 
 class MeetingPage(Page):
-    # meeting_date = models.DateTimeField("Meeting Date and Time")
     body = StreamField(
         richtext_blocks,
         use_json_field=True,
         blank=True,
     )
-
-    
     meeting_date = models.DateField("Meeting Date",null=True,blank=True)
     meeting_start_time = models.TimeField("Start Time",null=True,blank=True)
     meeting_end_time = models.TimeField("End Time",null=True,blank=True)
@@ -149,7 +146,6 @@ class MeetingPage(Page):
     )
 
   
-
     content_panels = Page.content_panels + [
         FieldPanel('meeting_date'),
         FieldPanel('meeting_start_time'),

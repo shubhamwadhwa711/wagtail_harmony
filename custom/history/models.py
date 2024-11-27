@@ -11,6 +11,8 @@ from wagtail.fields import  StreamField
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from modelcluster.models import ClusterableModel
+from taggit.models import  TaggedItemBase
+from modelcluster.contrib.taggit import ClusterTaggableManager
 
 class HistoriesPage(RichTextPageAbstract):
     body = StreamField(
@@ -19,24 +21,9 @@ class HistoriesPage(RichTextPageAbstract):
         blank=True,
     )
     heading = models.TextField(blank=True, null=True,default="History of Harmony")
-
-    bottom_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
-    bottom_image_one = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_image_two = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    bottom_button_text = models.TextField(blank=True, null=True,default ="Share Story")
-    bottom_link_page = models.ForeignKey(
+    footer_heading = models.TextField(blank=True, null=True,default="Share your story about Harmony")
+    footer_button_text = models.TextField(blank=True, null=True,default ="Share Story")
+    footer_link_page = models.ForeignKey(
         'wagtailcore.Page',
         on_delete=models.SET_NULL,
         related_name='+',
@@ -44,110 +31,64 @@ class HistoriesPage(RichTextPageAbstract):
         null=True,
     )
 
-
     content_panels = RichTextPageAbstract.content_panels + [
             FieldPanel('heading'),
-            InlinePanel('history_page_details', label='History Page Details'),
             MultiFieldPanel([
-            FieldPanel('bottom_heading'),
-            FieldPanel('bottom_image_one'),
-            FieldPanel('bottom_image_two'),
-            FieldPanel('bottom_button_text'),
-            FieldPanel('bottom_link_page'),
+            FieldPanel('footer_heading'),
+            FieldPanel('footer_button_text'),
+            FieldPanel('footer_link_page'),
+            InlinePanel('page_footer_images', label='Footer Images'),
         ], heading='Add Bottom Section'),
 
     ]
 
     parent_page_types = ['home.HomePage']
-    subpage_types = []
+    subpage_types = ['history.HistoryPage']
 
     class Meta:
         verbose_name = 'Histories Page'
         verbose_name_plural = 'Histories Pages'
 
 
-
-
-    def update_context(self,context,search_query):
-        histories = HistoryContent.objects.all()
-
-        if search_query:
-            histories = histories.filter(
-                Q(content_short_description__icontains=search_query) |
-                Q(content_full_description__icontains=search_query) |
-                Q(date__icontains=search_query)  # Adjust fields as needed
-            )
-             # Fallback to HistoryDetails if no matches are found
-            if not histories.exists():
-                histories = HistoryDetails.objects.filter(
-                    Q(history_year__icontains=search_query) |
-                    Q(short_heading__icontains=search_query) |
-                    Q(description__icontains=search_query)
+    def update_context(self, context, search_query,request):
+            selected_tag = request.GET.get('tag')
+            if not selected_tag:
+                selected_tag = HistoryPage.tags.order_by("name").first().slug
+            histories = HistoryPage.objects.filter(tags__slug__iexact=selected_tag).distinct()
+            if search_query:
+                histories = histories.filter(
+                    Q(short_description__icontains=search_query) |
+                    Q(full_description__icontains=search_query) |
+                    Q(date__icontains=search_query)  # Adjust fields as needed
                 )
 
+            context.update({
+                "histories": histories,
+                "tags": HistoryPage.tags.all().order_by("name"),
+                "selceted_tag": selected_tag,
+            })
+            return context
+    
 
-        context.update({
-            'histories': histories,
-            'search_query': search_query,
-        
-        })
-        return context
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
         search_query = request.GET.get('search', '')
-        context = self.update_context(default_context,search_query)
-
+        context = self.update_context(default_context,search_query,request)
         return TemplateResponse(
             request,
             template,
             context,
         )
 
-
-    # def serve(self,request,*args, **kwargs):
-    #     request.is_preview = False
-    #     template = self.get_template(request, *args, **kwargs)
-    #     context = self.get_context(request, *args, **kwargs)
-    #     # context = self.update_context(default_context)
-       
-    #     return TemplateResponse(
-    #         request,
-    #         template,
-    #         context,
-    #     )
-
-
-class  HistoryDetails(Orderable,ClusterableModel):
+class  Footerimages(Orderable):
     page = ParentalKey(
         HistoriesPage,
         on_delete=models.CASCADE,
-        related_name='history_page_details',
+        related_name='page_footer_images',
     )
-    history_year = models.CharField(max_length=200,null=True,blank=False)
-    short_heading = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
- 
-    panels = [
-        FieldPanel("history_year"),
-        FieldPanel('short_heading'),
-        FieldPanel('description'),
-        InlinePanel('history_contents', label='History Contents'),
-    ]
-    
-
-class  HistoryContent(Orderable):
-    page = ParentalKey(
-        HistoryDetails,
-        on_delete=models.CASCADE,
-        related_name='history_contents',
-    )
-  
-    date = models.DateField(blank=True, null=True)
-    content_short_description = models.TextField(blank=True, null=True)
-    content_full_description = models.TextField(blank=True, null=True)
     image = models.ForeignKey(
         'wagtailimages.Image',
         on_delete=models.SET_NULL,
@@ -156,11 +97,54 @@ class  HistoryContent(Orderable):
         null=True,
     )
 
-    panels=[
-        FieldPanel('date'),
-        FieldPanel('image'),
-        FieldPanel('content_short_description'),
-        FieldPanel('content_full_description'),
+    panels = [
+        FieldPanel('image')    
     ]
 
-   
+class HistoryTags(TaggedItemBase):
+    content_object = ParentalKey(
+        "HistoryPage", on_delete=models.CASCADE, related_name="tagged_items"
+    )
+
+class  HistoryPage(RichTextPageAbstract):
+    date = models.DateField(blank=True, null=True)
+    short_description = models.TextField(blank=True, null=True)
+    full_description = models.TextField(blank=True, null=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    tags = ClusterTaggableManager(through=HistoryTags, blank=True)
+ 
+    content_panels = RichTextPageAbstract.content_panels +[
+        FieldPanel('date'),
+        FieldPanel('image'),
+        FieldPanel('short_description'),
+        FieldPanel('full_description'),
+        FieldPanel('tags'),
+
+    ]
+    parent_page_types = ['history.HistoriesPage']
+    subpage_types = []
+
+    class Meta:
+        verbose_name = 'History Page'
+        verbose_name_plural = 'History Pages'
+
+
+    
+    def serve(self,request,*args, **kwargs):
+        request.is_preview = False
+        template = self.get_template(request, *args, **kwargs)
+        context = self.get_context(request, *args, **kwargs)
+        # search_query = request.GET.get('search', '')
+        # context = self.update_context(default_context,search_query,request)
+        return TemplateResponse(
+            request,
+            template,
+            context,
+        )
+    
