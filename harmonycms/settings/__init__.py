@@ -44,21 +44,15 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
-
-    
     "wagtail",
     'wagtail_modeladmin',
     'taggit',
     "modelcluster",
-    # "taggit",
-    #setting
     "wagtail.contrib.routable_page",
     'wagtail.contrib.settings',
-    #form
     'crispy_forms',
     'crispy_bootstrap5',
     "django.contrib.admin",
-
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -69,7 +63,7 @@ INSTALLED_APPS = [
     'blocks',
     "core.home",
     'core.conf',
-    # "core.land",
+    
     "core.richtext",
     "core.news",
     "core.contact",
