@@ -14,10 +14,6 @@ from wagtail.models import Orderable
 from django.template.response import TemplateResponse
 
 
-##################################################################################################
-
-
-
 
 class NewsPage(RichTextPageAbstract):
     body = StreamField(
@@ -70,23 +66,14 @@ class NewsPage(RichTextPageAbstract):
         verbose_name = 'News Page'
         verbose_name_plural = 'News Pages'
 
-    def update_context(self, context):
-        today = datetime.now().date()
-        ninety_days_ago = today - timedelta(days=90)
-        first_day_of_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
-        last_day_of_last_month = first_day_of_last_month.replace(day=1) + timedelta(days=31)
-        start_of_2024 = datetime(today.year, 1, 1).date()
-
-        all_news = NewsDetailPage.objects.all().order_by('-date')
-        last_90_days_news = NewsDetailPage.objects.filter(date__gte=ninety_days_ago).order_by('-date')
-        last_month_news = NewsDetailPage.objects.filter(date__range=(first_day_of_last_month, last_day_of_last_month)).order_by('-date')
-        news_2024 = NewsDetailPage.objects.filter(date__year=2024).order_by('-date')
-
+    def update_context(self, context,request):
+      
+        all_news = NewsDetailPage.objects.all()
+       
         context.update({
             'all_news': all_news,
-            'last_90_days_news': last_90_days_news,
-            'last_month_news': last_month_news,
-            'news_2024': news_2024,
+            'filter_option': request.GET.get('filter'),
+           
         })
         return context
 
@@ -95,7 +82,7 @@ class NewsPage(RichTextPageAbstract):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
+        context = self.update_context(default_context,request)
        
         return TemplateResponse(
             request,
@@ -121,8 +108,6 @@ class  Footerimages(Orderable):
         FieldPanel('image')    
     ]
 
-
-
 class NewsDetailPage(RichTextPageAbstract):
     body = StreamField(
         richtext_blocks,
@@ -137,7 +122,7 @@ class NewsDetailPage(RichTextPageAbstract):
         null=True,
     )
     name = models.TextField(blank=True, null=True,default="LATEST NEWS")
-    date = models.DateField(null=True,blank=True)
+    date = models.DateField(null=True,blank=False)
     heading = models.TextField(blank=True, null=True)
     any_headline_heading = models.TextField(blank=True, null=True)
     any_headline_sort_description = models.TextField(blank=True, null=True)

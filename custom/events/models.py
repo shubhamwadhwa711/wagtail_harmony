@@ -71,10 +71,13 @@ class EventsPage(RichTextPageAbstract):
 
 
 
-    def update_context(self,context):
+    def update_context(self,context,request):
+
         events = EventPage.objects.all()
+
         context.update({
             'events': events,
+            'filter_option': request.GET.get('filter'),
     
         })
         return context
@@ -83,7 +86,7 @@ class EventsPage(RichTextPageAbstract):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
-        context = self.update_context(default_context)
+        context = self.update_context(default_context,request)
        
         return TemplateResponse(
             request,
@@ -186,7 +189,7 @@ class EventPage(RichTextPageAbstract):
         verbose_name_plural = 'Event Pages'
 
 
-
+   
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
         template = self.get_template(request, *args, **kwargs)

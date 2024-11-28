@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags humanize %}
-
-
-{% block title %}News Details Page{% endblock %}
-
+{% block title %}News Detail{% endblock %}
 {% block main %}
 
 
 <main class="main">
-   
 <div class="single-events single-news"   style="{% image page.news_bg_image width-1024 as img %}background-image:url('{{ img.url }}');">
       
         <div class="container-fluid">

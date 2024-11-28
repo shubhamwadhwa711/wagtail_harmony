@@ -3,6 +3,7 @@
 {% load static wagtailcore_tags wagtailimages_tags humanize %}
 {% block title %}Evenets  Page{% endblock %}
 {% block main %}
+{% load custom_tags %}
 
 
 
@@ -46,10 +47,18 @@
                         <div class="grid-list">
                         <div class="all-meetings">
                             <ul class="portfolio-filters isotope-filters aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                                <li data-filter="*" class="filter-active grid-type">All events</li>
+                                <li data-filter=".filter-upcoming" class="filter-active">
+                                    <a href="?filter=upcoming">Upcoming</a>
+                                </li>
+    
+                                <li data-filter=".filter-past" class="{% if filter_option == 'past' %}filter-active{% endif %}">
+                                    <a href="?filter=past">Past</a>
+                                </li>
+
+                                {% comment %} <li data-filter="*" class="filter-active grid-type">All events</li>
                                 <li data-filter=".filter-upcoming" class="grid-type">Upcoming</li>
                                 <li data-filter=".filter-past" class="grid-type">Past</li>
-                                <li data-filter=".filter-year" class="grid-type">2023</li>
+                                <li data-filter=".filter-year" class="grid-type">2023</li> {% endcomment %}
                             </ul>
                         </div>
                         <div class="all-meetings grid">
@@ -60,8 +69,9 @@
                         </div>
                         </div>
                         <div class="row isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 1750.38px;">
+                            {%filter_by_date events "event_date" filter_option as fitered_events %}
 
-                           {% for event in events%}
+                           {% for event in fitered_events%}
                             <div class="col-lg-4 col-md-4 portfolio-item isotope-item filter-upcoming" style="position: absolute; left: 0px; top: 0px;">
                             <article>
                                 <div class="post-img">
