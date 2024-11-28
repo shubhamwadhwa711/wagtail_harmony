@@ -79,8 +79,6 @@ class PointsOfInterest(RichTextPageAbstract):
         )
 
 
-
-
 class  Footerimages(Orderable):
     page = ParentalKey(
         PointsOfInterest,
@@ -146,8 +144,7 @@ class SinglePointsOfInterest(RichTextPageAbstract):
             FieldPanel('single_point_description_image'),
         ], heading='Add Single Point Description Data '),
         InlinePanel("single_page_point_images", label="Single Page Point Images"),
-       
-
+    
     ]
 
     parent_page_types = ['interest.PointsOfInterest']
@@ -178,7 +175,6 @@ class SinglePointsOfInterest(RichTextPageAbstract):
         )
 
 
-
 class  SinglePointPageImages(Orderable):
     page = ParentalKey(
         SinglePointsOfInterest,
@@ -200,77 +196,3 @@ class  SinglePointPageImages(Orderable):
         verbose_name_plural = 'Single Point Page  Images'
 
 
-
-
-
-
-
-
-class SinglePageFeaturedDetail(RichTextPageAbstract):
-    body = StreamField(
-        richtext_blocks,
-        use_json_field=True,
-        blank=True,
-    )
-    land_location_text =models.TextField(blank=True, null=True,default="Land Drop the pin to see location")
-    small_land_image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    plan_text =models.TextField(blank=True, null=True,default="Plan details") 
-    yard = models.TextField(blank=True, null=True)
-    size  = models.TextField(blank=True, null=True)
-    heading = models.TextField(blank=True, null=True)
-    #images
-    description = models.TextField(blank=True, null=True)
-    main_image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    
-
-
-    content_panels = RichTextPageAbstract.content_panels + [
-        FieldPanel("land_location_text"),
-        FieldPanel("small_land_image"),
-        FieldPanel("plan_text"),
-        FieldPanel("yard"),
-        FieldPanel("size"),
-        FieldPanel("heading"),
-        FieldPanel("description"),
-        FieldPanel("main_image"),
-        InlinePanel('single_page_feature_images', label='Single Page Feature Images')
-
-    ]
-
-    parent_page_types = ['home.HomePage']
-    subpage_types = []
-    class Meta:
-        verbose_name = 'Interest Page'
-        verbose_name_plural = 'Interest Pages'
-
-class  SinglePageFeaturedDetailPageImages(Orderable):
-    page = ParentalKey(
-        SinglePageFeaturedDetail,
-        on_delete=models.CASCADE,
-        related_name='single_page_feature_images',
-    )
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-    )
-    panels = [
-        FieldPanel('image'),
-    ]
-    class Meta:
-        verbose_name = 'Single Page Featured Detail  Image'
-        verbose_name_plural = 'Single Page Featured Detail Images'

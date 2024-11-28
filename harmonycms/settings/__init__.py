@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'blocks',
     "core.home",
     'core.conf',
-    
     "core.richtext",
     "core.news",
     "core.contact",
@@ -76,6 +75,8 @@ INSTALLED_APPS = [
     "custom.interest",
     "custom.emergency",
     "custom.meetings",
+    
+   
 ]
 
 MIDDLEWARE = [

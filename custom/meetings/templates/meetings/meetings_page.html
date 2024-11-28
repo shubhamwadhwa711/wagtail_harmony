@@ -2,10 +2,11 @@
 {% load static wagtailcore_tags wagtailimages_tags humanize %}
 {% block title %}Meetings Agenda Page{% endblock %}
 {% block main %}
-
-
+{% load custom_tags %}
 
 <main class="main">
+
+  
     
 <div class="meeting-agendas about">
     <div class="container-fluid">
@@ -27,6 +28,8 @@
                                         <button><i class="material-icons">search</i></button>
                                     </form>
                                     <h2>Search by</h2>
+                    
+                                    
                                         <form method="GET"  action="" id="filter-form">
                                             <div class="search-by">
                                                 {% for type in  meeting_types %}
@@ -57,26 +60,26 @@
                     <div class="all-meetings">    
                         <h2>{{page.meeting_text}}</h2>
                         <ul class="portfolio-filters isotope-filters aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                            <li data-filter=".filter-all" class="{% if filter_option == 'all' %}filter-active{% endif %}">
-                                <a href="?filter=all">All Meetings</a>
-                            </li>
-                            <li data-filter=".filter-upcoming" class="{% if filter_option == 'upcoming' %}filter-active{% endif %}">
+                          
+                            <li data-filter=".filter-upcoming" class="filter-active">
                                 <a href="?filter=upcoming">Upcoming</a>
                             </li>
 
                             <li data-filter=".filter-past" class="{% if filter_option == 'past' %}filter-active{% endif %}">
                                 <a href="?filter=past">Past</a>
                             </li>
-                            <li data-filter=".filter-2023" class="{% if filter_option == '2023' %}filter-active{% endif %}">
-                                <a href="?filter=2023">2023</a>
-                            </li>
-
                           
+
+
                         </ul>
                     </div>
                         <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"
                          style="position: relative; height: 1750.38px;">
-                            {% for meeting in meetings %}
+                         
+                        {%filter_by_date meetings "meeting_date" filter_option as fitered_meetings %}
+
+                            {% for meeting in fitered_meetings  %}
+                           
                             <div class="col-lg-12 col-md-12 portfolio-item isotope-item filter-upcoming" style="position: absolute; left: 0px; top: 0px;">
                             <p class="upcoming-event">{{ event_text }}</p>  
                             <div class="metting-content">

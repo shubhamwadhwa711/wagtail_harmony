@@ -14,6 +14,8 @@ from django.db.models import Q
 
 from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
+from blocks.templatetags.custom_tags import get_pagination
+
 
 class MeetingTypes(models.Model):
     name = models.CharField(max_length=20)
@@ -52,27 +54,14 @@ class MeetingsPage(Page):
 
 
     def update_context(self, context, request):
-        today = date.today()
         search_query = request.GET.get('search', '')
         meetings = MeetingPage.objects.all()
+        # page_obj = get_pagination(request,meetings)
+        
        
         # Get filter parameters from request
         selected_meeting_types = request.GET.getlist('meeting_types')
-        filter_option = request.GET.get('filter', 'all')
-        event_text = "All Meetings"
-        
-     
-        # Defaults to 'all' if no filter is provided
-        if filter_option == 'upcoming':
-            meetings = meetings.filter(meeting_date__gte=today)
-            event_text = "Upcoming Event"
-        elif filter_option == 'past':
-            meetings = meetings.filter(meeting_date__lt=today)
-            event_text = "Past"
-        elif filter_option.isdigit():  # Check if it's a year
-            meetings = meetings.filter(meeting_date__year=int(filter_option))
-            event_text = "2023"
-    
+        # filter_option = request.GET.get('filter')
         if selected_meeting_types:
             meetings = meetings.filter(meeting__id__in=selected_meeting_types)
 
@@ -81,15 +70,16 @@ class MeetingsPage(Page):
                 Q(meeting_description=search_query) 
             )
 
-      
         meeting_types = MeetingTypes.objects.all()
 
+    
         # Update context
         context.update({
-            'meetings': meetings.distinct(),  # Ensure no duplicates in queryset
+            # "page_obj": page_obj,
+            'meetings': meetings,  # Ensure no duplicates in queryset
             'meeting_types': meeting_types,
-            'filter_option': filter_option, 
-            'event_text': event_text, # To identify the active filter in the template
+            'filter_option': request.GET.get('filter'), 
+            'event_text': "Past" if request.GET.get('filter')=="past" else "Upcoming" # To identify the active filter in the template
         })
         return context
 
@@ -97,6 +87,8 @@ class MeetingsPage(Page):
 
     def serve(self,request,*args, **kwargs):
         request.is_preview = False
+
+
         template = self.get_template(request, *args, **kwargs)
         default_context = self.get_context(request, *args, **kwargs)
         context = self.update_context(default_context,request)
